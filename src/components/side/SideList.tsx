@@ -16,21 +16,23 @@ const SideList = () => {
       {(true ? sideListItems: []).map((item) => {
         return (
           <React.Fragment key={item.id}>
-            {item.subdivision ? (
-              <>
-                <Divider />
-                <Box sx={{ ml: 2, mt: 2 }}>
-                  <Typography
-                    sx={{ textTransform: 'uppercase', fontWeight: 'bold' }}
-                    variant="button"
-                    display="block"
-                    gutterBottom
-                  >
-                    {item.text}
-                  </Typography>
-                </Box>
-              </>
-            ) : item.divider ? (
+            {
+            // item.subdivision ? (
+            //   <>
+            //     <Divider />
+            //     <Box sx={{ ml: 2, mt: 2 }}>
+            //       <Typography
+            //         sx={{ textTransform: 'uppercase', fontWeight: 'bold' }}
+            //         variant="button"
+            //         display="block"
+            //         gutterBottom
+            //       >
+            //         {item.text}
+            //       </Typography>
+            //     </Box>
+            //   </>
+            // ) : 
+            item.divider ? (
               <Divider />
             ) : (
               <nav aria-label="Side list items">

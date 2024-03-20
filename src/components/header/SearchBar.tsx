@@ -1,28 +1,43 @@
+'use client'
 import { Box } from '@mui/system';
 import { BsFillMicFill } from 'react-icons/bs';
-import { Button, InputAdornment, OutlinedInput } from '@mui/material';
-import React, { useContext } from 'react';
+import { Button, InputAdornment, OutlinedInput, useScrollTrigger } from '@mui/material';
+import { useContext, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
-import InputBase from '@mui/material/InputBase';
-import Paper from '@mui/material/Paper';
 import SearchIcon from '@mui/icons-material/Search';
-import { flexAlignCenter, searchBar } from '../../styles/styles';
-import SearchContext from '../../context/SearchContext';
+import { flexAlignCenter } from '../../styles/styles';
+import ThemeContext from '../../context/ThemeContext';
+import { useRouter } from 'next/navigation';
 
 export default function SearchBar() {
-  const ctx = useContext(SearchContext);
-  const [search, setSearch] = React.useState('');
+  const { setSearch } = useContext(ThemeContext)
+  const [ searchInputValue, setSearchInputValue ] = useState('')
+  const history = useRouter()
+
+  const handleSearch = () => {
+    if (searchInputValue.trim() !== '') {
+      setSearch(searchInputValue)
+      history.push(`/search?q=${searchInputValue}`);
+    }
+  }
+  const handleKeyPress = (e: any) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   return (
     <Box sx={flexAlignCenter}>
       <OutlinedInput
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) => setSearchInputValue(e.target.value)}
+        onKeyDown={handleKeyPress}
         placeholder="Search"
+        value={searchInputValue}
         endAdornment={
           <InputAdornment position="end">
             <IconButton
               type="button"
-              onClick={() => ctx.onSearch(search)}
+              onClick={handleSearch}
               sx={{ backgroundColor: '#eee', borderRadius: 100 }}
               aria-label="search"
             >

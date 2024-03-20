@@ -1,9 +1,10 @@
+'use client'
 import { AiFillYoutube } from 'react-icons/ai';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import React from 'react';
+import { useContext } from 'react';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import {
@@ -17,13 +18,15 @@ import SearchBar from './SearchBar';
 import UserProfile from './UserProfile';
 import Upload from './Upload'
 import NotificationsList from './NotificationList';
+import ThemeContext from '@/context/ThemeContext';
 
+const NavMenu = () => {
+  const { mobileOpen, setMobileOpen } = useContext(ThemeContext);
 
-type NavMenuProps = {
-    handleDrawerToggle: () => void;
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
   };
 
-const NavMenu: React.FC<NavMenuProps> = (props) => {
   return (
     <AppBar component="nav" sx={appBar}>
       <Toolbar>
@@ -33,7 +36,7 @@ const NavMenu: React.FC<NavMenuProps> = (props) => {
               color="inherit"
               aria-label="open drawer"
               edge="start"
-              onClick={props.handleDrawerToggle}
+              onClick={handleDrawerToggle}
               sx={{ mr: 2 }}
             >
               <MenuIcon />

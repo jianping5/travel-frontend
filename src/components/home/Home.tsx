@@ -1,3 +1,4 @@
+'use client'
 import Box from '@mui/material/Box';
 import React, { useState, useEffect, useContext } from 'react';
 import SideList from '../side/SideList';
@@ -5,22 +6,17 @@ import { appContentWrapper, flexColumnGrow } from '../../styles/styles';
 import TabList from './TabList';
 import CardList from './CardList';
 import { getYoutubeAPIData } from '../../api/axios';
-import SearchContext from '../../context/SearchContext';
+import ThemeContext from '../../context/ThemeContext';
 
-type HomeProps = {
-  isOpen: Boolean
-}
-
-const Home: React.FC<HomeProps> = ({ isOpen }) => {
-  const [hide, setHide] = useState(false);
+const Home = () => {
   const [youtubeData, setYoutubeData] = useState([]);
-  const { searchText, onSearch } = useContext(SearchContext);
+  const { homeTabSearch, setHomeTabSearch, mobileOpen } = useContext(ThemeContext);
 
   useEffect(() => {
-    getYoutubeAPIData(searchText).then((response) => {
+    getYoutubeAPIData(homeTabSearch).then((response) => {
       setYoutubeData(response.data.items);
     });
-  }, [searchText]);
+  }, [homeTabSearch]);
 
   // if (!youtubeData.length) {
   //   return;
@@ -28,19 +24,11 @@ const Home: React.FC<HomeProps> = ({ isOpen }) => {
 
   const items1 = youtubeData.slice(0, 15);
 
-  const hideShorts = () => {
-    setHide(true);
-  };
-
-  const undoHide = () => {
-    setHide(false);
-  };
-
   const onTabChange = (searchValue: string) => {
-    onSearch(searchValue);
+    setHomeTabSearch(searchValue);
   };
 
-  const sideBarWidth = isOpen ? '70px' : '250px';
+  const sideBarWidth = mobileOpen ? '70px' : '250px';
   return (
     <Box component="main" sx={appContentWrapper}>
       <Box
