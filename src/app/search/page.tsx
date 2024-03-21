@@ -1,32 +1,39 @@
-'use client'
+"use client"
 import { getYoutubeAPIData } from "@/api/axios";
 import CardList from "@/components/search/CardList";
 import TabList from "@/components/search/TabList";
 import SideList from "@/components/side/SideList";
 import ThemeContext from "@/context/ThemeContext";
+import { youtubeResponse } from "@/data/app.data";
 import { appContentWrapper, appWrapper, flexColumnGrow } from "@/styles/styles";
 import Box from "@mui/material/Box"
+import { useSearchParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 
 function Search() {
   const [youtubeData, setYoutubeData] = useState([]);
-  const { search, setSearch, mobileOpen } = useContext(ThemeContext);
+  const { setSearch, searchTabType, setSearchTabType, mobileOpen } = useContext(ThemeContext);
+  const searchParams = useSearchParams();
 
-  const onTabChange = (searchValue: string) => {
-    setSearch(searchValue);
+  const onTabChange = (tabValue: string) => {
+    setSearchTabType(tabValue);
   };
 
   useEffect(() => {
-    getYoutubeAPIData(search).then((response) => {
-      setYoutubeData(response.data.items);
-    });
-  }, [search]);
+    const query = searchParams.get("q") || ''
+    setSearch(query)
+    // todo：结合选择类别进行对应的搜索
+    // getYoutubeAPIData(query).then((response) => {
+    //   setYoutubeData(response.data.items);
+    // });
+  }, [searchParams, searchTabType]);
 
   // if (!youtubeData.length) {
   //   return;
   // }
 
-  const items1 = youtubeData.slice(0, 15);
+  // 静态数据
+  const items1 = youtubeResponse
   
   const sideBarWidth = mobileOpen ? '70px' : '250px';
   return (
@@ -62,7 +69,7 @@ function Search() {
               width: `calc(100vw - ${sideBarWidth})`,
             }}
           >
-            <CardList items={items1} />
+            <CardList items={items1} contentType={searchTabType} />
           </Box>
         </Box>
       </Box>

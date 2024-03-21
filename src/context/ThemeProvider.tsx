@@ -5,15 +5,18 @@ import ThemeContext from './ThemeContext'
 const ThemeProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
   const [search, setSearch] = React.useState('')
   const [mobileOpen, setMobileOpen] = React.useState(true);
-  const [homeTabSearch, setHomeTabSearch] = React.useState('All')
+  const [homeTabType, setHomeTabType] = React.useState('All')
+  const [searchTabType, setSearchTabType] = React.useState('Videos')
 
   const value = {
     search,
     setSearch,
     mobileOpen,
     setMobileOpen,
-    homeTabSearch,
-    setHomeTabSearch,
+    homeTabType,
+    setHomeTabType,
+    searchTabType,
+    setSearchTabType
   }
 
   return (

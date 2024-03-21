@@ -7,25 +7,27 @@ import TabList from './TabList';
 import CardList from './CardList';
 import { getYoutubeAPIData } from '../../api/axios';
 import ThemeContext from '../../context/ThemeContext';
+import { youtubeResponse } from '@/data/app.data';
 
 const Home = () => {
   const [youtubeData, setYoutubeData] = useState([]);
-  const { homeTabSearch, setHomeTabSearch, mobileOpen } = useContext(ThemeContext);
+  const { homeTabType, setHomeTabType, mobileOpen } = useContext(ThemeContext);
 
   useEffect(() => {
-    getYoutubeAPIData(homeTabSearch).then((response) => {
-      setYoutubeData(response.data.items);
-    });
-  }, [homeTabSearch]);
+    // getYoutubeAPIData(homeTabType).then((response) => {
+    //   setYoutubeData(response.data.items);
+    // });
+  }, [homeTabType]);
 
   // if (!youtubeData.length) {
   //   return;
   // }
 
-  const items1 = youtubeData.slice(0, 15);
+  // 静态数据
+  const items1 = youtubeResponse
 
   const onTabChange = (searchValue: string) => {
-    setHomeTabSearch(searchValue);
+    setHomeTabType(searchValue);
   };
 
   const sideBarWidth = mobileOpen ? '70px' : '250px';

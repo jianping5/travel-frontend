@@ -6,7 +6,9 @@ const SearchContext = createContext({
   setSearch: (val: string) => {},
   mobileOpen: true,
   setMobileOpen: (val: boolean) => {},
-  homeTabSearch: '',
-  setHomeTabSearch: (val : string) => {},
+  homeTabType: '',
+  setHomeTabType: (val : string) => {},
+  searchTabType:'',
+  setSearchTabType: (val : string) => {},
 });
 export default SearchContext;

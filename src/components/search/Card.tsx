@@ -11,7 +11,14 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import React from 'react';
 import Typography from '@mui/material/Typography';
 
-const AppCard = ({ url, title, channelTitle, videoId }) => {
+type AppCardProps = {
+  url: string,
+  title: string,
+  channelTitle: string,
+  videoId: number,
+}
+
+const AppCard: React.FC<AppCardProps> = ({ url, title, channelTitle, videoId }) => {
   const truncatedTitle = title.length > 40 ? `${title.substring(0, 40)}...` : title;
 
   return (
@@ -37,7 +44,7 @@ const AppCard = ({ url, title, channelTitle, videoId }) => {
                 <Typography variant="body2" sx={{ marginRight: '1px', color: '#606060' }}>
                   {channelTitle}
                 </Typography>
-                <AiFillCheckCircle sx={{ color: '#c4302b' }} />
+                <AiFillCheckCircle style={{ color: '#c4302b' }} />
               </Box>
             </Box>
           </ListItem>

@@ -2,7 +2,7 @@
 import { Box } from '@mui/system';
 import { BsFillMicFill } from 'react-icons/bs';
 import { Button, InputAdornment, OutlinedInput, useScrollTrigger } from '@mui/material';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import { flexAlignCenter } from '../../styles/styles';
@@ -10,7 +10,7 @@ import ThemeContext from '../../context/ThemeContext';
 import { useRouter } from 'next/navigation';
 
 export default function SearchBar() {
-  const { setSearch } = useContext(ThemeContext)
+  const { search, setSearch } = useContext(ThemeContext)
   const [ searchInputValue, setSearchInputValue ] = useState('')
   const history = useRouter()
 
@@ -25,6 +25,10 @@ export default function SearchBar() {
       handleSearch();
     }
   };
+
+  useEffect(() => {
+    setSearchInputValue(search)
+  }, [search])
 
   return (
     <Box sx={flexAlignCenter}>

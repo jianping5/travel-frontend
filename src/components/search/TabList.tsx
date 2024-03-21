@@ -9,7 +9,7 @@ type TabListProps = {
 }
 
 const TabList: React.FC<TabListProps> = ( { onTabChange }) => {
-  const [value, setValue] = React.useState('All');
+  const [value, setValue] = React.useState('Videos');
 
   const handleChange = (event: any, newValue: string) => {
     setValue(newValue);

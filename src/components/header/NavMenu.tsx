@@ -1,5 +1,6 @@
 'use client'
-import { AiFillYoutube } from 'react-icons/ai';
+// import { AiFillYoutube } from 'react-icons/ai';
+import { FaCanadianMapleLeaf } from "react-icons/fa";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -41,9 +42,9 @@ const NavMenu = () => {
             >
               <MenuIcon />
             </IconButton>
-            <AiFillYoutube size={32} />
+            <FaCanadianMapleLeaf size={27} />
             <Typography variant="h6" component="div" sx={logoText}>
-              YouTube
+              Travel
             </Typography>
           </Box>
           <Box sx={hideOnMobile}>
