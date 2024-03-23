@@ -1,3 +1,4 @@
+'use client'
 import { sideListItems } from '../../data/app.data';
 import * as React from 'react';
 import Box from '@mui/material/Box';
@@ -7,8 +8,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Typography from '@mui/material/Typography';
 import { sideListWrapper } from '../../styles/styles';
+import Link from 'next/link';
 
 const SideList = () => {
   return (
@@ -38,10 +39,12 @@ const SideList = () => {
               <nav aria-label="Side list items">
                 <List sx={{ p: 0 }}>
                   <ListItem disablePadding>
-                    <ListItemButton>
-                      <ListItemIcon>{item.icon}</ListItemIcon>
-                      <ListItemText primary={item.text} />
-                    </ListItemButton>
+                    <Link href={item.path ? item.path: '/'} passHref>
+                      <ListItemButton sx={{ width: '250px', display: 'flex' }}>
+                        <ListItemIcon>{item.icon}</ListItemIcon>
+                        <ListItemText primary={item.text} />
+                      </ListItemButton>
+                    </Link>
                   </ListItem>
                 </List>
               </nav>

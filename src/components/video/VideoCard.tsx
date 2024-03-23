@@ -24,7 +24,7 @@ const AppCard: React.FC<AppCardProps> = ({ url, title, channelTitle, videoId }) 
     <Link href={`https://www.youtube.com/watch?v=${videoId}`} underline="none" sx={{ position: 'relative', display: 'inline-block' }}>
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'transparent', zIndex: 1 }}></div>
       <Card sx={{ display: 'flex', borderRadius: 0, boxShadow: 'none', border: 'none', position: 'relative', zIndex: 2 }}>
-        <CardMedia component="img" sx={{width: 170, height: 120, objectFit: 'cover', borderRadius: '5px'}}  image={url} alt={title} />
+        <CardMedia component="img" sx={{width: 150, height: 100, objectFit: 'cover', borderRadius: '5px'}}  image={url} alt={title} />
         
         <CardContent sx={{ flex: 1, padding: 1, marginLeft: '-15px'}}>
           <List sx={{ display: 'flex', flexDirection: 'column', padding: 0 }}>
@@ -37,7 +37,7 @@ const AppCard: React.FC<AppCardProps> = ({ url, title, channelTitle, videoId }) 
                 />
               </ListItemAvatar>
               <Typography variant="body2" sx={{ color: '#606060', fontSize: '0.7rem', lineHeight: '1', marginLeft: '-22px' }}>
-                {channelTitle} • 1 day ago
+                {channelTitle}
               </Typography>
             </ListItem>
 
@@ -47,11 +47,11 @@ const AppCard: React.FC<AppCardProps> = ({ url, title, channelTitle, videoId }) 
               </Typography>
             </ListItem>
 
-            <ListItem>
+            {/* <ListItem>
               <Typography variant="body2" sx={{ color: '#606060', fontSize: '0.8rem', lineHeight: '1' }}>
                 100k views
               </Typography>
-            </ListItem>
+            </ListItem> */}
           </List>
         </CardContent>
       </Card>

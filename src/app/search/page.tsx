@@ -24,7 +24,7 @@ function Search() {
     setSearch(query)
     // todo：结合选择类别进行对应的搜索
     // getYoutubeAPIData(query).then((response) => {
-    //   setYoutubeData(response.data.items);
+      // setYoutubeData(response.data.items);
     // });
   }, [searchParams, searchTabType]);
 
@@ -34,6 +34,7 @@ function Search() {
 
   // 静态数据
   const items1 = youtubeResponse
+  // const items1 = youtubeData.slice(0, 8)
   
   const sideBarWidth = mobileOpen ? '70px' : '250px';
   return (

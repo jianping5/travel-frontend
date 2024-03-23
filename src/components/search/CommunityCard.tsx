@@ -32,13 +32,17 @@ const AppCard: React.FC<AppCardProps> = ({ url, title, channelTitle, videoId }) 
         <Card sx={{ display: 'flex', borderRadius: 0, boxShadow: 'none', border: 'none', position: 'relative', zIndex: 2 }}>
           <CardMedia component="img" sx={{width: 150, height: 150, }}  image={url} alt={title} />
           
-          <CardContent sx={{ flex: 1, padding: 5, marginLeft: 7}}>
-            <Typography variant="h6" sx={{  color: '#000000', fontWeight: 'medium', marginBottom: '8px', fontSize: '1.2rem', lineHeight: '1.2', WebkitLineClamp: 2, overflow: 'hidden', display: '-webkit-box', WebkitBoxOrient: 'vertical', textOverflow: 'ellipsis', wordBreak: 'break-word' }}>
+          <CardContent sx={{ flex: 1, padding: 3}}>
+            <Typography variant="h6" sx={{  color: '#000000', fontWeight: 'medium', fontSize: '1.2rem', lineHeight: '1.2', WebkitLineClamp: 2, overflow: 'hidden', display: '-webkit-box', WebkitBoxOrient: 'vertical', textOverflow: 'ellipsis', wordBreak: 'break-word' }}>
               {truncatedTitle}
             </Typography>
           
+            <Typography variant="body2" sx={{ color: '#606060', fontSize: '0.8rem'}}>
+              100k members
+            </Typography>
+
             <Typography variant="body2" sx={{ color: '#606060', marginTop: 2}}>
-              100k views • 1 day ago
+            Everything and anything manga! (manhwa/manhua is okay too!) Discuss weekly chapters, find/recommend a new series to read, post a picture of your collection, lurk, etc!
             </Typography>
           </CardContent>
         </Card>

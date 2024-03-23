@@ -60,7 +60,7 @@ export const notificationData = [
 ];
 
 export const sideListItems = [
-  { id: 1, text: 'Home', icon: <GoHome size={24} /> },
+  { id: 1, text: 'Home', icon: <GoHome size={24} />, path: '/' },
   { id: 2, text: 'Community', icon: <MdOutlineExplore size={24} /> },
   { id: 3, text: 'Intelligence', icon: <AiOutlinePlaySquare size={24} /> },
   { id: 4, text: 'Trade', icon: <MdSubscriptions size={24} /> },

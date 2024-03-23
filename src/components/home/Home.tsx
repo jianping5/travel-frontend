@@ -15,7 +15,7 @@ const Home = () => {
 
   useEffect(() => {
     // getYoutubeAPIData(homeTabType).then((response) => {
-    //   setYoutubeData(response.data.items);
+      // setYoutubeData(response.data.items);
     // });
   }, [homeTabType]);
 
@@ -25,6 +25,7 @@ const Home = () => {
 
   // 静态数据
   const items1 = youtubeResponse
+  // const items1 = youtubeData.slice(0, 8)
 
   const onTabChange = (searchValue: string) => {
     setHomeTabType(searchValue);
