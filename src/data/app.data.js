@@ -61,7 +61,7 @@ export const notificationData = [
 
 export const sideListItems = [
   { id: 1, text: 'Home', icon: <GoHome size={24} />, path: '/' },
-  { id: 2, text: 'Community', icon: <MdOutlineExplore size={24} /> },
+  { id: 2, text: 'Community', icon: <MdOutlineExplore size={24} />, path: '/community' },
   { id: 3, text: 'Intelligence', icon: <AiOutlinePlaySquare size={24} /> },
   { id: 4, text: 'Trade', icon: <MdSubscriptions size={24} /> },
   { id: 5, text: 'Copyright', icon: <BiLibrary size={24} /> },
@@ -100,6 +100,22 @@ export const searchTabItems = [
   { id: 3, text: 'Copyrights' },
   { id: 4, text: 'Dynamics' },
   { id: 5, text: 'People' },
+];
+
+export const dynamicTypeTabItems = [
+  { id: 1, text: 'Hotest' },
+  { id: 2, text: 'Latest' },
+  { id: 3, text: 'Recent' },
+  { id: 4, text: 'Joined' },
+];
+
+export const userTabItems = [
+  { id: 1, text: 'home' },
+  { id: 2, text: 'videos' },
+  { id: 3, text: 'favors' },
+  { id: 4, text: 'dynamics' },
+  { id: 5, text: 'copyrights' },
+  { id: 6, text: 'follows' },
 ];
 
 export const userProfileItems = [

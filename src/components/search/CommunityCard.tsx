@@ -1,15 +1,10 @@
 import { AiFillCheckCircle } from 'react-icons/ai';
-import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Link from '@mui/material/Link';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
 import React from 'react';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 
 type AppCardProps = {
   url: string,
@@ -42,7 +37,7 @@ const AppCard: React.FC<AppCardProps> = ({ url, title, channelTitle, videoId }) 
             </Typography>
 
             <Typography variant="body2" sx={{ color: '#606060', marginTop: 2}}>
-            Everything and anything manga! (manhwa/manhua is okay too!) Discuss weekly chapters, find/recommend a new series to read, post a picture of your collection, lurk, etc!
+              Everything and anything manga! (manhwa/manhua is okay too!) Discuss weekly chapters, find/recommend a new series to read, post a picture of your collection, lurk, etc!
             </Typography>
           </CardContent>
         </Card>

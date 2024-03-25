@@ -25,7 +25,7 @@ const AppCard: React.FC<AppCardProps> = ({ url, title, channelTitle, videoId }) 
 
   return (
     <Card sx={{ boxShadow: 'none', borderRadius: 0 }}>
-      <Link href={`https://www.youtube.com/watch?v=${videoId}`} underline="none">
+      <Link href={`/video?id=${videoId}`} underline="none">
         <CardMedia component="img" sx={{height: 210, objectFit: 'cover', borderRadius: '17px'}}  image={url} alt={title} />
         <CardContent sx={{padding: 0}}>
           <List sx={{ padding: 1 }}>

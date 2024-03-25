@@ -9,12 +9,12 @@ import Box from "@mui/material/Box"
 import { useSearchParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import dynamic from 'next/dynamic';
-import { Avatar, Button, Card, CardContent, CardHeader, Divider, Typography } from "@mui/material";
+import { Avatar, Button, Card, CardContent, CardHeader, CardMedia, Divider, Typography } from "@mui/material";
 import RelatedVideo from "@/components/video/RelatedVideo";
-import CardList from "@/components/video/CardList";
+import CommunityInfo from "@/components/community/CommunityInfo";
 import Comment from "@/components/comment/Comment";
 
-function VideoDetail() {
+function Dynamic() {
   const [youtubeData, setYoutubeData] = useState([]);
   const { setSearch, searchTabType, setSearchTabType, mobileOpen } = useContext(ThemeContext);
   const searchParams = useSearchParams();
@@ -45,6 +45,30 @@ function VideoDetail() {
   // const items1 = youtubeData.slice(0, 8)
   
   const sideBarWidth = mobileOpen ? '70px' : '250px';
+
+  // 动态类型
+  let DynamicContent = 
+  <>
+    {videoLoaded ? (
+    <DynamicReactPlayer
+      url="https://videocdn.cdnpk.net/joy/content/video/free/video0461/large_preview/_import_60e0167b4c3a96.14254367.mp4"
+      controls
+      width="100%"
+      height="auto"
+    />
+    ) : (
+    <div style={{ width: '100%', height: '550px', backgroundColor: 'black' }}>
+      {/* 播放器框架 */}
+    </div>
+    )}
+  </>
+
+  DynamicContent = 
+  <>
+    <CardMedia component="img" sx={{width: '100%', height: 'auto', objectFit: 'cover'}}  image='https://i.ytimg.com/vi/hWS6rXO_xI8/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBdMCNk0neI9lcnP7kIYqTffX30SA' alt='image' />
+  </>
+
+
   return (
     <Box sx={appWrapper}>
       <Box component="main" sx={appContentWrapper}>
@@ -72,52 +96,43 @@ function VideoDetail() {
           >
             <div style={{ display: 'flex' }}>
               <div style={{ flex: 2 }}>
-                {videoLoaded ? (
-                  <DynamicReactPlayer
-                    url="https://videocdn.cdnpk.net/joy/content/video/free/video0461/large_preview/_import_60e0167b4c3a96.14254367.mp4"
-                    controls
-                    width="100%"
-                    height="auto"
-                  />
-                ) : (
-                  <div style={{ width: '100%', height: '550px', backgroundColor: 'black' }}>
-                    {/* 播放器框架 */}
-                  </div>
-                )}
-                {/* 视频相关信息 */}
-                <Card sx={{ marginBottom: '20px' }}>
-                  <CardContent>
-                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                      Deep Focus Music To Improve Concentration - 12 Hours of Ambient Study Music to Concentrate
-                    </Typography>
+                {/* 动态相关信息 */}
+                <div style={{ marginBottom: '10px' }}>
+                  <div>
                     <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
                       <Avatar src="/path/to/avatar.jpg" />
                       <Typography variant="body1" sx={{ marginLeft: '10px', fontWeight: 'bold' }}>jianping5</Typography>
-                      <Box sx={{ marginLeft: 'auto' }}>
-                        <Button variant="outlined" sx={{ marginLeft: '', width:'77px'}}>Like</Button>
-                        <Button variant="outlined" sx={{ marginLeft: '20px', width:'77px' }}>Favor</Button>
-                        <Button variant="outlined" sx={{ marginLeft: '20px', width:'77px' }}>Follow</Button>
-                      </Box>
+                      <Typography variant="body1" sx={{ marginLeft: '10px', fontWeight: 'medium', fontSize: '1rem', color: 'LigthGray' }}>· 1 hr ago</Typography>
                     </Box>
+                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                      Deep Focus Music To Improve Concentration - 12 Hours of Ambient Study Music to Concentrate
+                    </Typography>
+
                     <Divider sx={{ marginTop: '10px' }} />
                     <Typography sx={{ marginTop: '10px' }}>
                       Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus malesuada, nisl sed ullamcorper pharetra, quam elit aliquet leo, sit amet maximus mauris turpis a velit.
                     </Typography>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
+                {/* 动态内容（文本/图片/视频） */}
+                {DynamicContent}
+
+                <Box sx={{ marginTop:'20px', marginLeft: 'auto' }}>
+                  <Button variant="outlined" sx={{ marginLeft: '', width:'77px'}}>Like</Button>
+                  <Button variant="outlined" sx={{ marginLeft: '20px', width:'77px' }}>Follow</Button>
+                </Box>
+
                 {/* 评论模块 */}
-                <Card sx={{ marginTop: '20px' }}>
-                  <CardContent>
-                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Comments</Typography>
-                    {/* 在此添加评论模块 */}
-                    <Comment/>
-                  </CardContent>
-                </Card>
+                <div style={{ marginTop: '20px' }}> 
+                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Comments</Typography>
+                  {/* 在此添加评论模块 */}
+                  <Comment/>
+                </div>
               </div>
-              {/* 相关推荐 */}
-              <div style={{ flex: 1, marginLeft: '30px' }}>
-                <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '10px' }}>Related Videos</Typography>
-                <CardList items={items1} contentType='Videos' />
+              {/* 社区信息 */}
+              <div style={{ flex: 1, marginLeft: '30px', position: 'sticky', top: '20px', maxHeight: '60px' }}>
+                {/* <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '10px' }}>Related Videos</Typography> */}
+                <CommunityInfo />
               </div>
             </div>
           </Box>
@@ -127,4 +142,4 @@ function VideoDetail() {
   );
 }
 
-export default VideoDetail;
+export default Dynamic;

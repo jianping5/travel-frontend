@@ -21,7 +21,7 @@ const AppCard: React.FC<AppCardProps> = ({ url, title, channelTitle, videoId }) 
   const truncatedTitle = title.length > 100 ? `${title.substring(0, 100)}...` : title;
 
   return (
-    <Link href={`https://www.youtube.com/watch?v=${videoId}`} underline="none" sx={{ position: 'relative', display: 'inline-block' }}>
+    <Link href={`/video/?id=${videoId}`} underline="none" sx={{ position: 'relative', display: 'inline-block' }}>
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'transparent', zIndex: 1 }}></div>
       <Card sx={{ display: 'flex', borderRadius: 0, boxShadow: 'none', border: 'none', position: 'relative', zIndex: 2 }}>
         <CardMedia component="img" sx={{width: 350, height: 200, objectFit: 'cover', borderRadius: '17px'}}  image={url} alt={title} />

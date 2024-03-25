@@ -20,6 +20,7 @@ import UserProfile from './UserProfile';
 import Upload from './Upload'
 import NotificationsList from './NotificationList';
 import ThemeContext from '@/context/ThemeContext';
+import Link from "next/link";
 
 const NavMenu = () => {
   const { mobileOpen, setMobileOpen } = useContext(ThemeContext);
@@ -42,10 +43,12 @@ const NavMenu = () => {
             >
               <MenuIcon />
             </IconButton>
-            <FaCanadianMapleLeaf size={27} />
-            <Typography variant="h6" component="div" sx={logoText}>
-              Travel
-            </Typography>
+            <Link href='/' style={{ display:'flex'}}>
+              <FaCanadianMapleLeaf size={27} style={{marginTop: '3px'}} />
+              <Typography variant="h6" component="div" sx={logoText}>
+                Travel
+              </Typography>
+            </Link>
           </Box>
           <Box sx={hideOnMobile}>
             <SearchBar />
