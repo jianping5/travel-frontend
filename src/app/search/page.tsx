@@ -8,9 +8,9 @@ import { youtubeResponse } from "@/data/app.data";
 import { appContentWrapper, appWrapper, flexColumnGrow } from "@/styles/styles";
 import Box from "@mui/material/Box"
 import { useSearchParams } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { Suspense, useContext, useEffect, useState } from "react";
 
-function Search() {
+function OriginSearch() {
   const [youtubeData, setYoutubeData] = useState([]);
   const { setSearch, searchTabType, setSearchTabType, mobileOpen } = useContext(ThemeContext);
   const searchParams = useSearchParams();
@@ -76,6 +76,14 @@ function Search() {
       </Box>
     </Box>
   );
+}
+
+function Search() {
+  return (
+    <Suspense>
+      <OriginSearch/>
+    </Suspense>
+  )
 }
 
 export default Search;

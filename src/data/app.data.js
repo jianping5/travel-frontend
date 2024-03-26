@@ -66,7 +66,7 @@ export const sideListItems = [
   { id: 4, text: 'Trade', icon: <MdSubscriptions size={24} /> },
   { id: 5, text: 'Copyright', icon: <BiLibrary size={24} /> },
   { id: 6, divider: true },
-  { id: 7, text: 'History', icon: <MdHistory size={24} /> },
+  { id: 7, text: 'History', icon: <MdHistory size={24} />, path: '/history' },
   { id: 8, text: 'Your Videos', icon: <BiVideo size={24} /> },
   { id: 9, text: 'Watch Later', icon: <BsStopwatch size={24} /> },
   { id: 10, divider: true },
@@ -102,6 +102,11 @@ export const searchTabItems = [
   { id: 5, text: 'People' },
 ];
 
+export const intelligenceTabItems = [
+  { id: 1, text: 'chat' },
+  { id: 2, text: 'strategy' },
+];
+
 export const dynamicTypeTabItems = [
   { id: 1, text: 'Hotest' },
   { id: 2, text: 'Latest' },
@@ -116,6 +121,7 @@ export const userTabItems = [
   { id: 4, text: 'dynamics' },
   { id: 5, text: 'copyrights' },
   { id: 6, text: 'follows' },
+  { id: 7, text: 'communities' },
 ];
 
 export const userProfileItems = [

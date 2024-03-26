@@ -12,5 +12,7 @@ const ThemeContext = createContext({
   setSearchTabType: (val: string) => {},
   userHomeTabType: '',
   setUserHomeTabType: (val: string) => {},
+  intelligenceTabType: '',
+  setIntelligenceTabType: (val: string) => {},
 });
 export default ThemeContext;

@@ -7,14 +7,14 @@ import { youtubeResponse } from "@/data/app.data";
 import { appContentWrapper, appWrapper, flexColumnGrow } from "@/styles/styles";
 import Box from "@mui/material/Box"
 import { useSearchParams } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { Suspense, useContext, useEffect, useState } from "react";
 import dynamic from 'next/dynamic';
 import { Avatar, Button, Card, CardContent, CardHeader, Divider, Typography } from "@mui/material";
 import RelatedVideo from "@/components/video/RelatedVideo";
 import CardList from "@/components/video/CardList";
 import Comment from "@/components/comment/Comment";
 
-function VideoDetail() {
+function OriginVideoDetail() {
   const [youtubeData, setYoutubeData] = useState([]);
   const { setSearch, searchTabType, setSearchTabType, mobileOpen } = useContext(ThemeContext);
   const searchParams = useSearchParams();
@@ -126,5 +126,14 @@ function VideoDetail() {
     </Box>
   );
 }
+
+function VideoDetail() {
+  return (
+    <Suspense>
+      <OriginVideoDetail/>
+    </Suspense>
+  )
+}
+
 
 export default VideoDetail;

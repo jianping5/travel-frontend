@@ -12,7 +12,7 @@ const VideoCard: React.FC<AppCardProps> = ({ url, title, channelTitle, videoId }
   const truncatedTitle = title.length > 200 ? `${title.substring(0, 200)}...` : title;
 
   return (
-    <Box>
+    <Box sx={{ marginTop: '10px'}}>
       <CardMedia component="img" sx={{width: '750px', height: '150px', objectFit: 'cover', borderRadius: '17px'}}  
        image={url} alt='image' />
       <Typography variant="h5" sx={{ fontSize: '1rem', fontWeight: 'medium' }}> {truncatedTitle} </Typography>

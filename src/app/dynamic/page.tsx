@@ -7,14 +7,14 @@ import { youtubeResponse } from "@/data/app.data";
 import { appContentWrapper, appWrapper, flexColumnGrow } from "@/styles/styles";
 import Box from "@mui/material/Box"
 import { useSearchParams } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { Suspense, useContext, useEffect, useState } from "react";
 import dynamic from 'next/dynamic';
 import { Avatar, Button, Card, CardContent, CardHeader, CardMedia, Divider, Typography } from "@mui/material";
 import RelatedVideo from "@/components/video/RelatedVideo";
 import CommunityInfo from "@/components/community/CommunityInfo";
 import Comment from "@/components/comment/Comment";
 
-function Dynamic() {
+function OriginDynamic() {
   const [youtubeData, setYoutubeData] = useState([]);
   const { setSearch, searchTabType, setSearchTabType, mobileOpen } = useContext(ThemeContext);
   const searchParams = useSearchParams();
@@ -141,5 +141,14 @@ function Dynamic() {
     </Box>
   );
 }
+
+function Dynamic() {
+  return (
+    <Suspense>
+      <OriginDynamic/>
+    </Suspense>
+  )
+}
+
 
 export default Dynamic;

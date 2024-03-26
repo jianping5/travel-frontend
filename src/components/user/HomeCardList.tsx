@@ -4,13 +4,14 @@ import Grid from '@mui/material/Grid';
 import React from 'react';
 import FavorCard from './FavorCard';
 import FollowCard from './FollowCard';
+import CommunityCard from './CommunityCard';
 
 
 const CardList: React.FC<any> = ({ items, contentType }) => {
   return (
     <Box>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 4 }}>
-        {items.length &&
+        {items.length > 0 &&
           items.map((item: any) => {
             const key = item.etag;
             const { videoId } = item.id;
@@ -44,6 +45,17 @@ const CardList: React.FC<any> = ({ items, contentType }) => {
                 return (
                   <Grid key={key} item xs={12} sx={{ marginTop: '5px' }} >
                     <FollowCard
+                      url={thumbnails.high.url}
+                      title={title}
+                      channelTitle={channelTitle}
+                      videoId={videoId}
+                    />
+                  </Grid>
+                );
+              case 'communities':
+                return (
+                  <Grid key={key} item xs={12} sx={{ marginTop: '5px' }} >
+                    <CommunityCard
                       url={thumbnails.high.url}
                       title={title}
                       channelTitle={channelTitle}
