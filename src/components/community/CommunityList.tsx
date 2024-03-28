@@ -31,6 +31,109 @@ export default function AlignItemsList() {
           />
         </ListItem>
       </Link>
+      <Link href='/'>
+        <ListItem alignItems="flex-start">
+          <ListItemAvatar sx={{ marginRight:'3%' }}>
+            <Avatar alt="Remy Sharp" src={url} sx={{ width: 56, height: 56 }}/>
+          </ListItemAvatar>
+          <ListItemText
+            primary="Brunch this weekend?"
+            secondary={
+              <>
+                {truncatedDescription}
+                <br></br>
+                <span style={{ marginLeft: '-2px', fontSize: '0.8rem', color: '#888888' }}>100k members</span> 
+              </>
+            }
+          />
+        </ListItem>
+      </Link>
+      <Link href='/'>
+        <ListItem alignItems="flex-start">
+          <ListItemAvatar sx={{ marginRight:'3%' }}>
+            <Avatar alt="Remy Sharp" src={url} sx={{ width: 56, height: 56 }}/>
+          </ListItemAvatar>
+          <ListItemText
+            primary="Brunch this weekend?"
+            secondary={
+              <>
+                {truncatedDescription}
+                <br></br>
+                <span style={{ marginLeft: '-2px', fontSize: '0.8rem', color: '#888888' }}>100k members</span> 
+              </>
+            }
+          />
+        </ListItem>
+      </Link>
+      <Link href='/'>
+        <ListItem alignItems="flex-start">
+          <ListItemAvatar sx={{ marginRight:'3%' }}>
+            <Avatar alt="Remy Sharp" src={url} sx={{ width: 56, height: 56 }}/>
+          </ListItemAvatar>
+          <ListItemText
+            primary="Brunch this weekend?"
+            secondary={
+              <>
+                {truncatedDescription}
+                <br></br>
+                <span style={{ marginLeft: '-2px', fontSize: '0.8rem', color: '#888888' }}>100k members</span> 
+              </>
+            }
+          />
+        </ListItem>
+      </Link>
+      <Link href='/'>
+        <ListItem alignItems="flex-start">
+          <ListItemAvatar sx={{ marginRight:'3%' }}>
+            <Avatar alt="Remy Sharp" src={url} sx={{ width: 56, height: 56 }}/>
+          </ListItemAvatar>
+          <ListItemText
+            primary="Brunch this weekend?"
+            secondary={
+              <>
+                {truncatedDescription}
+                <br></br>
+                <span style={{ marginLeft: '-2px', fontSize: '0.8rem', color: '#888888' }}>100k members</span> 
+              </>
+            }
+          />
+        </ListItem>
+      </Link>
+      <Link href='/'>
+        <ListItem alignItems="flex-start">
+          <ListItemAvatar sx={{ marginRight:'3%' }}>
+            <Avatar alt="Remy Sharp" src={url} sx={{ width: 56, height: 56 }}/>
+          </ListItemAvatar>
+          <ListItemText
+            primary="Brunch this weekend?"
+            secondary={
+              <>
+                {truncatedDescription}
+                <br></br>
+                <span style={{ marginLeft: '-2px', fontSize: '0.8rem', color: '#888888' }}>100k members</span> 
+              </>
+            }
+          />
+        </ListItem>
+      </Link>
+      <Link href='/'>
+        <ListItem alignItems="flex-start">
+          <ListItemAvatar sx={{ marginRight:'3%' }}>
+            <Avatar alt="Remy Sharp" src={url} sx={{ width: 56, height: 56 }}/>
+          </ListItemAvatar>
+          <ListItemText
+            primary="Brunch this weekend?"
+            secondary={
+              <>
+                {truncatedDescription}
+                <br></br>
+                <span style={{ marginLeft: '-2px', fontSize: '0.8rem', color: '#888888' }}>100k members</span> 
+              </>
+            }
+          />
+        </ListItem>
+      </Link>
+      
     </List>
   );
 }

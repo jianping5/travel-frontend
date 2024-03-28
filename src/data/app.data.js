@@ -62,7 +62,7 @@ export const notificationData = [
 export const sideListItems = [
   { id: 1, text: 'Home', icon: <GoHome size={24} />, path: '/' },
   { id: 2, text: 'Community', icon: <MdOutlineExplore size={24} />, path: '/community' },
-  { id: 3, text: 'Intelligence', icon: <AiOutlinePlaySquare size={24} /> },
+  { id: 3, text: 'Intelligence', icon: <AiOutlinePlaySquare size={24} />, path: '/intelligence/chat' },
   { id: 4, text: 'Trade', icon: <MdSubscriptions size={24} /> },
   { id: 5, text: 'Copyright', icon: <BiLibrary size={24} /> },
   { id: 6, divider: true },
@@ -105,6 +105,7 @@ export const searchTabItems = [
 export const intelligenceTabItems = [
   { id: 1, text: 'chat' },
   { id: 2, text: 'strategy' },
+  { id: 3, text: 'history' },
 ];
 
 export const dynamicTypeTabItems = [
@@ -122,6 +123,12 @@ export const userTabItems = [
   { id: 5, text: 'copyrights' },
   { id: 6, text: 'follows' },
   { id: 7, text: 'communities' },
+];
+
+export const tradeTabItems = [
+  { id: 1, text: 'home' },
+  { id: 2, text: 'work' },
+  { id: 3, text: 'create' },
 ];
 
 export const userProfileItems = [

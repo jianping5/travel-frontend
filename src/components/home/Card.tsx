@@ -26,7 +26,7 @@ const AppCard: React.FC<AppCardProps> = ({ url, title, channelTitle, videoId }) 
   return (
     <Card sx={{ boxShadow: 'none', borderRadius: 0 }}>
       <Link href={`/video?id=${videoId}`} underline="none">
-        <CardMedia component="img" sx={{height: 210, objectFit: 'cover', borderRadius: '17px'}}  image={url} alt={title} />
+        <CardMedia component="img" sx={{height: 185, objectFit: 'cover', borderRadius: '17px'}}  image={url} alt={title} />
         <CardContent sx={{padding: 0}}>
           <List sx={{ padding: 1 }}>
             <ListItem sx={{ alignItems: 'flex-start', paddingLeft: '0px' }}>

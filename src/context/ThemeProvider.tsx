@@ -9,6 +9,7 @@ const ThemeProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
   const [searchTabType, setSearchTabType] = React.useState('Videos')
   const [userHomeTabType, setUserHomeTabType] = React.useState('home')
   const [intelligenceTabType, setIntelligenceTabType] = React.useState('chat')
+  const [tradeTabType, setTradeTabType] = React.useState('home')
 
   const value = {
     search,
@@ -22,7 +23,9 @@ const ThemeProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
     userHomeTabType,
     setUserHomeTabType,
     intelligenceTabType,
-    setIntelligenceTabType
+    setIntelligenceTabType,
+    tradeTabType,
+    setTradeTabType,
   }
 
   return (

@@ -9,6 +9,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import React from 'react';
 import Typography from '@mui/material/Typography';
+import { CardActionArea } from '@mui/material';
 
 type AppCardProps = {
   url: string,
@@ -21,7 +22,8 @@ const AppCard: React.FC<AppCardProps> = ({ url, title, channelTitle, videoId }) 
 
   return (
     <Link href={`https://www.youtube.com/watch?v=${videoId}`} underline="none" sx={{ position: 'relative', display: 'inline-block' }}>
-      <Card sx={{ borderRadius: 0, boxShadow: 'none', border: 'none'}}>
+      <Card sx={{ borderRadius: 0, boxShadow: 'none', border: 'none', mb: '-15px'}}>
+        <CardActionArea sx={{ width: '1000px', p: 1, borderRadius: '7px'}}>
         <div style={{ display: 'flex' }}>
           <CardMedia component="img" sx={{width: 175, height: 105, objectFit: 'cover', borderRadius: '10px'}}  image={url} alt={title} />
           
@@ -51,6 +53,8 @@ const AppCard: React.FC<AppCardProps> = ({ url, title, channelTitle, videoId }) 
             </List>
           </CardContent>
         </div>
+        </CardActionArea>
+
       </Card>
     </Link>
   );

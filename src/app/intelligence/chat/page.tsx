@@ -14,7 +14,7 @@ type Message = {
 
 const initialMessages: Message[] = [
   // { id: 1, content: "Hello!", sender: "User" },
-  // { id: 2, content: "Hi there!", sender: "Bot" }
+  { id: 1, content: "Hello! You can ask me some questions about travel.", sender: "Bot" }
 ];
 
 const Chat = () => {
@@ -85,7 +85,7 @@ const Chat = () => {
         <Box sx={{ maxHeight: '70vh', overflowY: 'auto', minHeight: '70vh', borderRadius: '8px', mb: 2 }}>
           {messages.map((message) => (
             <Box key={message.id} sx={{ display: 'flex', alignItems: 'flex-start', mb: 5 }}>
-              <Avatar alt={message.sender} src="/path/to/avatar.jpg" sx={{ mr: 1, width:'30px', height:'30px' }} />
+              <Avatar alt={message.sender} src="https://yt3.googleusercontent.com/nkUy7yOWP3EOk-e7HbV2e2L6suWQq5-Ggctu3_pBQTSNkjVpm0SW-k34tobItcuJ-r1a1R_qig=s176-c-k-c0x00ffffff-no-rj" sx={{ mr: 1, width:'30px', height:'30px' }} />
               <Box>
                 <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{message.sender}</Typography>
                 <Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>{message.content}</Typography>

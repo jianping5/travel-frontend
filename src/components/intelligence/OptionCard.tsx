@@ -25,7 +25,7 @@ const OptionCard = () => {
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-      <Box sx={{ border: '1px solid #ccc', borderRadius: '8px', p: 2, m: 3, width: 250, height: 130 }}>
+      <Card sx={{ borderRadius: '8px', p: 3, m: 3, width: 270, height: 137, bgcolor: '#fefefe', border: '1px solid #ccc' }}>
         <Typography variant="body1" sx={{ mb: 1}}>Age</Typography>
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Age</InputLabel>
@@ -41,8 +41,8 @@ const OptionCard = () => {
             <MenuItem value={30}>Thirty</MenuItem>
           </Select>
         </FormControl>
-      </Box>
-      <Box sx={{ border: '1px solid #ccc', borderRadius: '8px', p: 2, m: 3, width: 250, height: 130 }}>
+      </Card>
+      <Card sx={{ borderRadius: '8px', p: 3, m: 3, width: 270, height: 137, bgcolor: '#fefefe', border: '1px solid #ccc' }}>
         <Typography variant="body1" sx={{ mb: 1}}>Day</Typography>
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Day</InputLabel>
@@ -58,8 +58,8 @@ const OptionCard = () => {
             <MenuItem value={30}>Thirty</MenuItem>
           </Select>
         </FormControl>
-      </Box>
-      <Box sx={{ border: '1px solid #ccc', borderRadius: '8px', p: 2, m: 3, width: 250, height: 130 }}>
+      </Card>
+      <Card sx={{ borderRadius: '8px', p: 3, m: 3, width: 270, height: 137, bgcolor: '#fefefe', border: '1px solid #ccc' }}>
         <Typography variant="body1" sx={{ mb: 1}}>Budget</Typography>
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Budget</InputLabel>
@@ -75,7 +75,7 @@ const OptionCard = () => {
             <MenuItem value={30}>Thirty</MenuItem>
           </Select>
         </FormControl>
-      </Box>
+      </Card>
     </Box>
   )
 }

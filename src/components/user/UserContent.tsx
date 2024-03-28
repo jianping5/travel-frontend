@@ -2,6 +2,7 @@ import { Avatar, Box, Button, Card, CardMedia, Divider, Typography } from "@mui/
 import HomeCardList from "./HomeCardList"
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+import ApplyDialog from "../copyright/ApplyDialog";
 
 type ItemProps = {
   url: string,
@@ -183,6 +184,10 @@ const UserContent = ({params} : {params: {contentType: string, items: any }}) =>
     case 'copyrights':
       return (
         <>
+          <div style={{ marginTop: '10px', marginBottom: '-20px' }}>
+            {/* <Button variant="outlined" sx={{ borderRadius:'7px'}}>Apply Copyright</Button> */}
+            <ApplyDialog/>
+          </div>
           <div style={{ marginTop: '20px' }}>
             <HomeCardList items={params.items} contentType={params.contentType}/>
           </div>

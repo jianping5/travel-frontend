@@ -7,7 +7,7 @@ import { Avatar, Button, Card, CardContent, Divider, Typography } from '@mui/mat
 
 const CommunityInfo = () => {
   return (
-    <Card sx={{ borderRadius: '10px'}}>
+    <Card sx={{ borderRadius: '10px', bgcolor: '#fefefe'}}>
       <CardContent sx={{ display: 'flex'}}>
         <Typography sx={{ marginLeft: '10px', fontSize: '1.7rem', fontWeight: 'medium' }}>OldSchool</Typography>
         <Button variant='outlined' sx={{ marginLeft: 'auto', width:'100px', height: '40px', borderRadius: '100px'}}> Join </Button>

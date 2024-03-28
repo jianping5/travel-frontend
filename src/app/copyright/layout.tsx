@@ -1,32 +1,16 @@
 "use client"
-import { getYoutubeAPIData } from "@/api/axios";
-import CommunityDetail from "@/components/community/CommunityDetail";
 import SideList from "@/components/side/SideList";
 import ThemeContext from "@/context/ThemeContext";
-import { youtubeResponse } from "@/data/app.data";
 import { appContentWrapper, appWrapper, flexColumnGrow } from "@/styles/styles";
 import Box from "@mui/material/Box"
-import { useSearchParams } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 
-function Search() {
-  const [youtubeData, setYoutubeData] = useState([]);
-  const { setSearch, searchTabType, mobileOpen } = useContext(ThemeContext);
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    const query = searchParams.get("q") || ''
-    setSearch(query)
-    // todo：结合选择类别进行对应的搜索
-    // getYoutubeAPIData(query).then((response) => {
-      // setYoutubeData(response.data.items);
-    // });
-  }, [searchParams, searchTabType]);
-
-
-  // 静态数据
-  const items1 = youtubeResponse
-  // const items1 = youtubeData.slice(0, 8)
+function CopyrightLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  const { mobileOpen } = useContext(ThemeContext);
   
   const sideBarWidth = mobileOpen ? '70px' : '250px';
   return (
@@ -54,7 +38,7 @@ function Search() {
               width: `calc(100vw - ${sideBarWidth})`,
             }}
           >
-            <CommunityDetail items={items1}/>
+            {children}
           </Box>
         </Box>
       </Box>
@@ -62,4 +46,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default CopyrightLayout;

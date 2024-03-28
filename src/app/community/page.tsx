@@ -7,6 +7,7 @@ import SideList from "@/components/side/SideList";
 import ThemeContext from "@/context/ThemeContext";
 import { youtubeResponse } from "@/data/app.data";
 import { appContentWrapper, appWrapper, flexColumnGrow } from "@/styles/styles";
+import { Card } from "@mui/material";
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography";
 import { useSearchParams } from "next/navigation";
@@ -74,10 +75,10 @@ function OriginSearch() {
                 <CardList items={items1} contentType='Dynamics' />
               </div>
               <div style={{ flex: '1', minWidth: '200px' }}>
-                <div style={{ position: 'sticky', top: '20px', maxHeight: 'calc(100vh - 40px)', overflowY: 'auto' }}>
-                  <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '10px' }}>COMMUNITIES</Typography>
+                <Card sx={{ mr: 5, position: 'sticky', top: '10px', height:'610px', maxHeight: 'calc(100)', overflowY: 'auto', bgcolor: '#fefefe' }}>
+                  <Typography variant="h6" sx={{ m: 1, fontWeight: 'bold', marginBottom: '10px' }}>COMMUNITIES</Typography>
                   <CommunityList />
-                </div>
+                </Card>
               </div>
             </div>
           </Box>
