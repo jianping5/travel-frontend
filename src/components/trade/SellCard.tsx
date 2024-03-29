@@ -53,7 +53,8 @@ const VideoCard: React.FC<AppCardProps> = ({ url, title, channelTitle, videoId }
           alignItems: 'center',
           position: 'absolute',
           bottom: isHovered ? 0 : -40, // 当悬停时 bottom 设置为 0，否则设置为 -40px
-          transition: 'bottom 0.3s ease' // 添加过渡效果
+          transition: 'bottom 0.3s ease', // 添加过渡效果
+          width: '100%',
         }}
       >
         <Button
@@ -62,20 +63,18 @@ const VideoCard: React.FC<AppCardProps> = ({ url, title, channelTitle, videoId }
           sx={{
             mt: 1,
             backgroundColor: '#2196f3 !important',
-            width: '376px',
-            height: '35px',
+            width: '100%',
+            height: '39px',
             textTransform: 'none',
             fontWeight: 'medium',
-            fontSize: '1rem'
+            fontSize: '1rem',
           }}
           endIcon={<HiOutlineShoppingCart />}
         >
-          Buy now
+          Sell now
         </Button>
       </Box>
     </Card>
-    
-
   )
 }
 

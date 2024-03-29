@@ -1,5 +1,5 @@
 'use client'
-import BuyCardList from "@/components/trade/BuyCardList";
+import SellCardList from "@/components/trade/SellCardList";
 import TabList from "@/components/trade/TabList";
 import ThemeContext from "@/context/ThemeContext";
 import { youtubeResponse } from "@/data/app.data";
@@ -20,7 +20,7 @@ function Home() {
   return (
     <div>
       <TabList onTabChange={onTabChange}/>
-      <BuyCardList items={items} />
+      <SellCardList items={items} />
     </div>
   )
 }

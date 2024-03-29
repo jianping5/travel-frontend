@@ -128,7 +128,6 @@ export const userTabItems = [
 export const tradeTabItems = [
   { id: 1, text: 'home' },
   { id: 2, text: 'work' },
-  { id: 3, text: 'create' },
 ];
 
 export const userProfileItems = [

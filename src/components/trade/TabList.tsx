@@ -5,6 +5,8 @@ import React, { useContext } from 'react';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import ThemeContext from '@/context/ThemeContext';
+import { Button } from '@mui/material';
+import CreateDialog from './CreateDialog';
 
 type TabListProps = {
     onTabChange: (searchValue: string) => void;
@@ -17,7 +19,7 @@ const TabList: React.FC<TabListProps> = ( { onTabChange }) => {
     onTabChange(newValue);
   };
   return (
-    <Box>
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
       <Tabs
         value={tradeTabType}
         onChange={handleChange}
@@ -25,11 +27,14 @@ const TabList: React.FC<TabListProps> = ( { onTabChange }) => {
         scrollButtons="auto"
         allowScrollButtonsMobile
         aria-label="scrollable tabs"
+        sx={{ flexGrow: 1 }} // 标签栏占据剩余空间
       >
-        {tradeTabItems.map((item) => {
-          return <Tab value={item.text} key={item.id} label={item.text} />;
-        })}
+        {tradeTabItems.map((item) => (
+          <Tab value={item.text} key={item.id} label={item.text} />
+        ))}
       </Tabs>
+      {/* 右侧按钮 */}
+      <CreateDialog/>
     </Box>
   );
 };

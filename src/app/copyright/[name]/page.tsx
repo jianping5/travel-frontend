@@ -30,16 +30,16 @@ function CopyrightDetail() {
             <Typography variant="h4" >Travel Log</Typography>
             <Typography variant="subtitle1" sx={{ fontWeight: 'medium', fontSize: '1.1rem', color: '#242424'}}>Owned by jianping5</Typography>
             <Card sx={{ mt: 2, mr: 5, p: 1, height:'200px', borderRadius: '9px', border:'1px solid #ccc', backgroundColor: '#fefefe' }}>
-              <Typography variant="body1" sx={{ mb: 2, fontSize: '1.2rem', m: 1}}> Sales on 2024-10-5 10:25 </Typography>
+              <Typography variant="body1" sx={{ mb: 2, fontSize: '1.1rem', m: 1}}> Sales on 2024-10-5 10:25 </Typography>
               <Divider/>
-              <Typography variant="body1" sx={{ mb: 2, fontSize: '1.1rem', m: 1}}> Current price </Typography>
-              <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 3, fontSize: '1.5rem', m: 1 }}> 123 </Typography>
-              <Button variant="contained" sx={{ ml:1, backgroundColor: '#2196f3 !important', width:'270px', height:'45px', textTransform: 'none', fontWeight: 'medium', fontSize: '1rem'}} endIcon={<HiOutlineShoppingCart />}>
-                Buy now
+              <Typography variant="body1" sx={{ mb: 2, fontSize: '1rem', m: 1, color: '#777' }}> Current price </Typography>
+              <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 3, fontSize: '1.7rem', m: 1 }}> $123567 </Typography>
+              <Button variant="contained" sx={{ borderRadius: '10px', ml:1, backgroundColor: '#2196f3 !important', width:'300px', height:'50px', textTransform: 'none', fontWeight: 'medium', fontSize: '1rem'}} endIcon={<HiOutlineShoppingCart />}>
+                Buy now / Sell now
               </Button>
             </Card>
-            <Card sx={{ mt: 3, mr: 5, p: 1, height:'200px', borderRadius: '9px', border:'1px solid #ccc', backgroundColor: '#fefefe' }}>
-              <Typography variant="body1" sx={{ mb: 3, fontSize: '1.2rem', m: 1}}> Description </Typography>
+            <Card sx={{ mt: 3, mr: 5, p: 1, height:'195px', borderRadius: '9px', border:'1px solid #ccc', backgroundColor: '#fefefe' }}>
+              <Typography variant="body1" sx={{ mb: 3, fontSize: '1.2rem', m: 1, fontWeight: 'bold'}}> Description </Typography>
               <Divider/>
               <Typography variant="body1" sx={{ mb: 3, fontSize: '1.1rem', m: 1}}> Supports creator This listing is paying the collection creator their suggested creator earnings. </Typography>
             </Card>
@@ -51,7 +51,7 @@ function CopyrightDetail() {
 
       <div >
         <Card sx={{ ml: 5, mr: 6.5, p: 1, borderRadius: '9px', border:'1px solid #ccc', backgroundColor: '#fefefe' }}>
-          <Typography variant="body1" sx={{ mb: 3, fontSize: '1.2rem', m: 1}}> Trade record </Typography>
+          <Typography variant="body1" sx={{ mb: 3, fontSize: '1.2rem', m: 1,  fontWeight: 'bold' }}> Trade record </Typography>
           <Divider/>
           <Table>
             <TableHead>

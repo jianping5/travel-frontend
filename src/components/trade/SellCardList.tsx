@@ -1,8 +1,8 @@
-import VideoCard from './VideoCard';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-const CardList: React.FC<any> = ({ items }) => {
+import SellCard from './SellCard';
+const BuyCardList: React.FC<any> = ({ items }) => {
   return (
     <Box sx={{marginRight: ''}}>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 4 }}>
@@ -13,7 +13,7 @@ const CardList: React.FC<any> = ({ items }) => {
             const { thumbnails, title, channelTitle } = item.snippet; 
             return (
               <Grid key={key} item xs={12} sm={6} md={4} lg={3}>
-                <VideoCard
+                <SellCard
                   url={thumbnails.high.url}
                   title={title}
                   channelTitle={channelTitle}
@@ -26,4 +26,4 @@ const CardList: React.FC<any> = ({ items }) => {
     </Box>
   );
 };
-export default CardList;
+export default BuyCardList;
