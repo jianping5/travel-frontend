@@ -36,9 +36,9 @@ const UploadVideoDialog: React.FC<UploadVideoDialogProps> = ({ open, handleClose
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth maxWidth='md' sx={{ maxWidth: '50%', margin: 'auto'}} >
+    <Dialog open={open} onClose={handleClose} fullScreen maxWidth='md' sx={{ maxWidth: '100%', margin: 'auto'}} >
       <DialogTitle>Create Video</DialogTitle>
-      <DialogContent sx={{ height: '70vh' }}>
+      <DialogContent sx={{ height: '100vh', pl: '500px', pr: '500px' }}>
         <TextField
           autoFocus
           margin="dense"
@@ -61,25 +61,11 @@ const UploadVideoDialog: React.FC<UploadVideoDialogProps> = ({ open, handleClose
           onChange={(e) => setDescription(e.target.value)}
         />
         {/* 视频上传组件 */}
-        {/* <input
-          type="file"
-          accept="video/*"
-          onChange={(e) => setVideo(e.target.files?.[0] || null)}
-        /> */}
         <UploadFileButton onChange={(file) => setVideo(file)}/>
-        {/* <TextField
-          margin="dense"
-          id="tags"
-          label="Tags"
-          type="text"
-          fullWidth
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
-        /> */}
+        {/* 标签输入组件 */}
         <TagInput tags={tags} setTags={setTags}/>
-
       </DialogContent>
-      <DialogActions>
+      <DialogActions sx={{ border: '1px solid #ccc' }}>
         <Button onClick={handleClose}>Cancel</Button>
         <Button onClick={handleCreate}>Create</Button>
       </DialogActions>

@@ -15,6 +15,6 @@ const ThemeContext = createContext({
   intelligenceTabType: '',
   setIntelligenceTabType: (val: string) => {},
   tradeTabType: '',
-  setTradeTabType: (val: string) => {},
+  setTradeTabType: (val: string) => {}
 });
 export default ThemeContext;

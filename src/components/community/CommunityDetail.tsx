@@ -1,9 +1,22 @@
-import React from 'react';
-import { Avatar, Button, Card, CardContent, CardMedia, Container, Grid, Typography } from '@mui/material';
+'use client'
+import React, { useState } from 'react';
+import { Avatar, Button, Typography } from '@mui/material';
 import CommunityInfo from './CommunityInfo';
 import CardList from './CardList';
+import CreateDynamicDialog from '../header/create/CreateDynamicDialog';
 
 const CommunityDetail: React.FC<any> = ({ items }) => {
+  const [dynamicDialogOpen, setDynamicDialogOpen] = useState(false)
+
+  // 控制动态弹框打开
+  const handleDynamicOpen = () => {
+    setDynamicDialogOpen(true)
+  }
+
+  const handleCloseDynamicDialog = () => {
+    setDynamicDialogOpen(false)
+  }
+
   return (
     <div>
       <img src="https://styles.redditmedia.com/t5_2zf9m/styles/bannerBackgroundImage_h8gepdvfwqb61.png" alt="Cover Image" 
@@ -15,7 +28,8 @@ const CommunityDetail: React.FC<any> = ({ items }) => {
           <Typography variant="h4">Community Name</Typography>
         </div>
         <div>
-          <Button variant="outlined" color="primary" sx={{ width: '200px', height: '45px', borderRadius: '100px' }}>Create a Post</Button>
+          <Button onClick={handleDynamicOpen} variant="outlined" color="primary" sx={{ width: '200px', height: '45px', borderRadius: '100px' }}>Create a Post</Button>
+          <CreateDynamicDialog open={dynamicDialogOpen} handleClose={handleCloseDynamicDialog} />
         </div>
       </div>
 

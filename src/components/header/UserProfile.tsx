@@ -16,9 +16,22 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 import { inlineText } from '../../styles/styles';
 import useToggle from '../../hooks/useToggle';
+import { GrChannel } from 'react-icons/gr';
+import { SiReasonstudios } from 'react-icons/si';
+import { logout } from '@/api/user/user-api';
 
-const UserProfile = () => {
+type Props = {
+  onLogout: () => void;
+}
+
+const UserProfile: React.FC<Props> = ({ onLogout }) => {
   const { el, open, handleClick, handleClose } = useToggle();
+
+  const signOut = () => {
+    logout()
+    onLogout()
+  }
+
   return (
     <Box sx={{ px: 1 }}>
       <Button id="basic-button" onClick={handleClick}>
@@ -54,22 +67,18 @@ const UserProfile = () => {
           />
         </ListItem>
         <Box sx={{ minWidth: 300, borderTop: '1px solid #ddd' }}>
-          {userProfileItems.map((item) => {
-            return (
-              <List sx={{ p: 0 }} key={item.id}>
-                {item.divider ? (
-                  <Divider />
-                ) : (
-                  <ListItem disablePadding>
-                    <ListItemButton>
-                      <ListItemIcon>{item.icon}</ListItemIcon>
-                      <ListItemText primary={item.text} />
-                    </ListItemButton>
-                  </ListItem>
-                )}
-              </List>
-            );
-          })}
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon><GrChannel size={24}/></ListItemIcon>
+              <ListItemText primary='Your space' sx={{ ml: '20px'}} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton onClick={signOut}>
+              <ListItemIcon><SiReasonstudios size={24}/></ListItemIcon>
+              <ListItemText primary='Sign out' sx={{ ml: '20px'}} />
+            </ListItemButton>
+          </ListItem>
         </Box>
       </Menu>
     </Box>

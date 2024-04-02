@@ -1,11 +1,12 @@
 'use client'
 // import { AiFillYoutube } from 'react-icons/ai';
-import { FaCanadianMapleLeaf } from "react-icons/fa";
+import { FaCanadianMapleLeaf, FaUserCircle } from "react-icons/fa";
+import { RxAvatar } from "react-icons/rx";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import {
@@ -21,13 +22,25 @@ import Upload from './Upload'
 import NotificationsList from './NotificationList';
 import ThemeContext from '@/context/ThemeContext';
 import Link from "next/link";
+import { Button } from "@mui/material";
+import AuthDialog from "./AuthDialog";
 
 const NavMenu = () => {
   const { mobileOpen, setMobileOpen } = useContext(ThemeContext);
+  const [ loginStatus, setLoginStatus ] = useState("false")
+  const [open, setOpen] = useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  const handleToggle = () => {
+    setOpen(!open);
+  };
+
+  useEffect(() => {
+    setLoginStatus(localStorage.getItem("loginStatus") || "false")
+  }, [loginStatus])
 
   return (
     <AppBar component="nav" sx={appBar}>
@@ -54,9 +67,19 @@ const NavMenu = () => {
             <SearchBar />
           </Box>
           <Box sx={hideOnMobile}>
-            <Upload />
-            <NotificationsList />
-            <UserProfile />
+            {loginStatus == "true" ? 
+              <>
+                <Upload />
+                <NotificationsList />
+                <UserProfile onLogout={() => setLoginStatus("false")} />
+              </> : 
+              <>
+                <Button onClick={handleToggle} sx={{ border: '1px solid #ddd', borderRadius: '20px', textTransform: 'none', fontWeight: 'bold', fontSize: '1rem', pl: '10px', pr: '10px'}}>
+                  <RxAvatar size={27} style={{ marginRight: '5px'}} /> Sign in
+                </Button>
+                <AuthDialog open={open} onClose={() => setOpen(false)} onLogin={() => setLoginStatus("true")}/>
+              </>
+            }
           </Box>
         </Box>
       </Toolbar>

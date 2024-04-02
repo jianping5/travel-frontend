@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import ThemeContext from './ThemeContext'
 
 const ThemeProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
@@ -25,7 +25,7 @@ const ThemeProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
     intelligenceTabType,
     setIntelligenceTabType,
     tradeTabType,
-    setTradeTabType,
+    setTradeTabType
   }
 
   return (

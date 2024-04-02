@@ -22,6 +22,7 @@ const Upload = () => {
     setDialogOpen(true)
   }
 
+  // 控制动态弹框打开
   const handleDynamicOpen = () => {
     setDynamicDialogOpen(true)
   }

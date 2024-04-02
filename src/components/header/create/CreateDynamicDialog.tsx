@@ -39,9 +39,9 @@ const CreateDynamicDialog: React.FC<UploadVideoDialogProps> = ({ open, handleClo
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth maxWidth='md' sx={{ maxWidth: '50%', margin: 'auto'}} >
+    <Dialog open={open} onClose={handleClose} fullScreen maxWidth='md' sx={{ maxWidth: '100%', margin: 'auto'}} >
       <DialogTitle>Create Dynamic</DialogTitle>
-      <DialogContent sx={{ height: '100vh' }}>
+      <DialogContent sx={{ height: '100vh', pl: '500px', pr: '500px' }}>
         <TextField
           autoFocus
           margin="dense"
@@ -63,7 +63,7 @@ const CreateDynamicDialog: React.FC<UploadVideoDialogProps> = ({ open, handleClo
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-{       isMediaUpload ? (
+        {isMediaUpload ? (
           <UploadMediaButton onChange={(file) => setVideo(file)}/>
         ) : (
           <TextField
@@ -79,7 +79,7 @@ const CreateDynamicDialog: React.FC<UploadVideoDialogProps> = ({ open, handleClo
           />
         )}
       </DialogContent>
-      <DialogActions>
+      <DialogActions sx={{ border: '1px solid #ccc' }}>
         <Button onClick={handleClose}>Cancel</Button>
         <Button onClick={handleCreate}>Create</Button>
       </DialogActions>
