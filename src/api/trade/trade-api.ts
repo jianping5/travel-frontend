@@ -1,12 +1,11 @@
 'use client'
 import axios, { AxiosRequestConfig } from 'axios'
 
-const BASE_URL = 'http://localhost:1001'
+const BASE_URL = 'http://localhost:1004'
 
-// 注册
-export const register = async (req: RegisterReq): Promise<BaseRegisterResp> => {
+// 创建商品
+export const createWork = async (req: WorkCreateReq): Promise<BaseResp> => {
   try {
-    // 发送登录请求，并等待响应
     const token = localStorage.getItem("token")
 
     // 构造请求配置对象
@@ -15,8 +14,9 @@ export const register = async (req: RegisterReq): Promise<BaseRegisterResp> => {
         Authorization: `Bearer ${token}`, // 设置 Authorization 请求头
       },
     };
-    const response = await axios.post<BaseRegisterResp>(`${BASE_URL}/api/user/register`, req, config);
-    
+
+    // 发送登录请求，并等待响应
+    const response = await axios.post<BaseResp>(`${BASE_URL}/api/trade/work/create`, req, config);
     // 非 200 报错
     if (response.data.code != "200") {
       throw new Error("状态码错误")
@@ -29,10 +29,9 @@ export const register = async (req: RegisterReq): Promise<BaseRegisterResp> => {
   }
 };
 
-// 登录
-export const login = async (req: LoginReq): Promise<BaseLoginResp> => {
+// 更新商品状态
+export const updateWork = async (req: WorkUpdateReq): Promise<BaseResp> => {
   try {
-    // 发送登录请求，并等待响应
     const token = localStorage.getItem("token")
 
     // 构造请求配置对象
@@ -41,8 +40,9 @@ export const login = async (req: LoginReq): Promise<BaseLoginResp> => {
         Authorization: `Bearer ${token}`, // 设置 Authorization 请求头
       },
     };
+
     // 发送登录请求，并等待响应
-    const response = await axios.post<BaseLoginResp>(`${BASE_URL}/api/user/login`, req, config);
+    const response = await axios.post<BaseResp>(`${BASE_URL}/api/trade/work/update`, req, config);
     // 非 200 报错
     if (response.data.code != "200") {
       throw new Error("状态码错误")
@@ -55,21 +55,9 @@ export const login = async (req: LoginReq): Promise<BaseLoginResp> => {
   }
 };
 
-// 登出
-export const logout = () => {
+// 分页获取商品列表
+export const getWorkList = async (req: WorkListReq): Promise<BaseWorkListResp> => {
   try {
-    localStorage.removeItem("loginStatus")
-    localStorage.removeItem("token")
-  } catch (error: any) {
-    // 捕获请求失败的错误，并抛出异常
-    throw new Error(error.msg);
-  }
-};
-
-// 查看用户信息
-export const getUserInfo = async (req: UserInfoReq): Promise<BaseUserInfoResp> => {
-  try {
-    // 发送登录请求，并等待响应
     const token = localStorage.getItem("token")
 
     // 构造请求配置对象
@@ -78,8 +66,9 @@ export const getUserInfo = async (req: UserInfoReq): Promise<BaseUserInfoResp> =
         Authorization: `Bearer ${token}`, // 设置 Authorization 请求头
       },
     };
+
     // 发送登录请求，并等待响应
-    const response = await axios.post<BaseUserInfoResp>(`${BASE_URL}/api/user/userinfo`, req, config);
+    const response = await axios.post<BaseWorkListResp>(`${BASE_URL}/api/trade/work/list`, req, config);
     // 非 200 报错
     if (response.data.code != "200") {
       throw new Error("状态码错误")
@@ -92,10 +81,9 @@ export const getUserInfo = async (req: UserInfoReq): Promise<BaseUserInfoResp> =
   }
 };
 
-// 关注
-export const follow = async (req: FollowReq): Promise<BaseResp> => {
+// 获取商品详情
+export const getWorkDetail = async (req: WorkDetailReq): Promise<BaseWorkDetailResp> => {
   try {
-    // 发送登录请求，并等待响应
     const token = localStorage.getItem("token")
 
     // 构造请求配置对象
@@ -104,8 +92,9 @@ export const follow = async (req: FollowReq): Promise<BaseResp> => {
         Authorization: `Bearer ${token}`, // 设置 Authorization 请求头
       },
     };
+
     // 发送登录请求，并等待响应
-    const response = await axios.post<BaseResp>(`${BASE_URL}/api/user/follow`, req, config);
+    const response = await axios.post<BaseWorkDetailResp>(`${BASE_URL}/api/trade/work/detail`, req, config);
     // 非 200 报错
     if (response.data.code != "200") {
       throw new Error("状态码错误")
@@ -118,20 +107,20 @@ export const follow = async (req: FollowReq): Promise<BaseResp> => {
   }
 };
 
-// 查看关注列表
-export const getFollowList = async (req: FollowListReq): Promise<BaseFollowListView> => {
+// 创建交易记录
+export const createRecord = async (req: RecordCreateReq): Promise<BaseResp> => {
   try {
-    // 发送登录请求，并等待响应
     const token = localStorage.getItem("token")
 
     // 构造请求配置对象
     const config: AxiosRequestConfig = {
       headers: {
-      Authorization: `Bearer ${token}`, // 设置 Authorization 请求头
+        Authorization: `Bearer ${token}`, // 设置 Authorization 请求头
       },
     };
+
     // 发送登录请求，并等待响应
-    const response = await axios.post<BaseFollowListView>(`${BASE_URL}/api/user/follow/list`, req, config);
+    const response = await axios.post<BaseResp>(`${BASE_URL}/api/trade/record/create`, req, config);
     // 非 200 报错
     if (response.data.code != "200") {
       throw new Error("状态码错误")
@@ -144,4 +133,28 @@ export const getFollowList = async (req: FollowListReq): Promise<BaseFollowListV
   }
 };
 
+// 获取交易记录列表
+export const getRecordList = async (req: RecordListReq): Promise<BaseRecordListResp> => {
+  try {
+    const token = localStorage.getItem("token")
 
+    // 构造请求配置对象
+    const config: AxiosRequestConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`, // 设置 Authorization 请求头
+      },
+    };
+
+    // 发送登录请求，并等待响应
+    const response = await axios.post<BaseRecordListResp>(`${BASE_URL}/api/trade/record/list`, req, config);
+    // 非 200 报错
+    if (response.data.code != "200") {
+      throw new Error("状态码错误")
+    }
+    // 返回响应数据
+    return response.data;
+  } catch (error: any) {
+    // 捕获请求失败的错误，并抛出异常
+    throw new Error(error.msg);
+  }
+};

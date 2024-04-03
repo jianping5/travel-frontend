@@ -26,7 +26,7 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onClose, onLogin }) => {
 
       // 设置登录态
       localStorage.setItem("loginStatus", "true")
-      localStorage.setItem("accessToken", data.accessToken)
+      localStorage.setItem("token", data.accessToken)
 
       onClose();
       onLogin();

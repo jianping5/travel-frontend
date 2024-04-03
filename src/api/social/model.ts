@@ -1,11 +1,3 @@
-// 用户
-type UserInfoView = {
-  id: number
-  account: string
-  avatar: string
-  email: string
-}
-
 // 收藏
 type FavoriteCreateReq = {
   name: string
@@ -211,6 +203,12 @@ type CommunityDynamicListResp = {
   total: number
 }
 
+interface BaseCommunityDynamicListResp {
+  code: string
+  data: CommunityDynamicListResp
+  msg: string
+}
+
 // 创作
 type ContentCreateReq = {
   itemType: number
@@ -270,12 +268,26 @@ type ContentSimpleView = {
   likeCount: number
   createTime: string
 }
+
 type ContentDetailResp = {
   contentDetail: ContentView
 }
+
+interface BaseContentDetailResp {
+  code: string
+  data: ContentDetailResp
+  msg: string
+}
+
 type ContentListResp = {
   list: ContentView[]
   total: number
+}
+
+interface BaseContentListResp {
+  code: string
+  data: ContentListResp
+  msg: string
 }
 
 // 评论
@@ -323,6 +335,12 @@ type CommentListResp = {
   total: number
 }
 
+interface BaseCommentListResp {
+  code: string
+  data: CommentListResp
+  msg: string
+}
+
 // 消息
 type MessageCreateReq = {
   userIds: number[]
@@ -332,6 +350,7 @@ type MessageCreateReq = {
   messageUserId: number
   content: string
 }
+
 interface MessageDeleteReq {
   id: number;
 }
@@ -358,6 +377,12 @@ interface MessageListResp {
   list: MessageView[];
 }
 
+interface BaseMessageListResp {
+  code: string
+  data: MessageListResp
+  msg: string
+}
+
 // 用户空间
 interface UserHomeListReq {
   userId: number;
@@ -368,6 +393,12 @@ interface UserHomeListResp {
   recentVideoList: ContentView[];
   recommendArticleList: ContentView[];
   recommendVideoList: ContentView[];
+}
+
+interface BaseUserHomeListResp {
+  code: string
+  data: UserHomeListResp
+  msg: string
 }
 
 interface UserHomeContentListReq {
@@ -383,6 +414,12 @@ interface UserHomeContentListResp {
   total: number;
 }
 
+interface BaseUserHomeContentListResp {
+  code: string
+  data: UserHomeContentListResp
+  msg: string
+}
+
 interface UserHomeDynamicListReq {
   userId: number;
   pageNum: number;
@@ -392,6 +429,12 @@ interface UserHomeDynamicListReq {
 interface UserHomeDynamicListResp {
   list: CommunityDynamicView[];
   total: number;
+}
+
+interface BaseUserHomeDynamicListResp {
+  code: string
+  data: UserHomeDynamicListResp
+  msg: string
 }
 
 // 点赞
@@ -438,6 +481,12 @@ interface CopyrightDetailResp {
   userInfo: UserInfoView;
 }
 
+interface BaseCopyrightDetailResp {
+  code: string
+  data: CopyrightDetailResp
+  msg: string
+}
+
 interface CopyrightListResp {
   list: CopyrightView[];
 }
@@ -452,6 +501,12 @@ type ContentSimilarReq = {
 
 type ContentSimilarResp = {
   list: ContentView[]
+}
+
+interface BaseContentSimilarResp {
+  code: string
+  data: ContentSimilarReq
+  msg: string
 }
 
 // 检索
@@ -470,4 +525,10 @@ type SearchResp = {
   dynamicList: CommunityDynamicView[]
   copyrightList: CopyrightView[]
   total: number
+}
+
+interface BaseSearchResp {
+  code: string
+  data: SearchReq
+  msg: string
 }

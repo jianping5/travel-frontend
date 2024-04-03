@@ -3,3 +3,10 @@ type BaseResp = {
   data: any,
   msg: string
 }
+
+interface UserInfoView {
+  userId: number;
+  account: string;
+  email: string;
+  avatar: string;
+}
