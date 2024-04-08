@@ -9,49 +9,46 @@ import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import React from 'react';
 import Typography from '@mui/material/Typography';
+import { timeAgo } from '@/utils/tool';
 
 type AppCardProps = {
-  url: string,
-  title: string,
-  channelTitle: string,
-  videoId: number,
+  props: ContentView
 }
 
-const AppCard: React.FC<AppCardProps> = ({ url, title, channelTitle, videoId }) => {
-  const truncatedTitle = title.length > 100 ? `${title.substring(0, 100)}...` : title;
+const AppCard: React.FC<AppCardProps> = ({ props }) => {
+  const truncatedTitle = props.title.length > 100 ? `${props.title.substring(0, 100)}...` : props.title;
 
   return (
-    <Link href={`https://www.youtube.com/watch?v=${videoId}`} underline="none" sx={{ position: 'relative', display: 'inline-block' }}>
+    <Link href={`/video?id=${props.id}`} underline="none" sx={{ position: 'relative', display: 'inline-block' }}>
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'transparent', zIndex: 1 }}></div>
       <Card sx={{ display: 'flex', borderRadius: 0, boxShadow: 'none', border: 'none', position: 'relative', zIndex: 2 }}>
-        <CardMedia component="img" sx={{width: 150, height: 100, objectFit: 'cover', borderRadius: '5px'}}  image={url} alt={title} />
+        <CardMedia component="img" sx={{width: 150, height: 100, objectFit: 'cover', borderRadius: '5px'}}  image={props.coverUrl} alt={props.title} />
         
         <CardContent sx={{ flex: 1, padding: 1, marginLeft: '-15px'}}>
           <List sx={{ display: 'flex', flexDirection: 'column', padding: 0 }}>
-            <ListItem sx={{ alignItems: 'center', marginTop: '-15px' }}>
-              <ListItemAvatar>
-                <Avatar
-                  alt="Channel avatar"
-                  src={`https://i.pravatar.cc/150?img=1`}
-                  sx={{ width: 25, height: 25, borderRadius: '50%' }}
-                />
-              </ListItemAvatar>
-              <Typography variant="body2" sx={{ color: '#606060', fontSize: '0.7rem', lineHeight: '1', marginLeft: '-22px' }}>
-                {channelTitle}
-              </Typography>
-            </ListItem>
-
             <ListItem sx={{ marginTop: '-10px'}}>
               <Typography variant="h6" sx={{ color: '#000000', fontWeight: 'medium', fontSize: '1rem', lineHeight: '1.2', WebkitLineClamp: 2, overflow: 'hidden', display: '-webkit-box', WebkitBoxOrient: 'vertical', textOverflow: 'ellipsis', wordBreak: 'break-word' }}>
                 {truncatedTitle}
               </Typography>
             </ListItem>
-
-            {/* <ListItem>
-              <Typography variant="body2" sx={{ color: '#606060', fontSize: '0.8rem', lineHeight: '1' }}>
-                100k views
+            <ListItem sx={{ alignItems: 'center', marginTop: '-10px' }}>
+              <ListItemAvatar>
+                <Avatar
+                  alt="Channel avatar"
+                  src={props.userInfo.avatar}
+                  sx={{ width: 25, height: 25, borderRadius: '50%' }}
+                />
+              </ListItemAvatar>
+              <Typography variant="body2" sx={{ color: '#606060', fontSize: '0.7rem', lineHeight: '1', marginLeft: '-20px'}}>
+                {props.userInfo.account}
               </Typography>
-            </ListItem> */}
+            </ListItem>
+
+            <ListItem>
+              <Typography variant="body2" sx={{ color: '#606060', fontSize: '0.8rem', lineHeight: '1', mt: '-10px' }}>
+                {props.likeCount} likes · {timeAgo(new Date(props.createTime).getTime())}
+              </Typography>
+            </ListItem>
           </List>
         </CardContent>
       </Card>

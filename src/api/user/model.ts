@@ -57,12 +57,12 @@ type BaseUserInfoResp = {
 
 // 关注
 type FollowReq = {
-  id: string,
+  id: number,
   type: boolean
 }
 
 type FollowListReq = {
-  id: string,
+  id: number,
   pageNum: number,
   pageSize: number
 }

@@ -5,13 +5,13 @@ import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 
 type TabListProps = {
-    onTabChange: (searchValue: string) => void;
+    onTabChange: (searchValue: number) => void;
 }
 
 const TabList: React.FC<TabListProps> = ( { onTabChange }) => {
-  const [value, setValue] = React.useState('All');
+  const [value, setValue] = React.useState(0);
 
-  const handleChange = (event: any, newValue: string) => {
+  const handleChange = (event: any, newValue: number) => {
     setValue(newValue);
     onTabChange(newValue);
   };
@@ -26,7 +26,7 @@ const TabList: React.FC<TabListProps> = ( { onTabChange }) => {
         aria-label="scrollable tabs"
       >
         {tabItems.map((item) => {
-          return <Tab value={item.text} key={item.id} label={item.text} />;
+          return <Tab value={item.id} key={item.id} label={item.text} />;
         })}
       </Tabs>
     </Box>

@@ -5,30 +5,36 @@ import SideList from '../side/SideList';
 import { appContentWrapper, flexColumnGrow } from '../../styles/styles';
 import TabList from './TabList';
 import CardList from './CardList';
-import { getYoutubeAPIData } from '../../api/axios';
+import { getContentList } from '@/api/social/social-api';
 import ThemeContext from '../../context/ThemeContext';
-import { youtubeResponse } from '@/data/app.data';
+import { ItemType } from '@/api/enum';
 
 const Home = () => {
-  const [youtubeData, setYoutubeData] = useState([]);
+  const [ contentList, setContentList] = useState<ContentView[]>([]);
   const { homeTabType, setHomeTabType, mobileOpen } = useContext(ThemeContext);
 
+  const handleGetContentList = async (req: ContentListReq) => {
+    try {
+      const response = await getContentList(req)
+      const data = response.data
+      setContentList(data.list || [])
+    } catch(err) {
+      console.log(err)
+    }
+  }
+
   useEffect(() => {
-    // getYoutubeAPIData(homeTabType).then((response) => {
-      // setYoutubeData(response.data.items);
-    // });
+    const req: ContentListReq = {
+      contentType: homeTabType,
+      itemType: ItemType.VIDEO,
+      pageNum: 1,
+      pageSize: 10
+    }
+    handleGetContentList(req)
   }, [homeTabType]);
 
-  // if (!youtubeData.length) {
-  //   return;
-  // }
-
-  // 静态数据
-  const items1 = youtubeResponse
-  // const items1 = youtubeData.slice(0, 8)
-
-  const onTabChange = (searchValue: string) => {
-    setHomeTabType(searchValue);
+  const onTabChange = (value: number) => {
+    setHomeTabType(value);
   };
 
   const sideBarWidth = mobileOpen ? '70px' : '250px';
@@ -64,7 +70,7 @@ const Home = () => {
             width: `calc(100vw - ${sideBarWidth})`,
           }}
         >
-          <CardList items={items1} />
+          <CardList items={contentList} />
         </Box>
       </Box>
     </Box>

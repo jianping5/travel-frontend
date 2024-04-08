@@ -1,10 +1,8 @@
 'use client'
 import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
+
 import ReplyIcon from '@mui/icons-material/Reply';
 import SendIcon from '@mui/icons-material/Send';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -13,36 +11,78 @@ import TextField from '@mui/material/TextField';
 import Collapse from '@mui/material/Collapse';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-
-const sampleComments = [
-  { id: 1, username: 'User1', content: 'To anybody reading this, I pray that whatever is hurting you or whatever you are constantly stressing about gets better. May the dark thoughts, the overthinking, and the doubt exit your mind may clarity replace confusion. may peace and calmness fill your life.', 
-  replies: [
-    { id: 3, username: 'User2', content: 'To the beautiful soul reading this, if you are going through a hard time, know that it is only temporary. You will overcome it and manifest all that you desire. ❤🧡💛💚💙💜', liked: false },
-    { id: 5, username: 'User3', content: 'This sound is so wonderful. The person who is reading this comment , i wish you great success , health, love and happiness', liked: false }
-  ], avatar: '/path/to/user1.jpg', liked: false },
-  { id: 2, username: 'User2', content: 'Thank you God for youre Stunning Natural Beauty of Nature For all of us to admire', 
-  replies: [
-    { id: 7, username: 'User2', content: 'Amazon is so beautiful, I also want to have a trip to Amazon in the future to experience', liked: false },
-    { id: 9, username: 'User3', content: 'I like this song and Place look so Beautiful Relaxing Soul and mind Thank you for you show view your YouTube .', liked: false }
-  ], avatar: '/path/to/user2.jpg', liked: false },
-  // Add more sample comments as needed
-];
+import DeleteIcon from '@mui/icons-material/Delete';
+import { ItemType } from '@/api/enum';
+import { createComment, deleteComment, getCommentList, like } from '@/api/social/social-api';
+import { timeAgo } from '@/utils/tool';
+import { Box, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, Popover } from '@mui/material';
+import { IoMdMore } from "react-icons/io";
+import { error } from 'console';
 
 type ExpandedComments = Record<number, boolean>;
 
-export default function Comment() {
+type CommentProps = {
+  id: number,
+  itemType: ItemType
+}
+
+const Comment: React.FC<CommentProps> = ({ id, itemType }) => {
   const [expandedCommentId, setExpandedCommentId] = React.useState<ExpandedComments>({});
   const [newComment, setNewComment] = React.useState('');
-  const [comments, setComments] = React.useState(sampleComments);
+  const [items, setItems] = React.useState<CommentListView[]>([]);
   const [replyText, setReplyText] = React.useState<string>('');
   const [selectedCommentId, setSelectedCommentId] = React.useState<number | null>(null);
+  const [isHovered, setIsHovered] = React.useState<{ [key: number]: boolean }>({});
+  const [moreAnchorEl, setMoreAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+  const [selectedCommentToDelete, setSelectedCommentToDelete] = React.useState<number | null>(null);
+
+  // 发布评论
+  const handleCreateComment = async (req: CommentCreateReq) => {
+    try {
+      await createComment(req)
+      await handleGetCommentList()
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  // 获取评论
+  const handleGetCommentList = async (pageNum = 1, pageSize = 10) => {
+    try {
+      const commentReq: CommentListReq = {
+        commentItemType: itemType,
+        commentItemId: id,
+        pageNum: pageNum,
+        pageSize: pageSize
+      }
+      const response = await getCommentList(commentReq)
+      const data = response.data
+      setItems(data.list || [])
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  React.useEffect(() => {
+    handleGetCommentList()
+  }, [])
+
 
   const handleReplyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setReplyText(event.target.value);
   };
 
-  const handlePublishReply = (commentId: number) => {
-    console.log('Publishing reply:', replyText, 'to comment id:', commentId);
+  const handlePublishReply = (topId: number, parentUserId: number) => {
+    console.log('Publishing reply:', replyText, 'to comment id:', topId);
+    // Add reply
+    const req: CommentCreateReq = {
+      commentItemId: id,
+      commentItemType: itemType,
+      parentUserId: parentUserId,
+      topId: topId,
+      content: replyText
+    }
+    handleCreateComment(req)
     setReplyText('');
     setSelectedCommentId(null);
   };
@@ -58,9 +98,20 @@ export default function Comment() {
     setNewComment(event.target.value);
   };
 
-  const handlePublish = () => {
+  const handlePublish = async () => {
     // Add logic to publish new comment
     console.log('Publishing comment:', newComment);
+    if (newComment == "") {
+      throw new Error("输入不能为空")
+    }
+    const req: CommentCreateReq = {
+      commentItemId: id,
+      commentItemType: itemType,
+      parentUserId: 0,
+      topId: 0,
+      content: newComment
+    }
+    handleCreateComment(req)
     setNewComment(''); // Clear comment field after publishing
   };
 
@@ -69,15 +120,48 @@ export default function Comment() {
     setNewComment('');
   };
 
-  const handleLike = (commentId: any) => {
-    const updatedComments = comments.map(comment => {
-      if (comment.id === commentId) {
-        return { ...comment, liked: !comment.liked };
+  // 点赞评论
+  const handleLike = async (commentId: number, likedStatus: boolean) => {
+    try {
+      const req: LikeReq = {
+        itemType: ItemType.COMMENT,
+        itemId: commentId,
+        likedStatus: likedStatus
       }
-      return comment;
-    });
-    setComments(updatedComments);
+      await like(req)
+      await handleGetCommentList()
+    } catch (err) {
+      console.log(err)
+    }
   };
+
+  const handleMoreClick = (event: React.MouseEvent<HTMLButtonElement>, commentId: number) => {
+    setMoreAnchorEl(event.currentTarget);
+    setSelectedCommentToDelete(commentId);
+  };
+
+  const handleMoreClose = () => {
+    setMoreAnchorEl(null);
+    setSelectedCommentToDelete(null);
+  };
+
+  // 删除评论
+  const handleDeleteComment = async (commentId: number) => {
+    // 调用删除评论的函数
+    console.log('Deleting comment with id:', commentId);
+    try {
+      const req: CommentDeleteReq = {
+        id: commentId
+      }
+      await deleteComment(req)
+    } catch (err) {
+      console.log(err)
+    }
+    await handleGetCommentList()
+    handleMoreClose(); // 关闭更多选项菜单
+  };
+
+  const isMoreMenuOpen = Boolean(moreAnchorEl);
 
   return (
     <div>
@@ -100,24 +184,65 @@ export default function Comment() {
           </Stack>
         </div>
       </div>
-      {comments.map(comment => (
-        <div key={comment.id} style={{ width: '100%', borderRadius: 0, border: 'none'}}>
-          <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-            <Avatar src={comment.avatar} sx={{ width: 35, height: 35 }}/>
-            <div style={{ marginLeft: '1rem', width: '100%', marginBottom:'1rem' }}>
-              <Typography variant="body1" gutterBottom>{comment.username}</Typography>
-              <Typography variant="body2" sx={{fontSize:'1rem', fontWeight:'medium'}}>{comment.content}</Typography>
-              <Stack direction="row" spacing={2}>
-                <IconButton onClick={() => handleExpandClick(comment.id)}>
-                  <ReplyIcon />
-                </IconButton>
-                <IconButton onClick={() => handleLike(comment.id)}>
-                  {comment.liked ? <ThumbUpIcon /> : <ThumbUpIcon color="disabled" />}
-                </IconButton>
-                <Button onClick={() => setSelectedCommentId(comment.id)}>Reply</Button>
-              </Stack>
-              {selectedCommentId  === comment.id && (
-                <div style={{ marginTop: '1rem' }}>
+      {items.map(item => (
+        <div key={item.topComment.id} 
+          style={{ width: '100%', borderRadius: 0, border: 'none'}}>
+          <div style={{ display: 'flex', alignItems: 'flex-start' }}
+            onMouseEnter={() => {setIsHovered({[item.topComment.id]: true})}}
+            onMouseLeave={() => {setIsHovered({[item.topComment.id]: false})}}>
+            <Avatar src={item.topComment.userInfo.avatar} sx={{ width: 35, height: 35 }}/>
+            <div style={{ marginLeft: '1rem', width: '100%', marginBottom:'1rem', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div>
+                  <Typography variant="body1" gutterBottom>
+                    {item.topComment.userInfo.account}
+                    <span style={{ color: '#606060', fontSize: '0.8rem', marginLeft: '10px' }}>{timeAgo(new Date(item.topComment.createTime).getTime())}</span>
+                  </Typography>
+                  <Typography variant="body2" sx={{fontSize:'1rem', fontWeight:'medium'}}>{item.topComment.content}</Typography>
+                  <Stack direction="row" spacing={2}>
+                    <IconButton onClick={() => handleExpandClick(item.topComment.id)}>
+                      <ReplyIcon />
+                      <span style={{ color: '#606060', fontSize: '0.8rem', marginLeft: '10px' }}>{item.topComment.replyCount}</span>
+                    </IconButton>
+                    <IconButton onClick={() => handleLike(item.topComment.id, item.topComment.isLiked)}>
+                      {item.topComment.isLiked ? <ThumbUpIcon /> : <ThumbUpIcon color="disabled" />}
+                      <span style={{ color: '#606060', fontSize: '0.8rem', marginLeft: '10px' }}>{item.topComment.likeCount}</span>
+                    </IconButton>
+                    <Button onClick={() => setSelectedCommentId(item.topComment.id)} sx={{ textTransform: 'none'}}>Reply</Button>
+                  </Stack>
+                </div>
+                <div>
+                  {isHovered[item.topComment.id] && 
+                    <IconButton
+                      aria-label="more"
+                      aria-controls="more-menu"
+                      aria-haspopup="true"
+                      onClick={(event) => handleMoreClick(event, item.topComment.id)}>
+                      <IoMdMore />
+                    </IconButton>
+                  }
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={moreAnchorEl}
+                    open={isMoreMenuOpen && selectedCommentToDelete === item.topComment.id}
+                    onClose={handleMoreClose}
+                    MenuListProps={{
+                      'aria-labelledby': 'basic-button',
+                    }}
+                  >
+                    <Box sx={{ minWidth: 170 }}>
+                      <ListItem disablePadding>
+                        <ListItemButton onClick={() => handleDeleteComment(item.topComment.id)}>
+                          <ListItemIcon><DeleteIcon/></ListItemIcon>
+                          <ListItemText primary='Delete' sx={{ ml: '-20px'}} />
+                        </ListItemButton>
+                      </ListItem>
+                    </Box>
+                  </Menu>
+                </div>
+              </div>
+              {selectedCommentId  === item.topComment.id && (
+                <div style={{ marginTop: '1rem', flexGrow: 1 }}>
                   <TextField
                     fullWidth
                     multiline
@@ -126,28 +251,67 @@ export default function Comment() {
                     onChange={handleReplyChange}
                   />
                   <Stack direction="row" alignItems="center" spacing={2} style={{ marginTop: '1rem' }}>
-                    <Button onClick={() => handlePublishReply(comment.id)}>Publish</Button>
-                    <Button onClick={() => setSelectedCommentId(null)}>Cancel</Button>
+                    <Button onClick={() => handlePublishReply(item.topComment.id, item.topComment.userId)} sx={{ textTransform: 'none'}}>Publish</Button>
+                    <Button onClick={() => setSelectedCommentId(null)} sx={{ textTransform: 'none'}}>Cancel</Button>
                   </Stack>
                 </div>
               )}
             </div>
           </div>
-          <Collapse in={expandedCommentId[comment.id]} timeout="auto" unmountOnExit>
+          <Collapse in={expandedCommentId[item.topComment.id]} timeout="auto" unmountOnExit>
             <div style={{ paddingLeft: '2.5rem', marginTop:'0rem' }}>
-              {comment.replies.map((reply, index) => (
-                <div key={index} style={{ marginBottom: '1rem' }}>
+              {item.commentList?.map(reply => (
+                <div key={reply.id} style={{ marginBottom: '1rem' }}
+                  onMouseEnter={() => {setIsHovered({[reply.id]: true})}}
+                  onMouseLeave={() => {setIsHovered({[reply.id]: false})}}>
                   <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-                    <Avatar src={comment.avatar} sx={{ width: 25, height: 25, marginRight: '0.5rem' }} />
-                    <div style={{ width: '100%' }}>
-                      <Typography variant="body1" gutterBottom>{reply.username}</Typography>
-                      <Typography variant="body2" style={{ fontSize:'0.99rem', fontWeight:'medium'}}>{reply.content}</Typography>
-                      <Stack direction="row" spacing={2}>
-                        <IconButton onClick={() => handleLike(reply.id)}>
-                          {reply.liked ? <ThumbUpIcon /> : <ThumbUpIcon color="disabled" />}
-                        </IconButton>
-                        <Button onClick={() => setSelectedCommentId(reply.id)}>Reply</Button>
-                      </Stack>
+                    <Avatar src={reply.userInfo.avatar} sx={{ width: 25, height: 25, marginRight: '0.5rem' }} />
+                    <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <div>
+                          <Typography variant="body1" gutterBottom>
+                            {reply.userInfo.account}
+                            <span style={{ color: '#606060', fontSize: '0.8rem', marginLeft: '10px' }}>{timeAgo(new Date(reply.createTime).getTime())}</span>
+                          </Typography>
+                          <Typography variant="body2" style={{ fontSize:'0.99rem', fontWeight:'medium'}}>{reply.content}</Typography>
+                          <Stack direction="row" spacing={2}>
+                            <IconButton onClick={() => handleLike(reply.id, reply.isLiked)}>
+                              {reply.isLiked ? <ThumbUpIcon /> : <ThumbUpIcon color="disabled" />}
+                              <span style={{ color: '#606060', fontSize: '0.8rem', marginLeft: '10px' }}>{reply.likeCount}</span>
+                            </IconButton>
+                            <Button onClick={() => setSelectedCommentId(reply.id)} sx={{ textTransform: 'none'}}>Reply</Button>
+                          </Stack>
+                        </div>
+                        <div>
+                          {isHovered[reply.id] && 
+                            <IconButton
+                              aria-label="more"
+                              aria-controls="more-menu"
+                              aria-haspopup="true"
+                              onClick={(event) => handleMoreClick(event, reply.id)}>
+                              <IoMdMore />
+                            </IconButton>
+                          }
+                          <Menu
+                            id="basic-menu"
+                            anchorEl={moreAnchorEl}
+                            open={isMoreMenuOpen && selectedCommentToDelete === reply.id}
+                            onClose={handleMoreClose}
+                            MenuListProps={{
+                              'aria-labelledby': 'basic-button',
+                            }}
+                          >
+                            <Box sx={{ minWidth: 170 }}>
+                              <ListItem disablePadding>
+                                <ListItemButton onClick={() => handleDeleteComment(reply.id)}>
+                                  <ListItemIcon><DeleteIcon/></ListItemIcon>
+                                  <ListItemText primary='Delete' sx={{ ml: '-20px'}} />
+                                </ListItemButton>
+                              </ListItem>
+                            </Box>
+                          </Menu>
+                        </div>
+                      </div>
                       {selectedCommentId  === reply.id && (
                         <div style={{ marginTop: '1rem' }}>
                           <TextField
@@ -158,8 +322,8 @@ export default function Comment() {
                             onChange={handleReplyChange}
                           />
                           <Stack direction="row" alignItems="center" spacing={2} style={{ marginTop: '1rem' }}>
-                            <Button onClick={() => handlePublishReply(reply.id)}>Publish</Button>
-                            <Button onClick={() => setSelectedCommentId(null)}>Cancel</Button>
+                            <Button onClick={() => handlePublishReply(reply.topId, reply.userId)} sx={{ textTransform: 'none'}}>Publish</Button>
+                            <Button onClick={() => setSelectedCommentId(null)} sx={{ textTransform: 'none'}}>Cancel</Button>
                           </Stack>
                         </div>
                       )}
@@ -169,10 +333,10 @@ export default function Comment() {
               ))}
             </div>
           </Collapse>
-
-
         </div>
       ))}
     </div>
   );
 }
+
+export default Comment;

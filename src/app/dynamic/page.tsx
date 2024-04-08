@@ -8,17 +8,67 @@ import { appContentWrapper, appWrapper, flexColumnGrow } from "@/styles/styles";
 import Box from "@mui/material/Box"
 import { useSearchParams } from "next/navigation";
 import { Suspense, useContext, useEffect, useState } from "react";
-import dynamic from 'next/dynamic';
-import { Avatar, Button, Card, CardContent, CardHeader, CardMedia, Divider, Typography } from "@mui/material";
+import { Avatar, Button, Card, CardContent, CardHeader, CardMedia, Divider, IconButton, Typography } from "@mui/material";
 import RelatedVideo from "@/components/video/RelatedVideo";
 import CommunityInfo from "@/components/community/CommunityInfo";
 import Comment from "@/components/comment/Comment";
+import { getDynamicDetail, like } from "@/api/social/social-api";
+import { formatNumber, timeAgo } from "@/utils/tool";
+import { FileType, ItemType } from "@/api/enum";
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import dynamic from "next/dynamic";
+import { follow } from "@/api/user/user-api";
+import { RiUserFollowFill } from "react-icons/ri";
 
 function OriginDynamic() {
-  const [youtubeData, setYoutubeData] = useState([]);
+  const [dynamicDetail, setDynamicDetail] = useState<CommunityDynamicView>();
   const { setSearch, searchTabType, setSearchTabType, mobileOpen } = useContext(ThemeContext);
   const searchParams = useSearchParams();
-  const DynamicReactPlayer = dynamic(() => import('react-player'), { ssr: false });
+
+  const id = searchParams.get("id") || ""
+
+  // 获取动态详情
+  const handleGetDynamicDetail = async () => {
+    try {
+      const req: CommunityDynamicDetailReq = {
+        id: parseInt(id)
+      }
+      const response = await getDynamicDetail(req)
+      const data = response.data
+      setDynamicDetail(data.dynamicDetail)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  // 点赞
+  const handleLike = async (itemId: number = 0, likedStatus: boolean = false) => {
+    try {
+      const req: LikeReq = {
+        itemType: ItemType.DYNAMIC,
+        itemId: itemId,
+        likedStatus: likedStatus
+      }
+      await like(req)
+      await handleGetDynamicDetail()
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  // 关注
+  const handleFollow = async (id: number = 0, type: boolean = false) => {
+  try {
+    const req: FollowReq = {
+      id: id,
+      type: type
+    }
+    await follow(req)
+    await handleGetDynamicDetail()
+  } catch (err) {
+    console.log(err)
+  }
+  }
 
   // 视频框架懒加载
   const [videoLoaded, setVideoLoaded] = useState(false);
@@ -28,46 +78,40 @@ function OriginDynamic() {
   };
 
   useEffect(() => {
-    setVideoLoaded(true);
-  }, []);
-
-  useEffect(() => {
-    const query = searchParams.get("q") || ''
-    setSearch(query)
-    // todo：结合选择类别进行对应的搜索
-    // getYoutubeAPIData(query).then((response) => {
-      // setYoutubeData(response.data.items);
-    // });
+    handleGetDynamicDetail()
   }, [searchParams, searchTabType]);
-
-  // 静态数据
-  const items1 = youtubeResponse
-  // const items1 = youtubeData.slice(0, 8)
   
   const sideBarWidth = mobileOpen ? '70px' : '250px';
 
   // 动态类型
-  let DynamicContent = 
-  <>
-    {videoLoaded ? (
-    <DynamicReactPlayer
-      url="https://videocdn.cdnpk.net/joy/content/video/free/video0461/large_preview/_import_60e0167b4c3a96.14254367.mp4"
-      controls
-      width="100%"
-      height="auto"
-    />
-    ) : (
-    <div style={{ width: '100%', height: '550px', backgroundColor: 'black' }}>
-      {/* 播放器框架 */}
-    </div>
-    )}
-  </>
-
-  DynamicContent = 
-  <>
-    <CardMedia component="img" sx={{width: '100%', height: 'auto', objectFit: 'cover'}}  image='https://i.ytimg.com/vi/hWS6rXO_xI8/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBdMCNk0neI9lcnP7kIYqTffX30SA' alt='image' />
-  </>
-
+  let DynamicContent
+  switch(dynamicDetail?.fileType) {
+    case FileType.Picture:
+      DynamicContent = 
+        <>
+          <CardMedia component="img" sx={{width: '100%', height: 'auto', objectFit: 'cover'}}  image={dynamicDetail.content} alt='image' />
+        </>
+      break;
+    case FileType.Video:
+      DynamicContent = 
+        <>
+          <video
+          src={dynamicDetail.content}
+          controls
+          width="100%"
+          height="auto"
+          style={{ borderRadius: '12px'}}
+          />
+        </>
+      break;
+    case FileType.Text:
+      DynamicContent = 
+        <>
+        <Typography>
+          {dynamicDetail.content}
+        </Typography>
+        </>
+  }
 
   return (
     <Box sx={appWrapper}>
@@ -100,17 +144,17 @@ function OriginDynamic() {
                 <div style={{ marginBottom: '10px' }}>
                   <div>
                     <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                      <Avatar src="/path/to/avatar.jpg" />
-                      <Typography variant="body1" sx={{ marginLeft: '10px', fontWeight: 'bold' }}>jianping5</Typography>
-                      <Typography variant="body1" sx={{ marginLeft: '10px', fontWeight: 'medium', fontSize: '1rem', color: 'LigthGray' }}>· 1 hr ago</Typography>
+                      <Avatar src={dynamicDetail?.userInfo.avatar} />
+                      <Typography variant="body1" sx={{ marginLeft: '10px', fontWeight: 'bold' }}>{dynamicDetail?.userInfo.account}</Typography>
+                      <Typography variant="body1" sx={{ marginLeft: '10px', fontWeight: 'medium', fontSize: '1rem', color: 'LigthGray' }}>· { dynamicDetail?.createTime && timeAgo(new Date(dynamicDetail?.createTime).getTime())}</Typography>
                     </Box>
                     <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                      Deep Focus Music To Improve Concentration - 12 Hours of Ambient Study Music to Concentrate
+                      {dynamicDetail?.title}
                     </Typography>
 
                     <Divider sx={{ marginTop: '10px' }} />
                     <Typography sx={{ marginTop: '10px' }}>
-                      Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus malesuada, nisl sed ullamcorper pharetra, quam elit aliquet leo, sit amet maximus mauris turpis a velit.
+                      Description: {dynamicDetail?.description}
                     </Typography>
                   </div>
                 </div>
@@ -118,21 +162,32 @@ function OriginDynamic() {
                 {DynamicContent}
 
                 <Box sx={{ marginTop:'20px', marginLeft: 'auto' }}>
-                  <Button variant="outlined" sx={{ marginLeft: '', width:'77px'}}>Like</Button>
-                  <Button variant="outlined" sx={{ marginLeft: '20px', width:'77px' }}>Follow</Button>
+                  {/* 点赞 */}
+                  <div style={{ backgroundColor: '#fafafa', borderRadius: '45px', display: 'inline-block' }}>
+                    <IconButton onClick={() => handleLike(dynamicDetail?.id, dynamicDetail?.isLiked)} sx={{ borderRadius: '45px', width: '100px', backgroundColor: 'inherit', pl: '10px', pr: '10px'}}>
+                      {dynamicDetail?.isLiked ? <ThumbUpIcon /> : <ThumbUpIcon color="disabled" />}
+                      <span style={{ color: '#606060', fontSize: '0.8rem', marginLeft: '10px' }}>{formatNumber(dynamicDetail?.likeCount)}</span>
+                    </IconButton>
+                  </div>
+                  {/* 关注 */}
+                  <div style={{ backgroundColor: '#fafafa', borderRadius: '45px', display: 'inline-block', marginLeft: '10px' }}>
+                    <IconButton onClick={() => handleFollow(dynamicDetail?.userInfo.id, dynamicDetail?.userInfo.isFollowed)} sx={{ borderRadius: '45px', width:'100px', backgroundColor: 'inherit', pl: '10px', pr: '10px'}}>
+                      {dynamicDetail?.userInfo.isFollowed ? <RiUserFollowFill /> : <RiUserFollowFill color="#bbb" />}
+                    </IconButton>
+                  </div>
                 </Box>
 
                 {/* 评论模块 */}
-                <div style={{ marginTop: '20px' }}> 
-                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Comments</Typography>
+                <div style={{ marginTop: '27px', marginBottom: '100px' }}> 
+                  <Typography variant="h6" sx={{ fontWeight: 'bold', mb: '10px' }}>Comments</Typography>
                   {/* 在此添加评论模块 */}
-                  <Comment/>
+                  <Comment id={parseInt(id) || 0} itemType={ItemType.DYNAMIC}/>
                 </div>
               </div>
               {/* 社区信息 */}
               <div style={{ flex: 1, marginLeft: '30px', position: 'sticky', top: '20px', maxHeight: '60px' }}>
                 {/* <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '10px' }}>Related Videos</Typography> */}
-                <CommunityInfo />
+                <CommunityInfo id={dynamicDetail?.communityId || 0}/>
               </div>
             </div>
           </Box>

@@ -134,7 +134,33 @@ export const favor = async (req: FavorReq): Promise<BaseResp> => {
 };
 
 // 取消收藏
-export const cancleFavor = async (req: FavorDeleteReq): Promise<BaseResp> => {
+export const cancelFavor = async (req: FavorCancelReq): Promise<BaseResp> => {
+  try {
+    const token = localStorage.getItem("token")
+
+    // 构造请求配置对象
+    const config: AxiosRequestConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`, // 设置 Authorization 请求头
+      },
+    };
+    
+    // 发送登录请求，并等待响应
+    const response = await axios.post<BaseResp>(`${BASE_URL}/api/social/favor/cancel`, req, config);
+    // 非 200 报错
+    if (response.data.code != "200") {
+      throw new Error("状态码错误")
+    }
+    // 返回响应数据
+    return response.data;
+  } catch (error: any) {
+    // 捕获请求失败的错误，并抛出异常
+    throw new Error(error.msg);
+  }
+};
+
+// 删除收藏
+export const deleteFavor = async (req: FavorDeleteReq): Promise<BaseResp> => {
   try {
     const token = localStorage.getItem("token")
 
@@ -498,6 +524,61 @@ export const listDynamic = async (req: CommunityDynamicListReq): Promise<BaseCom
     throw new Error(error.msg);
   }
 };
+
+// 分页查询指定社区动态
+export const listSpecificDynamic = async (req: CommunityDynamicSpecificListReq): Promise<BaseCommunityDynamicSpecificListResp> => {
+  try {
+    const token = localStorage.getItem("token")
+
+    // 构造请求配置对象
+    const config: AxiosRequestConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`, // 设置 Authorization 请求头
+      },
+    };
+    
+    // 发送登录请求，并等待响应
+    const response = await axios.post<BaseCommunityDynamicSpecificListResp>(`${BASE_URL}/api/social/community/dynamic/specific/list`, req, config);
+    // 非 200 报错
+    if (response.data.code != "200") {
+      throw new Error("状态码错误")
+    }
+    // 返回响应数据
+    return response.data;
+  } catch (error: any) {
+    // 捕获请求失败的错误，并抛出异常
+    throw new Error(error.msg);
+  }
+};
+
+
+// 获取动态详情
+export const getDynamicDetail = async (req: CommunityDynamicDetailReq): Promise<BaseCommunityDynamicDetailResp> => {
+  try {
+    const token = localStorage.getItem("token")
+
+    // 构造请求配置对象
+    const config: AxiosRequestConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`, // 设置 Authorization 请求头
+      },
+    };
+    
+    // 发送登录请求，并等待响应
+    const response = await axios.post<BaseCommunityDynamicDetailResp>(`${BASE_URL}/api/social/community/dynamic/detail`, req, config);
+    // 非 200 报错
+    if (response.data.code != "200") {
+      throw new Error("状态码错误")
+    }
+    // 返回响应数据
+    return response.data;
+  } catch (error: any) {
+    // 捕获请求失败的错误，并抛出异常
+    throw new Error(error.msg);
+  }
+};
+
+
 
 
 // 创作内容

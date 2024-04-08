@@ -5,11 +5,12 @@ import ThemeContext from './ThemeContext'
 const ThemeProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
   const [search, setSearch] = React.useState('')
   const [mobileOpen, setMobileOpen] = React.useState(true);
-  const [homeTabType, setHomeTabType] = React.useState('All')
+  const [homeTabType, setHomeTabType] = React.useState(0)
   const [searchTabType, setSearchTabType] = React.useState('Videos')
   const [userHomeTabType, setUserHomeTabType] = React.useState('home')
   const [intelligenceTabType, setIntelligenceTabType] = React.useState('chat')
   const [tradeTabType, setTradeTabType] = React.useState('home')
+  const [dynamicTabType, setDynamicTabType] = React.useState(0)
 
   const value = {
     search,
@@ -25,7 +26,9 @@ const ThemeProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
     intelligenceTabType,
     setIntelligenceTabType,
     tradeTabType,
-    setTradeTabType
+    setTradeTabType,
+    dynamicTabType,
+    setDynamicTabType
   }
 
   return (

@@ -10,9 +10,11 @@ import { useSearchParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 
 function Search() {
-  const [youtubeData, setYoutubeData] = useState([]);
+  const [communityDetail, setCommunityDetail] = useState([]);
   const { setSearch, searchTabType, mobileOpen } = useContext(ThemeContext);
   const searchParams = useSearchParams();
+
+  const id = searchParams.get("id") || ""
 
   useEffect(() => {
     const query = searchParams.get("q") || ''

@@ -1,48 +1,103 @@
 'use client'
-import { getYoutubeAPIData } from "@/api/axios";
-import ReactPlayer from 'react-player/lazy'
 import SideList from "@/components/side/SideList";
 import ThemeContext from "@/context/ThemeContext";
-import { youtubeResponse } from "@/data/app.data";
 import { appContentWrapper, appWrapper, flexColumnGrow } from "@/styles/styles";
 import Box from "@mui/material/Box"
 import { useSearchParams } from "next/navigation";
 import { Suspense, useContext, useEffect, useState } from "react";
-import dynamic from 'next/dynamic';
-import { Avatar, Button, Card, CardContent, CardHeader, Divider, Typography } from "@mui/material";
-import RelatedVideo from "@/components/video/RelatedVideo";
+import { Avatar, Button, Card, CardContent, Divider, IconButton, Typography } from "@mui/material";
 import CardList from "@/components/video/CardList";
 import Comment from "@/components/comment/Comment";
+import { favor, getCommentList, getContentDetail, getSimilarContentList, like } from "@/api/social/social-api";
+import { ItemType } from "@/api/enum";
+import { formatNumber } from "@/utils/tool";
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import { MdOutlineFavorite } from "react-icons/md";
+import FavorDialog from "@/components/video/FavorDialog";
+import { RiUserFollowFill } from "react-icons/ri";
+import { follow } from "@/api/user/user-api";
 
 function OriginVideoDetail() {
-  const [youtubeData, setYoutubeData] = useState([]);
+  const [contentDetail, setContentDetail] = useState<ContentView>();
+  const [contentSimilarList, setContentSimilarList] = useState<ContentView[]>([]);
+  const [commentList, setCommentList] = useState<CommentListView[]>([]);
   const { setSearch, searchTabType, setSearchTabType, mobileOpen } = useContext(ThemeContext);
   const searchParams = useSearchParams();
-  const DynamicReactPlayer = dynamic(() => import('react-player'), { ssr: false });
+  const [open, setOpen] = useState(false);
 
-  // 视频框架懒加载
-  const [videoLoaded, setVideoLoaded] = useState(false);
-  const handleVideoReady = () => {
-    setVideoLoaded(true);
-    console.log('Video is ready to play!');
+
+  const handleToggle = () => {
+    setOpen(!open);
   };
 
-  useEffect(() => {
-    setVideoLoaded(true);
-  }, []);
+  const id = searchParams.get("id") || ""
+  
+  // 获取内容详情
+  const handleGetContentDetail = async () => {
+    try {
+      const req: ContentDetailReq = {
+        id: parseInt(id)
+      }
+      const response = await getContentDetail(req)
+      const data = response.data
+      setContentDetail(data.contentDetail)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  // 获取相似内容
+  const handleGetSimilarContentList = async (req: ContentSimilarReq) => {
+    try {
+      const response = await getSimilarContentList(req)
+      const data = response.data
+      setContentSimilarList(data.list || [])
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  // 点赞
+  const handleLike = async (itemId: number = 0, likedStatus: boolean = false) => {
+    try {
+      const req: LikeReq = {
+        itemType: ItemType.VIDEO,
+        itemId: itemId,
+        likedStatus: likedStatus
+      }
+      await like(req)
+      await handleGetContentDetail()
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  // 关注
+  const handleFollow = async (id: number = 0, type: boolean = false) => {
+    try {
+      const req: FollowReq = {
+        id: id,
+        type: type
+      }
+      await follow(req)
+      await handleGetContentDetail()
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   useEffect(() => {
-    const query = searchParams.get("q") || ''
-    setSearch(query)
-    // todo：结合选择类别进行对应的搜索
-    // getYoutubeAPIData(query).then((response) => {
-      // setYoutubeData(response.data.items);
-    // });
-  }, [searchParams, searchTabType]);
+    if (!open) {
+      handleGetContentDetail()
+    }
 
-  // 静态数据
-  const items1 = youtubeResponse
-  // const items1 = youtubeData.slice(0, 8)
+    const similarReq: ContentSimilarReq = {
+      itemType: ItemType.VIDEO,
+      itemId: parseInt(id)
+    }
+    handleGetSimilarContentList(similarReq)
+
+  }, [searchParams, searchTabType, open]);
   
   const sideBarWidth = mobileOpen ? '70px' : '250px';
   return (
@@ -72,52 +127,63 @@ function OriginVideoDetail() {
           >
             <div style={{ display: 'flex' }}>
               <div style={{ flex: 2 }}>
-                {videoLoaded ? (
-                  <DynamicReactPlayer
-                    url="https://videocdn.cdnpk.net/joy/content/video/free/video0461/large_preview/_import_60e0167b4c3a96.14254367.mp4"
+                <div style={{ marginBottom: '20px', boxShadow: 'none', border: 'none' }}>
+                  {/* 视频 */}
+                  <video
+                    src={contentDetail?.content}
                     controls
                     width="100%"
                     height="auto"
+                    style={{ borderRadius: '12px'}}
                   />
-                ) : (
-                  <div style={{ width: '100%', height: '550px', backgroundColor: 'black' }}>
-                    {/* 播放器框架 */}
-                  </div>
-                )}
-                {/* 视频相关信息 */}
-                <Card sx={{ marginBottom: '20px' }}>
-                  <CardContent>
+                  {/* 视频相关信息 */}
+                  <div style={{ marginTop: '10px'}}>
                     <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                      Deep Focus Music To Improve Concentration - 12 Hours of Ambient Study Music to Concentrate
+                      {contentDetail?.title}
                     </Typography>
                     <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                      <Avatar src="/path/to/avatar.jpg" />
-                      <Typography variant="body1" sx={{ marginLeft: '10px', fontWeight: 'bold' }}>jianping5</Typography>
+                      <Avatar src={contentDetail?.userInfo.avatar} />
+                      <Typography variant="body1" sx={{ marginLeft: '10px', fontWeight: 'bold' }}>{contentDetail?.userInfo.account}</Typography>
                       <Box sx={{ marginLeft: 'auto' }}>
-                        <Button variant="outlined" sx={{ marginLeft: '', width:'77px'}}>Like</Button>
-                        <Button variant="outlined" sx={{ marginLeft: '20px', width:'77px' }}>Favor</Button>
-                        <Button variant="outlined" sx={{ marginLeft: '20px', width:'77px' }}>Follow</Button>
+                        {/* 点赞 */}
+                        <div style={{ backgroundColor: '#fafafa', borderRadius: '45px', display: 'inline-block' }}>
+                          <IconButton onClick={() => handleLike(contentDetail?.id, contentDetail?.isLiked)} sx={{ borderRadius: '45px', width:'100px', pl: '10px', pr: '10px'}}>
+                            {contentDetail?.isLiked ? <ThumbUpIcon /> : <ThumbUpIcon color="disabled" />}
+                            <span style={{ color: '#606060', fontSize: '0.8rem', marginLeft: '10px' }}>{formatNumber(contentDetail?.likeCount || 0 )}</span>
+                          </IconButton>
+                        </div>
+                        {/* 收藏 */}
+                        <div style={{ backgroundColor: '#fafafa', borderRadius: '45px', display: 'inline-block', marginLeft: '10px'}}>
+                          <IconButton onClick={handleToggle} sx={{ borderRadius: '45px', width:'100px', pl: '10px', pr: '10px'}}>
+                            {contentDetail?.isFavored ? <MdOutlineFavorite /> : <MdOutlineFavorite color="#bbb" />}
+                            <span style={{ color: '#606060', fontSize: '0.8rem', marginLeft: '10px' }}>{formatNumber(contentDetail?.favorCount || 0 )}</span>
+                          </IconButton>
+                          <FavorDialog open={open} itemId={contentDetail?.id || 0} onClose={() => setOpen(false)} />
+                        </div>
+                        {/* 关注 */}
+                        <div style={{ backgroundColor: '#fafafa', borderRadius: '45px', display: 'inline-block', marginLeft: '10px' }}>
+                          <IconButton onClick={() => handleFollow(contentDetail?.userId, contentDetail?.userInfo.isFollowed)} sx={{ borderRadius: '45px', width:'100px', pl: '10px', pr: '10px'}}>
+                            {contentDetail?.userInfo.isFollowed ? <RiUserFollowFill /> : <RiUserFollowFill color="#bbb" />}
+                          </IconButton>
+                        </div>
                       </Box>
                     </Box>
                     <Divider sx={{ marginTop: '10px' }} />
                     <Typography sx={{ marginTop: '10px' }}>
-                      Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus malesuada, nisl sed ullamcorper pharetra, quam elit aliquet leo, sit amet maximus mauris turpis a velit.
+                      Description: {contentDetail?.description}
                     </Typography>
-                  </CardContent>
-                </Card>
-                {/* 评论模块 */}
-                <Card sx={{ marginTop: '20px' }}>
-                  <CardContent>
-                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Comments</Typography>
-                    {/* 在此添加评论模块 */}
-                    <Comment/>
-                  </CardContent>
-                </Card>
+                  </div>
+                  {/* 评论模块 */}
+                  <div style={{ marginTop: '27px', marginBottom: '100px' }}> 
+                    <Typography variant="h6" sx={{ fontWeight: 'bold', mb: '10px' }}>Comments</Typography>
+                    <Comment id={parseInt(id)} itemType={ItemType.VIDEO} />
+                  </div>
+                </div>
               </div>
               {/* 相关推荐 */}
               <div style={{ flex: 1, marginLeft: '30px' }}>
                 <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '10px' }}>Related Videos</Typography>
-                <CardList items={items1} contentType='Videos' />
+                <CardList items={contentSimilarList} contentType='Videos' />
               </div>
             </div>
           </Box>
@@ -137,3 +203,7 @@ function VideoDetail() {
 
 
 export default VideoDetail;
+function setContentSimilarList(arg0: any) {
+  throw new Error("Function not implemented.");
+}
+

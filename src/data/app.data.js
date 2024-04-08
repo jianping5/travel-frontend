@@ -77,21 +77,22 @@ export const sideListItems = [
 ];
 
 export const tabItems = [
-  { id: 1, text: 'All' },
-  { id: 2, text: 'Music' },
-  { id: 3, text: 'A.R. Rahman' },
-  { id: 4, text: 'Tamil Cinema' },
-  { id: 5, text: 'Javascript' },
-  { id: 6, text: 'Live' },
-  { id: 7, text: 'Editing' },
-  { id: 8, text: 'Web Development' },
-  { id: 9, text: 'Anirudh Ravichander' },
-  { id: 10, text: 'Film' },
-  { id: 11, text: 'Debate' },
-  { id: 12, text: 'Cricket' },
-  { id: 13, text: 'Conversation' },
-  { id: 14, text: 'Pop Music' },
-  { id: 15, text: 'Recently Updated' },
+  { id: 0, text: 'All' },
+  { id: 1, text: 'ForYou' },
+  { id: 2, text: 'Video' },
+  // { id: 3, text: 'Article' },
+  { id: 4, text: 'Recent' },
+  // { id: 5, text: 'Javascript' },
+  // { id: 6, text: 'Live' },
+  // { id: 7, text: 'Editing' },
+  // { id: 8, text: 'Web Development' },
+  // { id: 9, text: 'Anirudh Ravichander' },
+  // { id: 10, text: 'Film' },
+  // { id: 11, text: 'Debate' },
+  // { id: 12, text: 'Cricket' },
+  // { id: 13, text: 'Conversation' },
+  // { id: 14, text: 'Pop Music' },
+  // { id: 15, text: 'Recently Updated' },
 ];
 
 export const searchTabItems = [
@@ -109,10 +110,9 @@ export const intelligenceTabItems = [
 ];
 
 export const dynamicTypeTabItems = [
-  { id: 1, text: 'Hotest' },
-  { id: 2, text: 'Latest' },
-  { id: 3, text: 'Recent' },
-  { id: 4, text: 'Joined' },
+  { id: 0, text: 'Hotest' },
+  { id: 1, text: 'Latest' },
+  { id: 2, text: 'Recent' },
 ];
 
 export const userTabItems = [

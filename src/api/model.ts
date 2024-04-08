@@ -5,8 +5,11 @@ type BaseResp = {
 }
 
 interface UserInfoView {
-  userId: number;
+  id: number;
   account: string;
   email: string;
   avatar: string;
+  isFollowed: boolean;
 }
+
+

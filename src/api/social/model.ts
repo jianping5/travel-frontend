@@ -9,6 +9,7 @@ type FavoriteDeleteReq = {
 
 type FavoriteListReq = {
   userId: number
+  itemId: number
 }
 
 type FavoriteListView = {
@@ -16,6 +17,7 @@ type FavoriteListView = {
   userId: number
   name: string
   coverUrl: string
+  isFavored: boolean
 }
 
 type FavoriteListResp = {
@@ -29,6 +31,11 @@ interface BaseFavoriteListResp {
 }
 
 type FavorReq = {
+  favoriteId: number
+  itemId: number
+}
+
+type FavorCancelReq = {
   favoriteId: number
   itemId: number
 }
@@ -139,6 +146,7 @@ type CommunityView = {
   avatar: string
   memberCount: number
   createTime: string
+  isJoined: boolean
 }
 
 type CommunityListResp = {
@@ -183,6 +191,27 @@ type CommunityDynamicListReq = {
   pageSize: number
 }
 
+type CommunityDynamicSpecificListReq = {
+  sortType: number
+  communityId: number
+  pageNum: number
+  pageSize: number
+}
+
+type CommunityDynamicDetailReq = {
+  id: number
+}
+
+type CommunityDynamicDetailResp = {
+  dynamicDetail: CommunityDynamicView
+}
+
+type BaseCommunityDynamicDetailResp = {
+  code: string
+  data: CommunityDynamicDetailResp
+  msg: string
+}
+
 type CommunityDynamicView = {
   id: number
   userInfo: UserInfoView
@@ -203,9 +232,20 @@ type CommunityDynamicListResp = {
   total: number
 }
 
+type CommunityDynamicSpecificListResp = {
+  list: CommunityDynamicView[]
+  total: number
+}
+
 interface BaseCommunityDynamicListResp {
   code: string
   data: CommunityDynamicListResp
+  msg: string
+}
+
+interface BaseCommunityDynamicSpecificListResp {
+  code: string
+  data: CommunityDynamicSpecificListResp
   msg: string
 }
 
@@ -323,6 +363,7 @@ type CommentView = {
   isLiked: boolean
   likeCount: number
   replyCount: number
+  createTime: string
 }
 
 type CommentListView = {
@@ -494,7 +535,6 @@ interface CopyrightListResp {
 
 // 推荐
 type ContentSimilarReq = {
-  tag: string[]
   itemType: number
   itemId: number
 }
@@ -505,7 +545,7 @@ type ContentSimilarResp = {
 
 interface BaseContentSimilarResp {
   code: string
-  data: ContentSimilarReq
+  data: ContentSimilarResp
   msg: string
 }
 
