@@ -6,7 +6,7 @@ const ThemeProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
   const [search, setSearch] = React.useState('')
   const [mobileOpen, setMobileOpen] = React.useState(true);
   const [homeTabType, setHomeTabType] = React.useState(0)
-  const [searchTabType, setSearchTabType] = React.useState('Videos')
+  const [searchTabType, setSearchTabType] = React.useState(0)
   const [userHomeTabType, setUserHomeTabType] = React.useState('home')
   const [intelligenceTabType, setIntelligenceTabType] = React.useState('chat')
   const [tradeTabType, setTradeTabType] = React.useState('home')

@@ -46,7 +46,8 @@ type UserInfoResp = {
   avatar: string,
   signature: string,
   createTime: string,
-  updateTime: string
+  updateTime: string,
+  isFollowed: boolean,
 }
 
 type BaseUserInfoResp = {

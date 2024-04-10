@@ -96,11 +96,13 @@ export const tabItems = [
 ];
 
 export const searchTabItems = [
-  { id: 1, text: 'Videos' },
-  { id: 2, text: 'Communities' },
-  { id: 3, text: 'Copyrights' },
-  { id: 4, text: 'Dynamics' },
-  { id: 5, text: 'People' },
+  { id: 0, text: 'Videos' },
+  // { id: 1, text: 'Articles' },
+  { id: 2, text: 'Dynamics' },
+  // { id: 3, text: 'Comments' },
+  { id: 4, text: 'People' },
+  { id: 5, text: 'Copyrights' },
+  { id: 6, text: 'Communities' },
 ];
 
 export const intelligenceTabItems = [

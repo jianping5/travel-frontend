@@ -12,6 +12,10 @@ type FavoriteListReq = {
   itemId: number
 }
 
+type FavoriteDetailReq = {
+  id: number
+}
+
 type FavoriteListView = {
   id: number
   userId: number
@@ -22,6 +26,16 @@ type FavoriteListView = {
 
 type FavoriteListResp = {
   list: FavoriteListView[]
+}
+
+type FavoriteDetailResp = {
+  favoriteDetail: FavoriteListView
+}
+
+type BaseFavoriteDetailResp = {
+  code: string
+  data: FavoriteDetailResp
+  msg: string
 }
 
 interface BaseFavoriteListResp {
@@ -49,6 +63,7 @@ type FavorListReq = {
 }
 
 type FavorView = {
+  id: number
   itemType: number
   itemId: number
   coverUrl: string
@@ -87,10 +102,11 @@ type HistoryView = {
   id: number
   itemType: number
   itemId: number
-  CoverUrl: string
-  UserId: number
-  Account: string
+  coverUrl: string
+  userId: number
+  account: string
   title: string
+  description: string
   likeCount: number
   createTime: string
 }
@@ -501,22 +517,6 @@ interface CopyrightListReq {
   userId: number;
 }
 
-interface CopyrightView {
-  id: number;
-  userId: number;
-  itemType: number;
-  itemId: number;
-  metadata: string;
-  tradeHash: string;
-  address: string;
-  status: number;
-  createTime: string;
-  title: string;
-  coverUrl: string;
-  account: string;
-  avatar: string;
-}
-
 interface CopyrightDetailResp {
   copyright: CopyrightView;
   userInfo: UserInfoView;
@@ -530,6 +530,12 @@ interface BaseCopyrightDetailResp {
 
 interface CopyrightListResp {
   list: CopyrightView[];
+}
+
+interface BaseCopyrightListResp {
+  code: string
+  data: CopyrightListResp
+  msg: string
 }
 
 
@@ -569,6 +575,6 @@ type SearchResp = {
 
 interface BaseSearchResp {
   code: string
-  data: SearchReq
+  data: SearchResp
   msg: string
 }

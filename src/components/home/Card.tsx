@@ -7,9 +7,10 @@ import Link from '@mui/material/Link';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import React from 'react';
+import React, { useContext } from 'react';
 import Typography from '@mui/material/Typography';
 import { formatNumber, timeAgo } from '../../utils/tool'
+import ThemeContext from '@/context/ThemeContext';
 
 interface AppCardProps {
   props: ContentView
@@ -17,13 +18,14 @@ interface AppCardProps {
 
 const AppCard: React.FC<AppCardProps> = ({props}) => {
   const truncatedTitle = props.title.length > 100 ? `${props.title.substring(0, 100)}...` : props.title;
+  const { mobileOpen } = useContext(ThemeContext);
 
   return (
-    <Card sx={{ boxShadow: 'none', borderRadius: 0 }}>
+    <Card sx={{ boxShadow: 'none', borderRadius: 0, mr: '7px' }}>
       <Link href={`/video?id=${props.id}`} underline="none">
-        <CardMedia component="img" sx={{height: 217, objectFit: 'cover', borderRadius: '12px'}}  image='https://cdn.pixabay.com/photo/2015/03/03/05/54/cherry-blossoms-656965_1280.jpg' alt={props.coverUrl} />
-        <CardContent sx={{padding: 0}}>
-          <List sx={{ padding: 1 }}>
+        <CardMedia component="img" sx={{height: mobileOpen ? 207 : 227, width: 520, objectFit: 'cover', borderRadius: '12px'}}  image={props.coverUrl} alt="" />
+        <CardContent sx={{ }}>
+          <List sx={{ padding: 0}}>
             <ListItem sx={{ alignItems: 'flex-start', paddingLeft: '0px' }}>
               <ListItemAvatar>
                 <Avatar
@@ -33,7 +35,7 @@ const AppCard: React.FC<AppCardProps> = ({props}) => {
                 />
               </ListItemAvatar>
               <Box sx={{ flex: 1, paddingLeft: '0px' }}>
-                <Typography variant="h6" sx={{ color: 'black', fontWeight: 'medium', marginBottom: '8px', fontSize: '1rem', lineHeight: '1.2', WebkitLineClamp: 2, overflow: 'hidden', display: '-webkit-box', WebkitBoxOrient: 'vertical', textOverflow: 'ellipsis' }}>
+                <Typography variant="h6" sx={{ color: 'black', fontWeight: 'medium', marginBottom: '8px', fontSize: '1rem', lineHeight: '1.2' }}>
                   {truncatedTitle}
                 </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -46,7 +48,6 @@ const AppCard: React.FC<AppCardProps> = ({props}) => {
               </Box>
             </ListItem>
           </List>
-          
         </CardContent>
       </Link>
     </Card>

@@ -1,187 +1,244 @@
 import { Avatar, Box, Button, Card, CardMedia, Divider, Typography } from "@mui/material"
 import HomeCardList from "./HomeCardList"
-import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import ApplyDialog from "../copyright/ApplyDialog";
+import { getCopyrightList, getFavorList, getFavoriteList, getUserHomeContentList, getUserHomeDynamicList, getUserHomeList, listCommunity } from "@/api/social/social-api";
+import { FileType, ItemType } from "@/api/enum";
+import { timeAgo } from "@/utils/tool";
+import { getFollowList } from "@/api/user/user-api";
+import ThemeContext from "@/context/ThemeContext";
 
-type ItemProps = {
-  url: string,
-  title: string,
-  channelTitle: string,
-  videoId: number,
-}
+const UserContent = ({params} : {params: {contentType: string, id: any }}) => {
 
-const UserContent = ({params} : {params: {contentType: string, items: any }}) => {
-  const DynamicReactPlayer = dynamic(() => import('react-player'), { ssr: false });
-
-  // 视频框架懒加载
-  const [videoLoaded, setVideoLoaded] = useState(false);
-  const handleVideoReady = () => {
-    setVideoLoaded(true);
-    console.log('Video is ready to play!');
-  };
-
-  useEffect(() => {
-    setVideoLoaded(true);
-  }, []);
-  
-  // 动态类型
-  let DynamicContent = 
-  <>
-    {videoLoaded ? (
-    <DynamicReactPlayer
-      url="https://videocdn.cdnpk.net/joy/content/video/free/video0461/large_preview/_import_60e0167b4c3a96.14254367.mp4"
-      controls
-      width="100%"
-      height="auto"
-    />
-    ) : (
-    <div style={{ width: '100%', height: '550px', backgroundColor: 'black' }}>
-      {/* 播放器框架 */}
-    </div>
-    )}
-  </>
-
-  DynamicContent = 
-  <>
-    <CardMedia component="img" sx={{width: '100%', height: 'auto', objectFit: 'cover'}}  image='https://i.ytimg.com/vi/hWS6rXO_xI8/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBdMCNk0neI9lcnP7kIYqTffX30SA' alt='image' />
-  </>
-  
   switch(params.contentType) {
     case 'home':
+      const [userHomeList, setUserHomeList] = useState<UserHomeListResp>()
+      // 获取用户主页信息
+      const handleGetUserHomeList = async () => {
+        try {
+          const req: UserHomeListReq = {
+            userId: params.id
+          }
+          const response = await getUserHomeList(req)
+          const data = response.data
+          setUserHomeList(data)
+        } catch (err) {
+          console.log(err)
+        }
+      }
+      useEffect(() => {
+        console.log(123)
+        handleGetUserHomeList()
+      }, []);
       return (
         <>
           <div style={{ marginTop: '10px'  }}>
-            <Typography variant='h5' sx={{ marginBottom: '' }} >Latest</Typography>
-            <HomeCardList items={params.items} contentType={params.contentType}/>
+            <Typography variant='h5' sx={{ marginBottom: '' }} >Recent</Typography>
+            <HomeCardList items={userHomeList?.recentVideoList} contentType={params.contentType}/>
           </div>
 
-          <div style={{ marginTop: '25px' }}>
-            <Typography variant='h5' sx={{ marginBottom: '' }} >Hotest</Typography>
-            <HomeCardList items={params.items} contentType={params.contentType}/>
+          <div style={{ marginTop: '25px', marginBottom: '100px' }}>
+            <Typography variant='h5' sx={{ marginBottom: '' }} >Recommend</Typography>
+            <HomeCardList items={userHomeList?.recommendVideoList} contentType={params.contentType}/>
           </div>
         </>
       )
     case 'videos':
+      const [userVideoListResp, setUserVideoListResp] = useState<UserHomeContentListResp>()
+      const [sortType, setSortType] = useState(0)
+      // 获取用户主页内容信息
+      const handleGetUserHomeContentList = async (sortType: number = 0) => {
+        try {
+          const req: UserHomeContentListReq = {
+            userId: params.id,
+            itemType: ItemType.VIDEO,
+            sortType: sortType,
+            pageNum: 1,
+            pageSize: 10,
+          }
+          const response = await getUserHomeContentList(req)
+          const data = response.data
+          setUserVideoListResp(data)
+          setSortType(sortType)
+        } catch (err) {
+          console.log(err)
+        }
+      }
+      useEffect(() => {
+        handleGetUserHomeContentList()
+      }, []);
       return (
         <>
           <div style={{ marginTop: '10px', marginBottom: '-20px' }}>
-            <Button variant="outlined" sx={{ borderRadius:'7px'}}>Latest</Button>
-            <Button variant="outlined" sx={{ marginLeft: '10px', borderRadius:'7px' }}>Hotest</Button>
-            <Button variant="outlined" sx={{ marginLeft: '10px', borderRadius:'7px' }}>Oldest</Button>
+            <Button 
+              variant={sortType == 0 ? 'contained' : 'outlined' }  
+              onClick={ () => {handleGetUserHomeContentList(0)} } 
+              sx={{ marginLeft: '10px', borderRadius: '7px', width:'70px', height:'32px', fontSize: '0.8rem', textTransform: 'none', color: sortType == 0 ? "" : "black",
+                  border: '1px solid black', backgroundColor: sortType == 0 ? '#555555 !important' : ''
+              }}>
+              {sortType == 0 ? "Newest" : "Newest"} 
+            </Button>
+            <Button 
+              variant={sortType == 1 ? 'contained' : 'outlined' }  
+              onClick={ () => {handleGetUserHomeContentList(1)} } 
+              sx={{ marginLeft: '10px', borderRadius: '7px', width:'70px', height:'32px', fontSize: '0.8rem', textTransform: 'none', color: sortType == 1  ? "" : "black",
+                  border: '1px solid black', backgroundColor: sortType == 1  ? '#555555 !important' : ''
+              }}>
+              {sortType == 1  ? "Popular" : "Popular"} 
+            </Button>
+            <Button 
+              variant={sortType == 2  ? 'contained' : 'outlined' }  
+              onClick={ () => {handleGetUserHomeContentList(2)} } 
+              sx={{ marginLeft: '10px', borderRadius: '7px', width:'70px', height:'32px', fontSize: '0.8rem', textTransform: 'none', color: sortType == 2 ? "" : "black",
+                  border: '1px solid black', backgroundColor: sortType == 2  ? '#555555 !important' : ''
+              }}>
+              {sortType == 2  ? "Oldest" : "Oldest"} 
+            </Button>
+            {/* <Button variant={sortType == 0 ? "outlined" : "contained" } onClick={() => { handleGetUserHomeContentList(0) }} sx={{ borderRadius:'7px'}}>Newest</Button> */}
+            {/* <Button variant="outlined" onClick={() => { handleGetUserHomeContentList(1) }} sx={{ marginLeft: '10px', borderRadius:'7px' }}>Popular</Button> */}
+            {/* <Button variant="outlined" onClick={() => { handleGetUserHomeContentList(2) }} sx={{ marginLeft: '10px', borderRadius:'7px' }}>Oldest</Button> */}
           </div>
 
-          <div style={{ marginTop: '20px' }}>
-            <HomeCardList items={params.items} contentType={params.contentType}/>
+          <div style={{ marginTop: '15px' }}>
+            <HomeCardList items={userVideoListResp?.list} contentType={params.contentType}/>
           </div>
         </>
       ) 
     case 'favors':
+      const [userFavorListResp, setUserFavorListResp] = useState<FavoriteListResp>()
+      // 获取用户收藏夹列表
+      const handleGetFavoriteList = async () => {
+        try {
+          const req: FavoriteListReq = {
+            userId: params.id,
+            itemId: 0
+          }
+          const res = await getFavoriteList(req)
+          const data = res.data
+          setUserFavorListResp(data)
+        } catch (err) {
+          console.log(err)
+        }
+      }
+      useEffect(() => {
+        handleGetFavoriteList()
+      }, []);
+
       return (
         <>
           <div style={{ marginTop: '20px' }}>
-            <HomeCardList items={params.items} contentType={params.contentType}/>
+            <HomeCardList items={userFavorListResp?.list} contentType={params.contentType}/>
           </div>
         </>
       ) 
     case 'dynamics':
+      const [dynamicListResp, setDynamicListResp] = useState<UserHomeDynamicListResp>()
+
+      // 获取用户主页动态
+      const handleGetUserHomeDynamicList = async () => {
+        try {
+          const req: UserHomeDynamicListReq = {
+            userId: params.id,
+            pageNum: 1,
+            pageSize: 10,
+          }
+          const res = await getUserHomeDynamicList(req)
+          const data = res.data
+          setDynamicListResp(data)
+        } catch (err) {
+          console.log(err)
+        }
+      }
+
+      useEffect(() => {
+          handleGetUserHomeDynamicList()
+      }, []);
+
       return (
         <>
-        <Card sx={{marginBottom: '20px', marginRight: '30%'}}>
-          <div style={{ margin: '10px' }}>
-            <div style={{ display: 'flex' }}>
-              <div style={{ flex: '1', margin: '15px' }}>
-                <Avatar src="https://yt3.googleusercontent.com/nkUy7yOWP3EOk-e7HbV2e2L6suWQq5-Ggctu3_pBQTSNkjVpm0SW-k34tobItcuJ-r1a1R_qig=s176-c-k-c0x00ffffff-no-rj" />
-              </div>
-              <div style={{ flex: '15', marginRight:'50px'}}>
-                <Box sx={{ display: 'flex', marginTop: '10px', marginLeft: '-9px' }}>
-                  <Typography variant="body1" sx={{ marginLeft: '10px', fontWeight: 'bold' }}>jianping5</Typography>
-                  <Typography variant="body1" sx={{ marginLeft: '10px', fontSize: '0.9rem', color: 'LigthGray' }}> 1 hr ago</Typography>
-                </Box>
-                <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
-                    Deep Focus Music To Improve Concentration - 12 Hours of Ambient Study Music to Concentrate
-                </Typography>
-                <Divider sx={{ marginTop: '10px' }} />
-                <Typography sx={{ marginTop: '10px' }}>
-                  Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus malesuada, nisl sed ullamcorper pharetra, quam elit aliquet leo, sit amet maximus mauris turpis a velit.
-                </Typography>
+        {dynamicListResp?.list?.map(dynamic => {
+          return (
+            <div key={dynamic.id}>
+              <Card sx={{ mb: '20px', mr: '30%', mt: '35px', borderRadius: '15px'}}>
+                <div style={{ margin: '10px' }}>
+                  <div style={{ display: 'flex' }}>
+                    <div style={{ flex: '1', margin: '15px' }}>
+                      <Avatar src={dynamic.userInfo?.avatar} />
+                    </div>
+                    <div style={{ flex: '15', marginRight:'50px'}}>
+                      <Box sx={{ display: 'flex', marginTop: '10px', marginLeft: '-9px' }}>
+                        <Typography variant="body1" sx={{ marginLeft: '10px', fontWeight: 'bold' }}>{dynamic.userInfo?.account}</Typography>
+                        <Typography variant="body1" sx={{ marginLeft: '10px', fontSize: '1rem', color: 'LigthGray' }}> · { timeAgo(new Date(dynamic.createTime).getTime()) }</Typography>
+                      </Box>
+                      <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
+                          {dynamic.title}
+                      </Typography>
+                      <Divider sx={{ marginTop: '10px' }} />
+                      <Typography sx={{ marginTop: '10px' }}>
+                        Description: {dynamic.description}
+                      </Typography>
 
-                {/* 动态内容（文本/图片/视频） */}
-                {DynamicContent}
+                      {/* 根据 fileType 切换 */}
+                      {dynamic.fileType == FileType.Video ?
+                        <>
+                          <video
+                            src={dynamic.content}
+                            controls
+                            width="100%"
+                            height="auto"
+                          />
+                        </>
+                        :
+                        <>
+                          {dynamic.fileType == FileType.Picture ?
+                            <>
+                              <CardMedia component="img" sx={{width: '100%', height: 'auto', objectFit: 'cover'}}  image={dynamic.content} alt='image' />
+                            </>
+                            :
+                            <>
+                              <Typography>
+                                {dynamic.content}
+                              </Typography>
+                            </>
+                          }
+                        </>
+                      }
 
-                {/* 点赞/评论按钮 */}
-                <Box sx={{ marginTop:'20px', marginLeft: 'auto' }}>
-                  <Button variant="outlined" sx={{ marginLeft: '', width:'77px'}}>Like</Button>
-                </Box>
-              </div>
+                      {/* 点赞/评论按钮 */}
+                      <Box sx={{ marginTop:'20px', marginLeft: 'auto' }}>
+                        <Button variant="outlined" sx={{ marginLeft: '', width:'77px'}}>Like</Button>
+                      </Box>
+                    </div>
+                  </div>
+                </div>
+              </Card>
             </div>
-          </div>
-        </Card>
+          )
 
-        <Card sx={{marginBottom: '20px', marginRight: '30%'}}>
-          <div style={{ margin: '10px' }}>
-            <div style={{ display: 'flex' }}>
-              <div style={{ flex: '1', margin: '15px' }}>
-                <Avatar src="https://yt3.googleusercontent.com/nkUy7yOWP3EOk-e7HbV2e2L6suWQq5-Ggctu3_pBQTSNkjVpm0SW-k34tobItcuJ-r1a1R_qig=s176-c-k-c0x00ffffff-no-rj" />
-              </div>
-              <div style={{ flex: '15', marginRight:'50px'}}>
-                <Box sx={{ display: 'flex', marginTop: '10px', marginLeft: '-9px' }}>
-                  <Typography variant="body1" sx={{ marginLeft: '10px', fontWeight: 'bold' }}>jianping5</Typography>
-                  <Typography variant="body1" sx={{ marginLeft: '10px', fontSize: '0.9rem', color: 'LigthGray' }}> 1 hr ago</Typography>
-                </Box>
-                <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
-                    Deep Focus Music To Improve Concentration - 12 Hours of Ambient Study Music to Concentrate
-                </Typography>
-                <Divider sx={{ marginTop: '10px' }} />
-                <Typography sx={{ marginTop: '10px' }}>
-                  Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus malesuada, nisl sed ullamcorper pharetra, quam elit aliquet leo, sit amet maximus mauris turpis a velit.
-                </Typography>
-
-                {/* 动态内容（文本/图片/视频） */}
-                {DynamicContent}
-
-                {/* 点赞/评论按钮 */}
-                <Box sx={{ marginTop:'20px', marginLeft: 'auto' }}>
-                  <Button variant="outlined" sx={{ marginLeft: '', width:'77px'}}>Like</Button>
-                </Box>
-              </div>
-            </div>
-          </div>
-        </Card>
-
-        <Card sx={{marginBottom: '20px', marginRight: '30%'}}>
-          <div style={{ margin: '10px' }}>
-            <div style={{ display: 'flex' }}>
-              <div style={{ flex: '1', margin: '15px' }}>
-                <Avatar src="https://yt3.googleusercontent.com/nkUy7yOWP3EOk-e7HbV2e2L6suWQq5-Ggctu3_pBQTSNkjVpm0SW-k34tobItcuJ-r1a1R_qig=s176-c-k-c0x00ffffff-no-rj" />
-              </div>
-              <div style={{ flex: '15', marginRight:'50px'}}>
-                <Box sx={{ display: 'flex', marginTop: '10px', marginLeft: '-9px' }}>
-                  <Typography variant="body1" sx={{ marginLeft: '10px', fontWeight: 'bold' }}>jianping5</Typography>
-                  <Typography variant="body1" sx={{ marginLeft: '10px', fontSize: '0.9rem', color: 'LigthGray' }}> 1 hr ago</Typography>
-                </Box>
-                <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
-                    Deep Focus Music To Improve Concentration - 12 Hours of Ambient Study Music to Concentrate
-                </Typography>
-                <Divider sx={{ marginTop: '10px' }} />
-                <Typography sx={{ marginTop: '10px' }}>
-                  Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus malesuada, nisl sed ullamcorper pharetra, quam elit aliquet leo, sit amet maximus mauris turpis a velit.
-                </Typography>
-
-                {/* 动态内容（文本/图片/视频） */}
-                {DynamicContent}
-
-                {/* 点赞/评论按钮 */}
-                <Box sx={{ marginTop:'20px', marginLeft: 'auto' }}>
-                  <Button variant="outlined" sx={{ marginLeft: '', width:'77px'}}>Like</Button>
-                </Box>
-              </div>
-            </div>
-          </div>
-        </Card>
+        })}
         </>
       )
     case 'copyrights':
+      const [userCopyrightListResp, setUserCopyrightListResp] = useState<CopyrightListResp>()
+
+      // 获取用户版权列表
+      const handleGetCopyrightList = async () => {
+        try {
+          const req: CopyrightListReq = {
+            userId: params.id
+          }
+          const res = await getCopyrightList(req)
+          const data = res.data
+          setUserCopyrightListResp(data)
+        } catch (err) {
+          console.log(err)
+        }
+      }
+
+      useEffect(() => {
+        handleGetCopyrightList()
+      }, [])
+
       return (
         <>
           <div style={{ marginTop: '10px', marginBottom: '-20px' }}>
@@ -189,27 +246,73 @@ const UserContent = ({params} : {params: {contentType: string, items: any }}) =>
             <ApplyDialog/>
           </div>
           <div style={{ marginTop: '20px' }}>
-            <HomeCardList items={params.items} contentType={params.contentType}/>
+            <HomeCardList items={userCopyrightListResp?.list} contentType={params.contentType}/>
           </div>
         </>
       ) 
     case 'follows': 
+      const [userFollowsListResp, setUserFollowsListResp] = useState<FollowListView>()
+
+      // 获取用户关注列表
+      const handleGetFollowList = async () => {
+        try {
+          const req: FollowListReq = {
+            id: params.id,
+            pageNum: 1,
+            pageSize: 10
+          }
+          const res = await getFollowList(req)
+          const data = res.data
+          setUserFollowsListResp(data)
+        } catch (err) {
+          console.log(err)
+        }
+      }
+
+      useEffect(() => {
+        handleGetFollowList()
+      }, [])
+
+
       return (
         <>
           <div style={{ marginTop: '20px' }}>
-            <HomeCardList items={params.items} contentType={params.contentType}/>
+            <HomeCardList items={userFollowsListResp?.userInfo} contentType={params.contentType} userId={params.id}/>
           </div>
         </>
       )
     case 'communities':
+      const [communityListResp, setCommunityListResp] = useState<CommunityListResp>()
+
+      // 获取用户加入社区列表
+      const handleListCommunity = async () => {
+        try {
+          const req: CommunityListReq = {
+            userId: params.id
+          }
+          const response = await listCommunity(req)
+          const data = response.data
+          setCommunityListResp(data)
+        } catch (err) {
+          console.log(err)
+        }
+      }
+
+      useEffect(() => {
+        handleListCommunity()
+      }, [])
+
       return (
         <>
           <div style={{ marginTop: '20px' }}>
-            <HomeCardList items={params.items} contentType={params.contentType}/>
+            <HomeCardList items={communityListResp?.list} contentType={params.contentType} userId={params.id} />
           </div>
         </>
       ) 
   }
+
+  return <>
+  </>
 
 }
 

@@ -38,7 +38,7 @@ function ApplicationDialog() {
 
   return (
     <div>
-      <Button variant="outlined" sx={{ borderRadius:'7px'}} onClick={handleClickOpen}>Apply Copyright</Button>
+      <Button variant="text" sx={{ borderRadius:'7px',}} onClick={handleClickOpen}>Apply Copyright</Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Apply Copyright</DialogTitle>
         <DialogContent>

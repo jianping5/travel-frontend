@@ -1,22 +1,22 @@
-import { Box, CardMedia, Typography } from "@mui/material";
+import { formatNumber, timeAgo } from "@/utils/tool";
+import { Box, CardMedia, Link, Typography } from "@mui/material";
 
 
 type AppCardProps = {
-  url: string,
-  title: string,
-  channelTitle: string,
-  videoId: number,
+  props: ContentView
 }
 
-const VideoCard: React.FC<AppCardProps> = ({ url, title, channelTitle, videoId }) => {
-  const truncatedTitle = title.length > 200 ? `${title.substring(0, 200)}...` : title;
+const VideoCard: React.FC<AppCardProps> = ({ props }) => {
+  const truncatedTitle = props.title.length > 200 ? `${props.title.substring(0, 200)}...` : props.title;
 
   return (
     <Box sx={{ marginTop: '10px'}}>
-      <CardMedia component="img" sx={{width: '750px', height: '170px', objectFit: 'cover', borderRadius: '12px'}}  
-       image={url} alt='image' />
-      <Typography variant="h5" sx={{ fontSize: '1rem', fontWeight: 'medium' }}> {truncatedTitle} </Typography>
-      <Typography variant="body1" color="text.secondary" sx={{ fontSize: '0.9rem', }}> 100k likes · 1 day ago </Typography>
+      <Link href={`/video?id=${props.id}`} underline="none">
+        <CardMedia component="img" sx={{width: '750px', height: '170px', objectFit: 'cover', borderRadius: '12px'}}  
+        image={props.coverUrl} alt='image' />
+        <Typography variant="h5" sx={{ fontSize: '1rem', fontWeight: 'medium', color:'black' }}> {truncatedTitle} </Typography>
+        <Typography variant="body1" color="text.secondary" sx={{ fontSize: '0.9rem', }}> {formatNumber(props.likeCount)} likes · {timeAgo(new Date(props.createTime).getTime())} </Typography>
+      </Link>
     </Box>
   )
 }

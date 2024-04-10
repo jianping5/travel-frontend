@@ -4,15 +4,14 @@ import Box from '@mui/material/Box';
 import React from 'react';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import { useContext } from 'react';
-import ThemeContext from '@/context/ThemeContext';
 
 type TabListProps = {
     onTabChange: (searchValue: string) => void;
+    userHomeTabType: string;
 }
 
-const TabList: React.FC<TabListProps> = ( { onTabChange }) => {
-  const { userHomeTabType } = useContext(ThemeContext);
+const TabList: React.FC<TabListProps> = ( { onTabChange, userHomeTabType }) => {
+  // const { userHomeTabType } = useContext(ThemeContext);
 
   const handleChange = (event: any, newValue: string) => {
     onTabChange(newValue);

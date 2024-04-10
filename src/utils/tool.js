@@ -1,31 +1,39 @@
+import {jwtDecode} from "jwt-decode";
+
 // 时间格式转换
 export function timeAgo(timestamp) {
     const date = new Date(timestamp);
     const now = new Date();
     const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-    let interval = Math.floor(seconds / 31536000);
 
-    if (interval > 1) {
-        return `${interval} years ago`;
+    if (seconds < 60) {
+        return `${seconds} seconds ago`;
     }
-    interval = Math.floor(seconds / 2592000);
-    if (interval > 1) {
-        return `${interval} months ago`;
+
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) {
+        return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
     }
-    interval = Math.floor(seconds / 86400);
-    if (interval > 1) {
-        return `${interval} days ago`;
+
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) {
+        return `${hours} hour${hours > 1 ? 's' : ''} ago`;
     }
-    interval = Math.floor(seconds / 3600);
-    if (interval > 1) {
-        return `${interval} hours ago`;
+
+    const days = Math.floor(hours / 24);
+    if (days < 30) {
+        return `${days} day${days > 1 ? 's' : ''} ago`;
     }
-    interval = Math.floor(seconds / 60);
-    if (interval > 1) {
-        return `${interval} minutes ago`;
+
+    const months = Math.floor(days / 30);
+    if (months < 12) {
+        return `${months} month${months > 1 ? 's' : ''} ago`;
     }
-    return `${Math.floor(seconds)} seconds ago`;
+
+    const years = Math.floor(months / 12);
+    return `${years} year${years > 1 ? 's' : ''} ago`;
 }
+
 
 // const timestamp = new Date("2024-04-07T14:14:10").getTime();
 // const timeAgoString = timeAgo(timestamp);
@@ -60,4 +68,17 @@ export function formatNumber(num) {
 
     // 如果数字不需要转换，则直接返回
     return num;
+}
+
+
+export function getLoginUserId() {
+  // 从本地存储中获取 JWT
+  const token = localStorage.getItem("token");
+
+  // 解码 JWT
+  const decoded = jwtDecode(token || "");
+
+  // 从解码后的对象中获取用户 ID
+  const userId = decoded.jwtUserId;
+  return parseInt(userId || '0')
 }

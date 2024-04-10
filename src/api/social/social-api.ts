@@ -29,6 +29,32 @@ export const getFavoriteList = async (req: FavoriteListReq): Promise<BaseFavorit
   }
 };
 
+// 获取收藏夹详情
+export const getFavoriteDetail = async (req: FavoriteDetailReq): Promise<BaseFavoriteDetailResp> => {
+  try {
+    const token = localStorage.getItem("token")
+
+    // 构造请求配置对象
+    const config: AxiosRequestConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`, // 设置 Authorization 请求头
+      },
+    };
+
+    // 发送登录请求，并等待响应
+    const response = await axios.post<BaseFavoriteDetailResp>(`${BASE_URL}/api/social/favorite/detail`, req, config);
+    // 非 200 报错
+    if (response.data.code != "200") {
+      throw new Error("状态码错误")
+    }
+    // 返回响应数据
+    return response.data;
+  } catch (error: any) {
+    // 捕获请求失败的错误，并抛出异常
+    throw new Error(error.msg);
+  }
+};
+
 // 获取收藏列表
 export const getFavorList = async (req: FavorListReq): Promise<BaseFavorListResp> => {
   try {
@@ -1054,7 +1080,7 @@ export const getCopyrightDetail = async (req: CopyrightDetailReq): Promise<BaseC
 };
 
 // 获取用户版权列表
-export const getCopyrightList = async (req: CopyrightListReq): Promise<BaseCopyrightDetailResp> => {
+export const getCopyrightList = async (req: CopyrightListReq): Promise<BaseCopyrightListResp> => {
   try {
     const token = localStorage.getItem("token")
 
@@ -1066,7 +1092,7 @@ export const getCopyrightList = async (req: CopyrightListReq): Promise<BaseCopyr
     };
     
     // 发送登录请求，并等待响应
-    const response = await axios.post<BaseCopyrightDetailResp>(`${BASE_URL}/api/social/copyright/list`, req, config);
+    const response = await axios.post<BaseCopyrightListResp>(`${BASE_URL}/api/social/copyright/list`, req, config);
     // 非 200 报错
     if (response.data.code != "200") {
       throw new Error("状态码错误")
@@ -1105,8 +1131,8 @@ export const getSimilarContentList = async (req: ContentSimilarReq): Promise<Bas
   }
 };
 
-// 获取相似内容
-export const search = async (req: SearchReq): Promise<BaseSearchResp> => {
+// 搜索
+export const listSearch = async (req: SearchReq): Promise<BaseSearchResp> => {
   try {
     const token = localStorage.getItem("token")
 

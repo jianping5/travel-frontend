@@ -1,41 +1,37 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Avatar, Box, Button, Card, CardContent, CardMedia, Container, Grid, Typography } from '@mui/material';
+import React, { Children, useContext, useEffect, useState } from 'react';
+import { Avatar, Box, Button, Typography } from '@mui/material';
 import TabList from './TabList';
-import { useSearchParams } from 'next/navigation';
-import ThemeContext from '@/context/ThemeContext';
-import HomeCardList from './HomeCardList';
-import { youtubeResponse } from '@/data/app.data';
-import VideoCard from './VideoCard';
 import UserContent from './UserContent';
-import { getYoutubeAPIData } from '@/api/axios';
 import { useRouter } from 'next/navigation'
+import { follow } from '@/api/user/user-api';
+import { getLoginUserId } from '@/utils/tool';
 
-const UserDetail: React.FC<any> = () => {
-  const [youtubeData, setYoutubeData] = useState([]);
-  const { setSearch, userHomeTabType, setUserHomeTabType } = useContext(ThemeContext);
-  // const searchParams = useSearchParams();
+const UserDetail: React.FC<any> = ({ id, userHomeTabType, userInfo, children }) => {
+  const [isFollowed, setIsFollowed] = useState<boolean>(userInfo?.isFollowed); // 初始化关注状态
+  // const { setSearch, setUserHomeTabType } = useContext(ThemeContext);
+
   const history = useRouter()
 
-  // const items1 = youtubeResponse.slice(0, 10)
+  const loginUserId = getLoginUserId()
+
+  // 关注
+  const handleFollow = async () => {
+    try {
+      const req: FollowReq = {
+        id: id,
+        type: isFollowed// 切换关注状态
+      }
+      await follow(req);
+      setIsFollowed(!isFollowed); // 更新状态为切换后的值
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   const onTabChange = (tabValue: string) => {
-    history.push(`/user/${tabValue}`)
-    setUserHomeTabType(tabValue);
+    history.push(`/user/${tabValue}?id=${id}`)
+    // setUserHomeTabType(tabValue);
   };
-
-  useEffect(() => {
-    // const query = searchParams.get("q") || ''
-    // setSearch(query)
-    // todo：结合选择类别进行对应的搜索
-    // getYoutubeAPIData(userHomeTabType).then((response) => {
-      // setYoutubeData(response.data.items);
-    // });
-  }, [userHomeTabType]);
-
-
-  // 静态数据
-  const items1 = youtubeResponse.slice(0, 10)
-  // const items1 = youtubeData.slice(0, 8)
   
   return (
     <div style={{ marginLeft: '10%', marginRight: '10%' }}>
@@ -43,21 +39,29 @@ const UserDetail: React.FC<any> = () => {
       style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '10px' }} />
 
       <div style={{ display: 'flex', alignItems: 'center', marginTop: '16px', marginBottom: '16px' }}>
-        <Avatar src="https://yt3.googleusercontent.com/nkUy7yOWP3EOk-e7HbV2e2L6suWQq5-Ggctu3_pBQTSNkjVpm0SW-k34tobItcuJ-r1a1R_qig=s176-c-k-c0x00ffffff-no-rj" alt="Community Avatar" 
+        <Avatar src={userInfo?.avatar} alt="Community Avatar" 
         sx={{ width: '120px', height: '120px', borderRadius: '50%', marginRight: '16px' }} />
         <div>
-          <Typography variant="h5"  sx={{ fontWeight:'bold' }}>Cat Channel</Typography>
-          <Typography variant="body1" sx={{ fontSize:'1rem', color:'gray' }}>100k views</Typography>
-          <Typography variant="body1"  sx={{ fontSize:'1rem', color:'gray' }}>Description of the channel goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Typography>
-          <Button variant='outlined' sx={{ width:'100px', borderRadius: '100px', marginTop:'10px'}}>Follow</Button>
+          <Typography variant="h5"  sx={{ fontWeight:'bold', mb: '7px' }}> {userInfo?.account} </Typography>
+          <Typography variant="body1" sx={{ fontSize:'1rem', color:'gray', mb:'7px' }}> {userInfo?.signature} </Typography>
+          { loginUserId != id &&
+              <Button 
+                variant={isFollowed ? 'outlined' : 'contained' }  
+                onClick={ () => handleFollow() } 
+                sx={{ marginLeft: 'auto', width:'120px', height: '35px', borderRadius: '50px', color: isFollowed ? "black" : "",
+                    border: isFollowed ? '1px solid black' : '1px solid black', backgroundColor: isFollowed? '' : '#555555 !important'
+                }}>
+                {isFollowed ? "Followed" : "Follow"} 
+              </Button>
+            }
         </div>
       </div>
 
       {/* Tab 栏 */}
-      <TabList onTabChange={onTabChange} />
+      <TabList onTabChange={onTabChange} userHomeTabType={userHomeTabType} />
 
       {/* 内容 */}
-      <UserContent params={{ contentType: userHomeTabType, items: items1 }} />
+      {children}
 
     </div>
   );

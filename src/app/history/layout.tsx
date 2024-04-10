@@ -42,7 +42,7 @@ function HistoryLayout({
           >
             {children}
           </Box>
-          <Box
+          {/* <Box
             component="div"
             style={{
               position: 'absolute',
@@ -54,14 +54,13 @@ function HistoryLayout({
               overflowY: 'auto',
             }}
           >
-            {/* 这里放置右侧的卡片内容 */}
             <Card sx={{ marginLeft:'10px', top:'100px', boxShadow: 'none', border: 'none', position: 'sticky' }}>
             <Button variant="text" sx={{ textTransform: 'none', color: 'black', borderRadius: '50px' }}>
               <RiDeleteBin6Line style={{ marginRight: '10px', fontSize: '1.5rem', color: 'black' }} />
               <Typography variant="body1" sx={{ fontSize: '1.1rem', fontWeight: 'medium', color: 'black' }}>Clear all watch history</Typography>
             </Button>
             </Card>
-          </Box> 
+          </Box>  */}
         </Box>
       </Box>
     </Box>

@@ -1,40 +1,50 @@
 "use client"
-import { getYoutubeAPIData } from "@/api/axios";
+import { listSearch } from "@/api/social/social-api";
+import LoadingScreen from "@/components/common/loading";
 import CardList from "@/components/search/CardList";
 import TabList from "@/components/search/TabList";
 import SideList from "@/components/side/SideList";
 import ThemeContext from "@/context/ThemeContext";
-import { youtubeResponse } from "@/data/app.data";
 import { appContentWrapper, appWrapper, flexColumnGrow } from "@/styles/styles";
 import Box from "@mui/material/Box"
 import { useSearchParams } from "next/navigation";
 import { Suspense, useContext, useEffect, useState } from "react";
 
 function OriginSearch() {
-  const [youtubeData, setYoutubeData] = useState([]);
+  const [searchResp, setSearchResp] = useState<SearchResp>()
+  const [loading, setLoading] = useState(true)
   const { setSearch, searchTabType, setSearchTabType, mobileOpen } = useContext(ThemeContext);
   const searchParams = useSearchParams();
 
-  const onTabChange = (tabValue: string) => {
+  const onTabChange = (tabValue: number) => {
     setSearchTabType(tabValue);
   };
 
+  const query = searchParams.get("q") || ''
+
+  // 搜索
+  const handleSearch = async () => {
+    try {
+      const req: SearchReq = {
+        keyword: query,
+        itemType: searchTabType,
+        sortType: 0,
+        pageNum: 1,
+        pageSize: 10,
+      }
+      const res = await listSearch(req)
+      const data = res.data
+      setSearchResp(data)
+      setLoading(false)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   useEffect(() => {
-    const query = searchParams.get("q") || ''
     setSearch(query)
-    // todo：结合选择类别进行对应的搜索
-    // getYoutubeAPIData(query).then((response) => {
-      // setYoutubeData(response.data.items);
-    // });
+    handleSearch()
   }, [searchParams, searchTabType]);
-
-  // if (!youtubeData.length) {
-  //   return;
-  // }
-
-  // 静态数据
-  const items1 = youtubeResponse
-  // const items1 = youtubeData.slice(0, 8)
   
   const sideBarWidth = mobileOpen ? '70px' : '250px';
   return (
@@ -70,7 +80,11 @@ function OriginSearch() {
               width: `calc(100vw - ${sideBarWidth})`,
             }}
           >
-            <CardList items={items1} contentType={searchTabType} />
+            {loading ? (
+              <LoadingScreen/>
+            ) : (
+              <CardList item={searchResp} contentType={searchTabType} />
+            )}
           </Box>
         </Box>
       </Box>

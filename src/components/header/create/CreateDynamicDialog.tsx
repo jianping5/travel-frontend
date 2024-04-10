@@ -12,6 +12,9 @@ import {
   Typography,
 } from '@mui/material';
 import UploadMediaButton from './UploadMediaButton';
+import { uploadFile } from '@/api/data/data-api';
+import { createDynamic } from '@/api/social/social-api';
+import { FileType } from '@/api/enum';
 
 
 interface UploadVideoDialogProps {
@@ -22,26 +25,82 @@ interface UploadVideoDialogProps {
 const CreateDynamicDialog: React.FC<UploadVideoDialogProps> = ({ open, handleClose }) => {
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const [video, setVideo] = useState<File | null>(null);
+  const [media, setMedia] = useState<File | null>(null);
+  const [mediaUrl, setMediaUrl] = useState('')
   const [content, setContent] = useState<string>('')
   const [isMediaUpload, setIsMediaUpload] = useState(true); // 切换状态，默认为 true，即显示媒体上传组件
+
+
+  // 上传文件
+  const handleUploadFile = async (fileType: string, file: File) => {
+    try {
+      if (file != null) {
+        const res = await uploadFile(fileType, file as File)
+        const data = res.data
+        setMediaUrl(data.fileUrl)
+        console.log(data.fileUrl)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  // 创建社区动态
+  const handelCreateDynamic = async () => {
+    // 判断 fileType
+    let fileType = 0
+    if (isMediaUpload == false) {
+      // 文本
+      fileType = FileType.Text
+    } else {
+      if (media != null) {
+        if (media.type.startsWith('image/')) {
+          // 图片
+          fileType = FileType.Picture
+        } else {
+          // 视频
+          fileType = FileType.Video
+        }
+      }
+    }
+    try {
+      const req: CommunityDynamicCreateReq = {
+        // 顶部导航栏的创建的是个人动态
+        communityId: 0,
+        title: title,
+        description: description,
+        content: fileType == FileType.Text ? content : mediaUrl,
+        fileType: fileType,
+      }
+      await createDynamic(req)
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   const handleToggle = () => {
     setIsMediaUpload(!isMediaUpload); // 切换状态
   };
 
+  // 恢复初始值
+  const handleInit = () => {
+    setTitle('')
+    setDescription('')
+    setMedia(null)
+    setContent("")
+  }
+
   const handleCreate = () => {
     // 执行创建操作，可以将输入的数据提交到后端处理
-    console.log('创建标题:', title);
-    console.log('创建简介:', description);
-    console.log('上传视频:', video);
+    handelCreateDynamic()
+    handleInit();
     handleClose(); // 关闭弹窗
   };
 
   return (
     <Dialog open={open} onClose={handleClose} fullScreen maxWidth='md' sx={{ maxWidth: '100%', margin: 'auto'}} >
       <DialogTitle>Create Dynamic</DialogTitle>
-      <DialogContent sx={{ height: '100vh', pl: '500px', pr: '500px' }}>
+      <DialogContent sx={{ height: '100vh', pl: '300px', pr: '300px' }}>
         <TextField
           autoFocus
           margin="dense"
@@ -64,7 +123,7 @@ const CreateDynamicDialog: React.FC<UploadVideoDialogProps> = ({ open, handleClo
           onChange={(e) => setDescription(e.target.value)}
         />
         {isMediaUpload ? (
-          <UploadMediaButton onChange={(file) => setVideo(file)}/>
+          <UploadMediaButton onChange={(file, fileType) => {setMedia(file); handleUploadFile(fileType, file as File)}}/>
         ) : (
           <TextField
             margin="dense"
@@ -80,8 +139,8 @@ const CreateDynamicDialog: React.FC<UploadVideoDialogProps> = ({ open, handleClo
         )}
       </DialogContent>
       <DialogActions sx={{ border: '1px solid #ccc' }}>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleCreate}>Create</Button>
+        <Button onClick={() => {handleInit(); handleClose();}}>Cancel</Button>
+        <Button onClick={() => {handleCreate()}}>Create</Button>
       </DialogActions>
       <Button onClick={handleToggle} sx={{ position: 'absolute', top: 15, right: 15 }}>{isMediaUpload ? 'Switch to Text' : 'Switch to Media'}</Button>
     </Dialog>

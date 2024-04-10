@@ -1,3 +1,4 @@
+'use client'
 import { FaUserCircle } from 'react-icons/fa';
 import { userProfileItems } from '../../data/app.data';
 import Avatar from '@mui/material/Avatar';
@@ -12,13 +13,15 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Menu from '@mui/material/Menu';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { inlineText } from '../../styles/styles';
 import useToggle from '../../hooks/useToggle';
 import { GrChannel } from 'react-icons/gr';
 import { SiReasonstudios } from 'react-icons/si';
-import { logout } from '@/api/user/user-api';
+import { getUserInfo, logout } from '@/api/user/user-api';
+import { useRouter } from 'next/navigation';
+import { getLoginUserId } from '@/utils/tool';
 
 type Props = {
   onLogout: () => void;
@@ -26,11 +29,34 @@ type Props = {
 
 const UserProfile: React.FC<Props> = ({ onLogout }) => {
   const { el, open, handleClick, handleClose } = useToggle();
+  const [userInfo, setUserInfo] = useState<UserInfoResp>();
+
+  const history = useRouter()
+  const loginUserId = getLoginUserId()
 
   const signOut = () => {
     logout()
     onLogout()
   }
+
+  // 获取当前登录用户信息
+  const handleGetUserInfo = async () => {
+    try {
+      const req: UserInfoReq = {
+        id: 0
+      }
+      const response = await getUserInfo(req)
+      const data = response.data
+      setUserInfo(data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    handleGetUserInfo()
+  }, [])
+  
 
   return (
     <Box sx={{ px: 1 }}>
@@ -50,11 +76,11 @@ const UserProfile: React.FC<Props> = ({ onLogout }) => {
           <ListItemAvatar>
             <Avatar
               alt="Channel avatar"
-              src={`https://i.pravatar.cc/150?img=2`}
+              src={userInfo?.avatar}
             />
           </ListItemAvatar>
           <ListItemText
-            primary="Oh my Javascript"
+            primary={userInfo?.account}
             secondary={
               <React.Fragment>
                 <Typography sx={inlineText} component="span">
@@ -68,7 +94,7 @@ const UserProfile: React.FC<Props> = ({ onLogout }) => {
         </ListItem>
         <Box sx={{ minWidth: 300, borderTop: '1px solid #ddd' }}>
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={() => {history.push(`/user/home?id=${loginUserId}`); handleClose()}}>
               <ListItemIcon><GrChannel size={24}/></ListItemIcon>
               <ListItemText primary='Your space' sx={{ ml: '20px'}} />
             </ListItemButton>

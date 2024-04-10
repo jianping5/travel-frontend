@@ -10,6 +10,26 @@ interface UserInfoView {
   email: string;
   avatar: string;
   isFollowed: boolean;
+  signature: string;
 }
 
+interface JwtPayload {
+  jwtUserId: number
+}
+
+interface CopyrightView {
+  id: number;
+  userId: number;
+  itemType: number;
+  itemId: number;
+  metadata: string;
+  tradeHash: string;
+  address: string;
+  status: number;
+  createTime: string;
+  title: string;
+  coverUrl: string;
+  account: string;
+  avatar: string;
+}
 

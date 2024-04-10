@@ -1,24 +1,24 @@
 import { searchTabItems } from '../../data/app.data';
 import Box from '@mui/material/Box';
-import React from 'react';
+import React, { useContext } from 'react';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
+import ThemeContext from '@/context/ThemeContext';
 
 type TabListProps = {
-    onTabChange: (searchValue: string) => void;
+    onTabChange: (searchValue: number) => void;
 }
 
 const TabList: React.FC<TabListProps> = ( { onTabChange }) => {
-  const [value, setValue] = React.useState('Videos');
+  const { searchTabType, setSearchTabType } = useContext(ThemeContext);
 
-  const handleChange = (event: any, newValue: string) => {
-    setValue(newValue);
+  const handleChange = (event: any, newValue: number) => {
     onTabChange(newValue);
   };
   return (
     <Box>
       <Tabs
-        value={value}
+        value={searchTabType}
         onChange={handleChange}
         variant="scrollable"
         scrollButtons="auto"
@@ -26,7 +26,7 @@ const TabList: React.FC<TabListProps> = ( { onTabChange }) => {
         aria-label="scrollable tabs"
       >
         {searchTabItems.map((item) => {
-          return <Tab value={item.text} key={item.id} label={item.text} />;
+          return <Tab value={item.id} key={item.id} label={item.text} />;
         })}
       </Tabs>
     </Box>

@@ -6,73 +6,101 @@ import CommunityCard from './CommunityCard';
 import PeopleCard from './PeopleCard';
 import CopyrightCard from './CopyrightCard';
 import DynamicCard from './DynamicCard';
+import { ItemType } from '@/api/enum';
 
-const CardList: React.FC<any> = ({ items, contentType }) => {
-  return (
-    <Box sx={{marginRight: '35%'}}>
-      <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 4 }}>
-        {items.length &&
-          items.map((item: any) => {
-            const key = item.etag;
-            const { videoId } = item.id;
-            const { thumbnails, title, channelTitle } = item.snippet; 
-            switch(contentType) {
-              case 'Videos':
+interface CardListProps {
+  item?: SearchResp,
+  contentType: ItemType
+}
+
+const CardList: React.FC<CardListProps> = ({ item, contentType }) => {
+
+  switch(contentType) {
+    case ItemType.VIDEO:
+      return (
+        <Box sx={{marginRight: '35%'}}>
+          <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 4 }}>
+            {item?.contentList?.length && 
+              item?.contentList.map(item => {
+                const key = item.id
                 return (
                   <Grid key={key} item xs={12}>
-                    <VideoCard
-                      url={thumbnails.high.url}
-                      title={title}
-                      channelTitle={channelTitle}
-                      videoId={videoId}
-                    />
+                    <VideoCard item={item}/>
                   </Grid>
-                );
-              case 'Communities':
-                return (
-                  <Grid key={key} item xs={12}>
-                    <CommunityCard
-                      url={thumbnails.high.url}
-                      title={title}
-                      channelTitle={channelTitle}
-                      videoId={videoId}
-                    />
-                  </Grid>);
-              case 'Copyrights':
-                return (
-                  <Grid key={key} item xs={12}>
-                    <CopyrightCard
-                      url={thumbnails.high.url}
-                      title={title}
-                      channelTitle={channelTitle}
-                      videoId={videoId}
-                    />
-                  </Grid>);
-              case 'Dynamics':
-                return (
-                  <Grid key={key} item xs={12}>
-                    <DynamicCard
-                      url={thumbnails.high.url}
-                      title={title}
-                      channelTitle={channelTitle}
-                      videoId={videoId}
-                    />
-                  </Grid>);
-              case 'People':
-                return (
-                  <Grid key={key} item xs={12}>
-                    <PeopleCard
-                      url={thumbnails.high.url}
-                      title={title}
-                      channelTitle={channelTitle}
-                      videoId={videoId}
-                    />
-                  </Grid>);
+                )
+              })
             }
-
-          })}
-      </Grid>
-    </Box>
-  );
+          </Grid>
+        </Box>
+      );
+    case ItemType.COMMUNITY:
+      return (
+        <Box sx={{marginRight: '35%'}}>
+          <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 4 }}>
+            {item?.communityList?.length && 
+              item?.communityList.map(item => {
+                const key = item.id
+                return (
+                  <Grid key={key} item xs={12}>
+                    <CommunityCard item={item}/>
+                  </Grid>
+                )
+              })
+            }
+          </Grid>
+        </Box>
+      );
+    case ItemType.COPYRIGHT:
+      return (
+        <Box sx={{marginRight: '35%'}}>
+          <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 4 }}>
+            {item?.copyrightList?.length && 
+              item?.copyrightList.map(item => {
+                const key = item.id
+                return (
+                  <Grid key={key} item xs={12}>
+                    <CopyrightCard item={item}/>
+                  </Grid>
+                )
+              })
+            }
+          </Grid>
+        </Box>
+      );
+    case ItemType.DYNAMIC:
+      return (
+        <Box sx={{marginRight: '35%'}}>
+          <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 4 }}>
+            {item?.dynamicList?.length && 
+              item?.dynamicList.map(item => {
+                const key = item.id
+                return (
+                  <Grid key={key} item xs={12}>
+                    <DynamicCard item={item}/>
+                  </Grid>
+                )
+              })
+            }
+          </Grid>
+        </Box>
+      );
+    case ItemType.USER:
+      return (
+        <Box sx={{marginRight: '35%'}}>
+          <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 4 }}>
+            {item?.userList?.length && 
+              item?.userList.map(item => {
+                const key = item.id
+                return (
+                  <Grid key={key} item xs={12}>
+                    <PeopleCard item={item}/>
+                  </Grid>
+                )
+              })
+            }
+          </Grid>
+        </Box>
+      );   
+  }
 };
 export default CardList;

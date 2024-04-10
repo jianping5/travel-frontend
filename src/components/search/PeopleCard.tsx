@@ -1,45 +1,64 @@
-import { AiFillCheckCircle } from 'react-icons/ai';
-import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Link from '@mui/material/Link';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import React from 'react';
+import React, { useState } from 'react';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import { getLoginUserId } from '@/utils/tool';
+import { follow } from '@/api/user/user-api';
+import { Button } from '@mui/material';
 
 type AppCardProps = {
-  url: string,
-  title: string,
-  channelTitle: string,
-  videoId: number,
+  item: UserInfoView
 }
 
-const AppCard: React.FC<AppCardProps> = ({ url, title, channelTitle, videoId }) => {
+const AppCard: React.FC<AppCardProps> = ({ item }) => {
 
-  const truncatedTitle = title.length > 100 ? `${title.substring(0, 100)}...` : title;
-  url = 'https://yt3.googleusercontent.com/ytc/AIdro_nlR3ivirsiC0Vaae1hteLwhVfKKkgCtAfkf901=s176-c-k-c0x00ffffff-no-rj'
+  const [isFollowed, setIsFollowed] = useState(item.isFollowed); // 初始化关注状态
+
+  // 关注
+  const handleFollow = async () => {
+    try {
+      const req: FollowReq = {
+        id: item.id,
+        type: isFollowed // 切换关注状态
+      }
+      await follow(req);
+      setIsFollowed(!isFollowed); // 更新状态为切换后的值
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   return (
-      <Link href={`https://www.youtube.com/watch?v=${videoId}`} underline="none" sx={{ position: 'relative', display: 'inline-block' }}>
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'transparent', zIndex: 1 }}></div>
-        <Card sx={{ display: 'flex', borderRadius: 0, boxShadow: 'none', border: 'none', position: 'relative', zIndex: 2 }}>
-          <CardMedia component="img" sx={{width: 150, height: 150, }}  image={url} alt={title} />
-          
-          <CardContent sx={{ flex: 1, padding: 3}}>
-            <Typography variant="h6" sx={{  color: '#000000', fontWeight: 'medium', fontSize: '1.2rem', lineHeight: '1.2', WebkitLineClamp: 2, overflow: 'hidden', display: '-webkit-box', WebkitBoxOrient: 'vertical', textOverflow: 'ellipsis', wordBreak: 'break-word' }}>
-              {truncatedTitle}
-            </Typography>
+    <div>
+      <Link href={`/user/home?id=${item.id}`} underline="none" sx={{ position: 'relative', display: 'inline-block' }}>
+        <Card sx={{ display: 'flex', mb: '20px', width: '800px', border: 'none', boxShadow: 'none', position: 'relative' }}>
+          <CardMedia component="img" sx={{width: 100, height: 100, borderRadius: '50%' }}  image={item.avatar} alt="" />
+          <div style={{ flex: '2'}}>
+            <CardContent sx={{ flex: 1, padding: 2 }}>
+              <Typography variant="h6" sx={{  color: '#000000', fontWeight: 'medium', fontSize: '1.2rem', lineHeight: '1.2', WebkitLineClamp: 2, overflow: 'hidden', display: '-webkit-box', WebkitBoxOrient: 'vertical', textOverflow: 'ellipsis', wordBreak: 'break-word' }}>
+                {item.account}
+              </Typography>
 
-            <Typography variant="body2" sx={{ color: '#606060', marginTop: 2}}>
-            Everything and anything manga! (manhwa/manhua is okay too!) Discuss weekly chapters, find/recommend a new series to read, post a picture of your collection, lurk, etc!
-            </Typography>
-          </CardContent>
+              <Typography variant="body2" sx={{ color: '#606060', marginTop: 1}}>
+                {item.signature}
+              </Typography>
+            </CardContent>
+          </div>
+          <div style={{ display: 'flex', alignItems:'center', justifyContent: 'flex-end' }}>
+            <Button 
+              variant={isFollowed ? 'outlined' : 'contained' }  
+              onClick={ (e) => {e.preventDefault(); handleFollow()} } 
+              sx={{ marginLeft: 'auto', width:'100px', height: '40px', borderRadius: '100px', color: isFollowed ? "black" : "",
+                  border: isFollowed ? '1px solid black' : '1px solid black', backgroundColor: isFollowed ? '' : '#555555 !important'
+              }}>
+              {isFollowed ? "Followed" : "Follow"} 
+            </Button>
+          </div>
         </Card>
       </Link>
+    </div>
   );
 };
 

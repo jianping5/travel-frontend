@@ -98,9 +98,7 @@ function OriginDynamic() {
           <video
           src={dynamicDetail.content}
           controls
-          width="100%"
-          height="auto"
-          style={{ borderRadius: '12px'}}
+          style={{ maxWidth: '1000px', maxHeight: '500px', width: '100%', height: 'auto', borderRadius: '12px', objectFit: 'cover' }}
           />
         </>
       break;
@@ -154,7 +152,7 @@ function OriginDynamic() {
 
                     <Divider sx={{ marginTop: '10px' }} />
                     <Typography sx={{ marginTop: '10px' }}>
-                      Description: {dynamicDetail?.description}
+                      {dynamicDetail?.description}
                     </Typography>
                   </div>
                 </div>
@@ -185,10 +183,15 @@ function OriginDynamic() {
                 </div>
               </div>
               {/* 社区信息 */}
-              <div style={{ flex: 1, marginLeft: '30px', position: 'sticky', top: '20px', maxHeight: '60px' }}>
-                {/* <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '10px' }}>Related Videos</Typography> */}
-                <CommunityInfo id={dynamicDetail?.communityId || 0}/>
-              </div>
+              {dynamicDetail?.communityId != 0 ? (
+                <div style={{ flex: 1, marginLeft: '30px', position: 'sticky', top: '20px', maxHeight: '60px' }}>
+                  {/* <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '10px' }}>Related Videos</Typography> */}
+                  <CommunityInfo id={dynamicDetail?.communityId || 0}/>
+                </div>
+              ) : (
+                <div style={{ flex: '1' }}>
+                </div>
+              )}
             </div>
           </Box>
         </Box>

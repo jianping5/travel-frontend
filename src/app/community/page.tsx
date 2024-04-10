@@ -76,7 +76,7 @@ function OriginCommunity() {
       >
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <TabList onTabChange={onTabChange} />
-          <Box sx={{ mr: 5}} >
+          <Box sx={{ mr: 7}} >
             Joined
             <Switch checked={joinedSwitch} onChange={handleSwitchChange} />
           </Box>
@@ -94,14 +94,16 @@ function OriginCommunity() {
         }}
       >
         <div style={{ display: 'flex' }}>
-          <div>
+          <div style={{ flex: '2'}}>
             <CardList items={dynamicList} />
           </div>
-          <div style={{ width: '430px', position: 'fixed', right: '10px', top: '145px', bottom: '0', maxHeight: '100vh', overflowY: 'auto' }}>
-            <Card sx={{ mr: 5, height: '100%', overflow: 'auto', bgcolor: '#fefefe', borderRadius: '15px' }}>
-              <Typography variant="h6" sx={{ m: 1, fontWeight: 'bold', marginBottom: '10px' }}>COMMUNITIES</Typography>
-              <CommunityList />
-            </Card>
+          <div style={{ flex: '1', position: 'sticky', top: '7px', maxHeight: '75vh' }}>
+            {/* <div style={{ width: '430px', position: 'fixed', right: '10px', top: '145px', bottom: '0', maxHeight: '100vh', overflowY: 'auto' }}> */}
+              <Card sx={{ mr: 5, height: '100%', overflow: 'auto', bgcolor: '#fefefe', borderRadius: '15px' }}>
+                <Typography variant="h6" sx={{ m: 1, fontWeight: 'bold', marginBottom: '10px' }}>COMMUNITIES</Typography>
+                <CommunityList />
+              </Card>
+            {/* </div> */}
           </div>
         </div>
       </Box>

@@ -14,3 +14,9 @@ export enum FileType {
 	Picture,
 	Video
 }
+
+export enum SortType {
+	Newest,
+	Popular,
+	Oldest,
+}

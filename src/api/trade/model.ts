@@ -54,20 +54,6 @@ interface BaseWorkListResp {
   msg: string;
 }
 
-interface CopyrightView {
-  id: number;
-  userId: number;
-  itemType: number;
-  itemId: number;
-  metadata: string;
-  tradeHash: string;
-  address: string;
-  status: number;
-  createTime: string;
-  title: string;
-  coverUrl: string;
-}
-
 interface RecordCreateReq {
   workId: number;
   userId: number;
