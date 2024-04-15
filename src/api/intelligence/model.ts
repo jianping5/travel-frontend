@@ -71,6 +71,7 @@ interface BaseConversationGenerateResp {
 }
 
 interface ConversationView {
+  id: number;
   content: string;
   isGenerated: boolean;
 }

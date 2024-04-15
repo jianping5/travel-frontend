@@ -54,7 +54,7 @@ const Home = () => {
       <Box component="div" sx={flexColumnGrow}>
         <Box
           sx={{
-            my: 2,
+            mb: 1,
             width: `calc(100vw - ${sideBarWidth})`,
           }}
         >

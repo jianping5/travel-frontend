@@ -32,7 +32,6 @@ function TradeLayout({
             component="div"
             sx={{
               flexGrow: 1,
-              p: 1,
               overflowY: 'auto',
               overflowX: 'hidden',
               width: `calc(100vw - ${sideBarWidth})`,

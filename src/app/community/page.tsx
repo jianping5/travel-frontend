@@ -3,6 +3,7 @@ import { getYoutubeAPIData } from "@/api/axios";
 import { listDynamic } from "@/api/social/social-api";
 import CardList from "@/components/community/CardList";
 import CommunityList from "@/components/community/CommunityList";
+import CompactViewList from "@/components/community/CompactViewList";
 import TabList from "@/components/community/TabList";
 import SideList from "@/components/side/SideList";
 import ThemeContext from "@/context/ThemeContext";
@@ -19,10 +20,16 @@ function OriginCommunity() {
   const { setSearch, dynamicTabType, setDynamicTabType, mobileOpen } = useContext(ThemeContext);
   const searchParams = useSearchParams();
   const [joinedSwitch, setJoinedSwitch] = useState(false);
+  const [viewSwitch, setViewSwitch] = useState(true)
 
   const handleSwitchChange = () => {
     setJoinedSwitch((prevSwitchValue) => !prevSwitchValue);
     console.log(joinedSwitch)
+  };
+
+  const handleViewSwitch = () => {
+    setViewSwitch((prevSwitchValue) => !prevSwitchValue);
+    console.log(viewSwitch)
   };
 
   // 获取社区动态列表
@@ -48,7 +55,7 @@ function OriginCommunity() {
 
   useEffect(() => {
     handleListDynamic()
-  }, [searchParams, dynamicTabType]);
+  }, [searchParams, dynamicTabType, joinedSwitch]);
   
   const sideBarWidth = mobileOpen ? '70px' : '250px';
   return (
@@ -69,17 +76,23 @@ function OriginCommunity() {
     <Box component="div" sx={flexColumnGrow}>
       <Box
         sx={{
-          my: 2,
           width: `calc(100vw - ${sideBarWidth})`,
           position: 'relative',
         }}
       >
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <TabList onTabChange={onTabChange} />
-          <Box sx={{ mr: 7}} >
-            Joined
-            <Switch checked={joinedSwitch} onChange={handleSwitchChange} />
+          <Box sx={{ display: 'flex' }}>
+            <Box sx={{ mr: 1}} >
+              Joined
+              <Switch checked={joinedSwitch} onChange={handleSwitchChange} />
+            </Box>
+            <Box sx={{ mr: 7}} >
+              View
+              <Switch checked={viewSwitch} onChange={handleViewSwitch} />
+            </Box>
           </Box>
+
         </Box>
       </Box>
       <Box
@@ -95,7 +108,11 @@ function OriginCommunity() {
       >
         <div style={{ display: 'flex' }}>
           <div style={{ flex: '2'}}>
-            <CardList items={dynamicList} />
+            {viewSwitch == false ? (
+              <CardList items={dynamicList} />
+            ) : (
+              <CompactViewList items={dynamicList} />
+            )}
           </div>
           <div style={{ flex: '1', position: 'sticky', top: '7px', maxHeight: '75vh' }}>
             {/* <div style={{ width: '430px', position: 'fixed', right: '10px', top: '145px', bottom: '0', maxHeight: '100vh', overflowY: 'auto' }}> */}

@@ -1,22 +1,17 @@
 'use client'
-import { getYoutubeAPIData } from "@/api/axios";
-import ReactPlayer from 'react-player/lazy'
 import SideList from "@/components/side/SideList";
 import ThemeContext from "@/context/ThemeContext";
-import { youtubeResponse } from "@/data/app.data";
 import { appContentWrapper, appWrapper, flexColumnGrow } from "@/styles/styles";
 import Box from "@mui/material/Box"
 import { useSearchParams } from "next/navigation";
 import { Suspense, useContext, useEffect, useState } from "react";
 import { Avatar, Button, Card, CardContent, CardHeader, CardMedia, Divider, IconButton, Typography } from "@mui/material";
-import RelatedVideo from "@/components/video/RelatedVideo";
 import CommunityInfo from "@/components/community/CommunityInfo";
 import Comment from "@/components/comment/Comment";
 import { getDynamicDetail, like } from "@/api/social/social-api";
 import { formatNumber, timeAgo } from "@/utils/tool";
 import { FileType, ItemType } from "@/api/enum";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import dynamic from "next/dynamic";
 import { follow } from "@/api/user/user-api";
 import { RiUserFollowFill } from "react-icons/ri";
 

@@ -10,10 +10,11 @@ import CreateDialog from './CreateDialog';
 
 type TabListProps = {
     onTabChange: (searchValue: string) => void;
+    tradeTabType: string;
 }
 
-const TabList: React.FC<TabListProps> = ( { onTabChange }) => {
-  const { tradeTabType } = useContext(ThemeContext);
+const TabList: React.FC<TabListProps> = ( { onTabChange, tradeTabType }) => {
+  // const { tradeTabType } = useContext(ThemeContext);
 
   const handleChange = (event: any, newValue: string) => {
     onTabChange(newValue);

@@ -63,7 +63,7 @@ export const sideListItems = [
   { id: 1, text: 'Home', icon: <GoHome size={24} />, path: '/' },
   { id: 2, text: 'Community', icon: <MdOutlineExplore size={24} />, path: '/community' },
   { id: 3, text: 'Intelligence', icon: <AiOutlinePlaySquare size={24} />, path: '/intelligence/chat' },
-  { id: 4, text: 'Trade', icon: <MdSubscriptions size={24} /> },
+  { id: 4, text: 'Trade', icon: <MdSubscriptions size={24} />, path: '/trade/home'},
   { id: 5, text: 'Copyright', icon: <BiLibrary size={24} /> },
   { id: 6, divider: true },
   { id: 7, text: 'History', icon: <MdHistory size={24} />, path: '/history' },

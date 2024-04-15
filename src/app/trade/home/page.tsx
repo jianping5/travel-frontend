@@ -8,18 +8,18 @@ import { useContext } from "react";
 
 function Home() {
   const history = useRouter()
-  const {tradeTabType, setTradeTabType} = useContext(ThemeContext)
+  // const {tradeTabType, setTradeTabType} = useContext(ThemeContext)
 
   const onTabChange = (tabValue: string) => {
     history.push(`/trade/${tabValue}`)
-    setTradeTabType(tabValue);
+    // setTradeTabType(tabValue);
   };
 
   const items = youtubeResponse
 
   return (
-    <div>
-      <TabList onTabChange={onTabChange}/>
+    <div style={{ marginRight: 17}}>
+      <TabList onTabChange={onTabChange} tradeTabType="home"/>
       <BuyCardList items={items} />
     </div>
   )

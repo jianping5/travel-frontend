@@ -1,23 +1,27 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
+import ReactMarkdown from 'react-markdown';
 
 interface StreamingCardProps {
   content: string;
 }
 
 const StreamingCard: React.FC<StreamingCardProps> = ({ content }) => {
-  const [streamingContent, setStreamingContent] = useState<string>('');
+  const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const formattedContent = content.replace(/\n/g, '<br>'); // 将换行符替换为 <br>
-    setStreamingContent(formattedContent);
+    // 当内容更新时，将滚动条滚动到底部
+    if (cardRef.current) {
+      cardRef.current.scrollTop = cardRef.current.scrollHeight;
+    }
   }, [content]);
 
   return (
     <Card>
-      <CardContent>
-        <Typography variant="body1" dangerouslySetInnerHTML={{ __html: streamingContent }} />
+      <CardContent ref={cardRef} style={{ overflowY: 'auto', maxHeight: '400px' }}>
+        {/* <Typography variant="body1" dangerouslySetInnerHTML={{ __html: streamingContent }} /> */}
+        <ReactMarkdown>{content}</ReactMarkdown>
       </CardContent>
     </Card>
   );

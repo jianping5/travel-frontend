@@ -8,7 +8,7 @@ import { Suspense, useContext, useEffect, useState } from "react";
 import { Avatar, Button, Card, CardContent, Divider, IconButton, Typography } from "@mui/material";
 import CardList from "@/components/video/CardList";
 import Comment from "@/components/comment/Comment";
-import { favor, getCommentList, getContentDetail, getSimilarContentList, like } from "@/api/social/social-api";
+import { createHistory, favor, getCommentList, getContentDetail, getSimilarContentList, like } from "@/api/social/social-api";
 import { ItemType } from "@/api/enum";
 import { formatNumber } from "@/utils/tool";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
@@ -20,11 +20,9 @@ import { follow } from "@/api/user/user-api";
 function OriginVideoDetail() {
   const [contentDetail, setContentDetail] = useState<ContentView>();
   const [contentSimilarList, setContentSimilarList] = useState<ContentView[]>([]);
-  const [commentList, setCommentList] = useState<CommentListView[]>([]);
   const { setSearch, searchTabType, setSearchTabType, mobileOpen } = useContext(ThemeContext);
   const searchParams = useSearchParams();
   const [open, setOpen] = useState(false);
-
 
   const handleToggle = () => {
     setOpen(!open);
@@ -85,6 +83,23 @@ function OriginVideoDetail() {
       console.log(err)
     }
   }
+
+  // 增加历史记录
+  const handleCreateHistory = async () => {
+    try {
+      const req: HistoryCreateReq = {
+        itemId: parseInt(id)
+      }
+      await createHistory(req)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    handleCreateHistory()
+  }, [])
+
 
   useEffect(() => {
     if (!open) {

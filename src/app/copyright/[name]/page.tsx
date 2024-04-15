@@ -15,21 +15,23 @@ function CopyrightDetail() {
 
   return (
     <div>
-      <div style={{ display: 'flex' }}>
-        <div style={{ flex: '1'}}>
-        <CardMedia 
-          component="img" 
-          image='https://images.unsplash.com/photo-1502657877623-f66bf489d236?auto=format&fit=crop&w=800' 
-          alt='image' 
-          sx={{ objectFit: 'cover', width: '700px', height: '500px', borderRadius: '10px', m: 5 }}
-        />
+      <div style={{ display: 'flex', marginBottom: 17 }}>
+        <div style={{}}>
+          <Card sx={{ width: '600px', height: '500px', borderRadius: '10px', ml: 5, mt: 5, border:'1px solid #ccc', backgroundColor: '#fefefe' }}>
+            <CardMedia 
+            component="img" 
+            image='https://cdn.pixabay.com/photo/2017/02/22/16/20/new-zealand-2089838_1280.jpg' 
+            alt='image' 
+            sx={{ objectFit: 'contain', width: '100%', height:'100%' }}
+            />
+          </Card>
         </div>
 
-        <div style={{ flex: '1', marginRight: 10}}>
-          <Box sx={{ ml: '50px', mt: 4}}>
-            <Typography variant="h4" >Travel Log</Typography>
-            <Typography variant="subtitle1" sx={{ fontWeight: 'medium', fontSize: '1.1rem', color: '#242424'}}>Owned by jianping5</Typography>
-            <Card sx={{ mt: 2, mr: 5, p: 1, height:'200px', borderRadius: '9px', border:'1px solid #ccc', backgroundColor: '#fefefe' }}>
+        <div style={{ flex: '1' }}>
+          <Box sx={{ ml: '10px', mt: 5}}>
+            <Typography variant="h5" >Travel Log</Typography>
+            <Typography variant="subtitle1" sx={{ fontWeight: 'medium', fontSize: '1rem', color: '#242424'}}>Owned by jianping5</Typography>
+            <Card sx={{ mt: 2, mr: 3, p: 1, height:'200px', borderRadius: '9px', border:'1px solid #ccc', backgroundColor: '#fefefe' }}>
               <Typography variant="body1" sx={{ mb: 2, fontSize: '1.1rem', m: 1}}> Sales on 2024-10-5 10:25 </Typography>
               <Divider/>
               <Typography variant="body1" sx={{ mb: 2, fontSize: '1rem', m: 1, color: '#777' }}> Current price </Typography>
@@ -38,19 +40,18 @@ function CopyrightDetail() {
                 Buy now / Sell now
               </Button>
             </Card>
-            <Card sx={{ mt: 3, mr: 5, p: 1, height:'195px', borderRadius: '9px', border:'1px solid #ccc', backgroundColor: '#fefefe' }}>
+            <Card sx={{ mt: 3, mr: 3, p: 1, height:'200px', borderRadius: '9px', border:'1px solid #ccc', backgroundColor: '#fefefe' }}>
               <Typography variant="body1" sx={{ mb: 3, fontSize: '1.2rem', m: 1, fontWeight: 'bold'}}> Description </Typography>
               <Divider/>
-              <Typography variant="body1" sx={{ mb: 3, fontSize: '1.1rem', m: 1}}> Supports creator This listing is paying the collection creator their suggested creator earnings. </Typography>
+              <Typography variant="body1" sx={{ fontSize: '1.1rem', m: 1}}> Supports creator This listing is paying the collection creator their suggested creator earnings. </Typography>
             </Card>
           </Box>
-
         </div>
 
       </div>
 
-      <div >
-        <Card sx={{ ml: 5, mr: 6.5, p: 1, borderRadius: '9px', border:'1px solid #ccc', backgroundColor: '#fefefe' }}>
+      <div>
+        <Card sx={{ ml: 5, mr: 3, p: 1, borderRadius: '9px', border:'1px solid #ccc', backgroundColor: '#fefefe' }}>
           <Typography variant="body1" sx={{ mb: 3, fontSize: '1.2rem', m: 1,  fontWeight: 'bold' }}> Trade record </Typography>
           <Divider/>
           <Table>

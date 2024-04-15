@@ -28,7 +28,7 @@ const UploadCard = ({ onChange }: { onChange: (file: File | null, fileType: stri
     <Box display="flex" justifyContent="center" alignItems="center" sx={{ border: '1px solid #ccc', borderRadius: '7px', mt: '10px'}}>
       <Card sx={{ width:'100%' }}>
         {!file ? (
-          <Box display="flex" justifyContent="center" alignItems="center" height={420}>
+          <Box display="flex" justifyContent="center" alignItems="center" height={400}>
             <input
               type="file"
               accept="image/*,video/*"

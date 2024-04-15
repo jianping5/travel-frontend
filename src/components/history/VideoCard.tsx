@@ -18,7 +18,7 @@ const AppCard: React.FC<AppCardProps> = ({ item }) => {
   return (
     <Link href={`/video/?id=${item.itemId}`} underline="none" sx={{ position: 'relative', display: 'inline-block' }}>
       {/* <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'transparent', zIndex: 1 }}></div> */}
-      <Card sx={{ display: 'flex', borderRadius: 0, boxShadow: 'none', border: 'none', position: 'relative', zIndex: 2 }}>
+      <Card sx={{ display: 'flex', width: '700px', boxShadow: 'none', border: 'none', position: 'relative', zIndex: 2 }}>
         <CardMedia component="img" sx={{width: 260, height: 150, objectFit: 'cover', borderRadius: '10px'}}  image={item.coverUrl} alt="" />
         
         <CardContent sx={{ flex: 1, padding: 1, ml: '10px'}}>

@@ -26,9 +26,9 @@ const OptionCard = () => {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
       <Card sx={{ borderRadius: '8px', p: 3, m: 3, width: 270, height: 137, bgcolor: '#fefefe', border: '1px solid #ccc' }}>
-        <Typography variant="body1" sx={{ mb: 1}}>Age</Typography>
+        <Typography variant="body1" sx={{ mb: 1}}>Bugdet</Typography>
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Age</InputLabel>
+          <InputLabel id="demo-simple-select-label">Bugdet</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
@@ -43,9 +43,9 @@ const OptionCard = () => {
         </FormControl>
       </Card>
       <Card sx={{ borderRadius: '8px', p: 3, m: 3, width: 270, height: 137, bgcolor: '#fefefe', border: '1px solid #ccc' }}>
-        <Typography variant="body1" sx={{ mb: 1}}>Day</Typography>
+        <Typography variant="body1" sx={{ mb: 1}}>Trip Group</Typography>
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Day</InputLabel>
+          <InputLabel id="demo-simple-select-label">Trip Group</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
@@ -60,9 +60,9 @@ const OptionCard = () => {
         </FormControl>
       </Card>
       <Card sx={{ borderRadius: '8px', p: 3, m: 3, width: 270, height: 137, bgcolor: '#fefefe', border: '1px solid #ccc' }}>
-        <Typography variant="body1" sx={{ mb: 1}}>Budget</Typography>
+        <Typography variant="body1" sx={{ mb: 1}}>Trip Mood</Typography>
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Budget</InputLabel>
+          <InputLabel id="demo-simple-select-label">Trip Mood</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"

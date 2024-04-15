@@ -35,8 +35,14 @@ const IndexPage: React.FC = () => {
           break; // 如果读取完成，跳出循环
         }
         if (value) {
-          result += decoder.decode(value, { stream: true });
-          setContent(result); // 更新状态
+          // result += decoder.decode(value, { stream: true });
+          // setContent(result); // 更新状态
+          const text = decoder.decode(value, { stream: true });
+          const jsonData = JSON.parse(text.substring(6));
+          if (jsonData.result) {
+              result += jsonData.result;
+              setContent(result); // 更新状态
+          }
         }
       }
     } catch (error) {

@@ -27,7 +27,8 @@ const VideoCard: React.FC<AppCardProps> = ({ url, title, channelTitle, videoId }
         height: 265,
         mt: 2,
         position: 'relative', // 添加 position: 'relative'，让按钮的位置相对于卡片定位
-        overflow: 'hidden' // 隐藏溢出内容
+        overflow: 'hidden', // 隐藏溢出内容
+        borderRadius: '12px'
       }}
       onMouseEnter={() => setIsHovered(true)} // 当鼠标进入卡片时设置悬停状态为 true
       onMouseLeave={() => setIsHovered(false)} // 当鼠标离开卡片时设置悬停状态为 false
@@ -36,8 +37,8 @@ const VideoCard: React.FC<AppCardProps> = ({ url, title, channelTitle, videoId }
         <CardMedia
           component="img"
           image={url}
-          alt="green iguana"
-          sx={{ width: '750px', height: '185px', objectFit: 'cover', borderRadius: '12px' }}
+          alt=""
+          sx={{ width: '750px', height: '185px', objectFit: 'cover' }}
         />
         <CardContent>
           <Typography gutterBottom variant="h6" sx={{ fontSize: '1.1rem', mt: '-10px', color: 'black' }} component="div">

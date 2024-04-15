@@ -15,7 +15,7 @@ export const createStrategy = async (req: StrategyCreateReq): Promise<BaseResp> 
     };
 
     const response = await axios.post<BaseResp>(`${BASE_URL}/api/intelligence/strategy/create`, req, config);
-    if (response.data.code !== "200") {
+    if (response.data.code != "200") {
       throw new Error("状态码错误");
     }
     return response.data;
@@ -36,7 +36,7 @@ export const deleteStrategy = async (req: StrategyDeleteReq): Promise<BaseResp> 
     };
 
     const response = await axios.post<BaseResp>(`${BASE_URL}/api/intelligence/strategy/delete`, req, config);
-    if (response.data.code !== "200") {
+    if (response.data.code != "200") {
       throw new Error("状态码错误");
     }
     return response.data;
@@ -57,7 +57,7 @@ export const generateStrategy = async (req: StrategyGenerateReq): Promise<BaseSt
     };
 
     const response = await axios.post<BaseStrategyGenerateResp>(`${BASE_URL}/api/intelligence/strategy/generate`, req, config);
-    if (response.data.code !== "200") {
+    if (response.data.code != "200") {
       throw new Error("状态码错误");
     }
     return response.data;
@@ -79,7 +79,7 @@ export const getStrategyList = async (): Promise<BaseStrategyListResp> => {
 
     const response = await axios.get<BaseStrategyListResp>(`${BASE_URL}/api/intelligence/strategy/list`, config);
 
-    if (response.data.code !== "200") {
+    if (response.data.code != "200") {
       throw new Error("状态码错误");
     }
     return response.data;
@@ -100,7 +100,7 @@ export const createConversation = async (req: ConversationCreateReq): Promise<Ba
     };
 
     const response = await axios.post<BaseResp>(`${BASE_URL}/api/intelligence/conversation/create`, req, config);
-    if (response.data.code !== "200") {
+    if (response.data.code != "200") {
       throw new Error("状态码错误");
     }
     return response.data;
@@ -120,9 +120,8 @@ export const generateConversation = async (req: ConversationGenerateReq): Promis
       },
     };
 
-    
     const response = await axios.post<BaseConversationGenerateResp>(`${BASE_URL}/api/intelligence/conversation/generate`, req, config);
-    if (response.data.code !== "200") {
+    if (response.data.code != "200") {
       throw new Error("状态码错误");
     }
     return response.data;
@@ -141,10 +140,10 @@ export const getConversationList = async (): Promise<BaseConversationListResp> =
         Authorization: `Bearer ${token}`,
       },
     };
-
     
-    const response = await axios.post<BaseConversationListResp>(`${BASE_URL}/api/intelligence/conversation/list`, config);
-    if (response.data.code !== "200") {
+    const response = await axios.post<BaseConversationListResp>(`${BASE_URL}/api/intelligence/conversation/list`, null, config);
+    console.log(response.data.code)
+    if (response.data.code != "200") {
       throw new Error("状态码错误");
     }
     return response.data;

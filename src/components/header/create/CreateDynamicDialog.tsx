@@ -129,7 +129,7 @@ const CreateDynamicDialog: React.FC<UploadVideoDialogProps> = ({ open, handleClo
             margin="dense"
             id="content"
             label="Content"
-            rows={17}
+            rows={16}
             multiline
             type="text"
             fullWidth
