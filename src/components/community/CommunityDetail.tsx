@@ -5,12 +5,14 @@ import CommunityInfo from './CommunityInfo';
 import CardList from './CardList';
 import CreateDynamicDialog from '../header/create/CreateDynamicDialog';
 import { getCommunityDetail, listSpecificDynamic } from '@/api/social/social-api';
+import CompactViewList from './CompactViewList';
 
 const CommunityDetail: React.FC<any> = ({ id }) => {
   const [dynamicDialogOpen, setDynamicDialogOpen] = useState(false)
   const [communityDetail, setCommunityDetail] = useState<CommunityDetailResp>()
   const [sortBy, setSortBy] = useState(0); // 默认选择 'Newest'
   const [dynamicList, setDynamicList] = useState<CommunityDynamicView[]>([])
+  const [view, setView] = useState(0)
 
 
   // 获取指定社区动态列表
@@ -64,6 +66,11 @@ const CommunityDetail: React.FC<any> = ({ id }) => {
     handleListSpecificDynamic(event.target.value)
   };
 
+  // 处理下拉框选择
+  const handleViewChange = (event: any) => {
+    setView(event.target.value);
+  };
+
   return (
     <div>
       <img src="https://styles.redditmedia.com/t5_2zf9m/styles/bannerBackgroundImage_h8gepdvfwqb61.png" alt="Cover Image" 
@@ -85,15 +92,24 @@ const CommunityDetail: React.FC<any> = ({ id }) => {
           <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
             {/* <Typography variant="h6" sx={{ marginRight: '8px' }}>Sort by:</Typography> */}
             <Select value={sortBy} onChange={handleSortByChange} 
-              sx={{ width: '105px', height: '37px', border: 'none', mr: '10px' }}>
+              sx={{ width: '115px', height: '37px', border: 'none', mr: '10px' }}>
               <MenuItem value={0}>Newest</MenuItem>
               <MenuItem value={1}>Popular</MenuItem>
               <MenuItem value={2}>Oldest</MenuItem>
             </Select>
+            <Select value={view} onChange={handleViewChange} 
+              sx={{ width: '115px', height: '37px', border: 'none', mr: '10px' }}>
+              <MenuItem value={0}>Compact</MenuItem>
+              <MenuItem value={1}>Card</MenuItem>
+            </Select>
           </div>
           <Divider sx={{ mb: '10px', mr: '10px' }} /> {/* 分割线 */}
-          {/* 社区动态列表 */}
-          <CardList items={dynamicList} contentType='Dynamics' />
+          {/* 社区动态列表 */} 
+          {view == 0 ? (
+              <CompactViewList items={dynamicList} />
+            ) : (
+              <CardList items={dynamicList} />
+            )}
         </div>
         <div style={{ flex: '1', position: 'sticky', top: '20px', maxHeight: '100vh'}}>
         {/* <div style={{ flex: '1' }}> */}

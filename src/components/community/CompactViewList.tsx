@@ -1,4 +1,5 @@
 'use client'
+import { Box } from "@mui/material";
 import DynamicCompact from "./DynamicCompact";
 
 const CompactViewList: React.FC<{items:CommunityDynamicView[]}> = ({items}) => {
@@ -6,7 +7,9 @@ const CompactViewList: React.FC<{items:CommunityDynamicView[]}> = ({items}) => {
     <>
     {items?.map(dynamic => {
       return (
-        <DynamicCompact dynamic={dynamic} />
+        <Box key={dynamic.id}>
+          <DynamicCompact dynamic={dynamic} />
+        </Box>
       )
     })}
     </>

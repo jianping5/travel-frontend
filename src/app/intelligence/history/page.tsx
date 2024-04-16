@@ -1,29 +1,38 @@
 'use client'
+import { getStrategyList } from "@/api/intelligence/intelligence-api";
 import CardList from "@/components/intelligence/CardList";
 import TabList from "@/components/intelligence/TabList";
 import ThemeContext from "@/context/ThemeContext";
-import { youtubeResponse } from "@/data/app.data";
 import { useRouter } from "next/navigation"
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 
 function History() {
-  const items = youtubeResponse
-  const { setIntelligenceTabType } = useContext(ThemeContext)
+  const [strategyResp, setStrategyResp] = useState<StrategyListResp>()
   const history = useRouter()
 
+  // 获取智能攻略列表
+  const handleGetStrategyList = async () => {
+    try {
+      const res = await getStrategyList()
+      const data = res.data
+      setStrategyResp(data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   useEffect(() => {
-    setIntelligenceTabType('history')
+    handleGetStrategyList()
   }, [])
 
   const onTabChange = (tabValue: string) => {
     history.push(`/intelligence/${tabValue}`)
-    setIntelligenceTabType(tabValue);
   };
 
   return (
-    <div>
-      <TabList onTabChange={onTabChange} />
-      <CardList items={items} />
+    <div style={{ marginBottom: 20}}>
+      <TabList onTabChange={onTabChange} intelligenceTabType="history" />
+      <CardList items={strategyResp?.list} />
     </div>
   )
 }

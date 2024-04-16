@@ -6,14 +6,17 @@ import { useRouter } from 'next/navigation'
 import { useContext, useEffect, useRef, useState } from "react";
 import SendIcon from '@mui/icons-material/Send';
 import { createConversation, getConversationList } from "@/api/intelligence/intelligence-api";
+import ReactMarkdown from "react-markdown";
+import { getUserInfo } from "@/api/user/user-api";
 
 const Chat = () => {
-  const { setIntelligenceTabType }  = useContext(ThemeContext);
+  // const { setIntelligenceTabType }  = useContext(ThemeContext);
   const history = useRouter()
   const [messages, setMessages] = useState<ConversationView[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [content, setContent] = useState<string>('');
+  const [userInfo, setUserInfo] = useState<UserInfoResp>();
 
   // 获取对话
   const handleGetConversationList = async () => {
@@ -83,6 +86,20 @@ const Chat = () => {
     }
   }
 
+  // 获取当前登录用户信息
+  const handleGetUserInfo = async () => {
+    try {
+      const req: UserInfoReq = {
+        id: 0
+      }
+      const response = await getUserInfo(req)
+      const data = response.data
+      setUserInfo(data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+    
   // 发送内容，获取结果
   const handleMessageSend = async () => {
     if (inputValue.trim() !== '') {
@@ -99,20 +116,16 @@ const Chat = () => {
 
   useEffect(() => {
     handleGetConversationList()
+    handleGetUserInfo()
   }, [])
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
-
-  useEffect(() => {
-    setIntelligenceTabType('chat')
-    scrollToBottom();
-  }, [content])
+  }, [messages, content]);
 
   const onTabChange = (tabValue: string) => {
     history.push(`/intelligence/${tabValue}`)
-    setIntelligenceTabType(tabValue);
+    // setIntelligenceTabType(tabValue);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -130,21 +143,23 @@ const Chat = () => {
   // 函数用于滚动到对话内容的底部
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+      messagesEndRef.current.scrollIntoView({ behavior: "auto" });
     }
   };
 
   return (
     <div>
-      <TabList onTabChange={onTabChange}/>
-      <Box sx={{ p: 1 }}>
-        <Box sx={{ maxHeight: '70vh', overflowY: 'auto', minHeight: '70vh', borderRadius: '8px', mb: 2 }}>
+      <TabList onTabChange={onTabChange} intelligenceTabType="chat" />
+      <Box sx={{ mt: 2 }}>
+        <Box sx={{ maxHeight: '70vh', overflowY: 'auto', minHeight: '70vh', borderRadius: '8px', mb: 2, pr: 7 }}>
           {messages.map((message) => (
             <Box key={message.id} sx={{ display: 'flex', alignItems: 'flex-start', mb: 5 }}>
-              <Avatar alt="" src="https://yt3.googleusercontent.com/nkUy7yOWP3EOk-e7HbV2e2L6suWQq5-Ggctu3_pBQTSNkjVpm0SW-k34tobItcuJ-r1a1R_qig=s176-c-k-c0x00ffffff-no-rj" sx={{ mr: 1, width:'30px', height:'30px' }} />
+              <Avatar alt="" src={message.isGenerated ? "https://yt3.googleusercontent.com/nkUy7yOWP3EOk-e7HbV2e2L6suWQq5-Ggctu3_pBQTSNkjVpm0SW-k34tobItcuJ-r1a1R_qig=s176-c-k-c0x00ffffff-no-rj" : userInfo?.avatar} sx={{ mr: 1, width:'27px', height:'27px' }} />
               <Box>
                 <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>{message.isGenerated ? "Bot" : "User"}</Typography>
-                <Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>{message.content}</Typography>
+                <Box sx={{ mt: -2.5}}>
+                  <ReactMarkdown className='markdown' >{message.content}</ReactMarkdown>
+                </Box>
               </Box>
             </Box>
           ))}
@@ -153,7 +168,7 @@ const Chat = () => {
               <Avatar alt="" src="https://yt3.googleusercontent.com/nkUy7yOWP3EOk-e7HbV2e2L6suWQq5-Ggctu3_pBQTSNkjVpm0SW-k34tobItcuJ-r1a1R_qig=s176-c-k-c0x00ffffff-no-rj" sx={{ mr: 1, width:'30px', height:'30px' }} />
               <Box>
                 <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Bot</Typography>
-                <Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>{content}</Typography>
+                <ReactMarkdown className='markdown'>{content}</ReactMarkdown>
               </Box>
             </Box>
           )}

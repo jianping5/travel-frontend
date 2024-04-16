@@ -12,11 +12,13 @@ import UploadVideoDialog from './upload/UploadVideoDialog';
 import { FiPlay } from 'react-icons/fi';
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import CreateDynamicDialog from './create/CreateDynamicDialog';
+import CreateCommunityDialog from './create/CreateCommunityDialog';
 
 const Upload = () => {
   const { el, open, handleClick, handleClose } = useToggle();
   const [dialogOpen, setDialogOpen] = useState(false)
   const [dynamicDialogOpen, setDynamicDialogOpen] = useState(false)
+  const [communityDialogOpen, setCommunityDialogOpen] = useState(false)
 
   const handleOpen = () => {
     setDialogOpen(true)
@@ -27,6 +29,10 @@ const Upload = () => {
     setDynamicDialogOpen(true)
   }
 
+  const handleCommunityOpen = () => {
+    setCommunityDialogOpen(true)
+  }
+
   const handleCloseDialog = () => {
     setDialogOpen(false)
     handleClose()
@@ -34,6 +40,11 @@ const Upload = () => {
 
   const handleCloseDynamicDialog = () => {
     setDynamicDialogOpen(false)
+    handleClose()
+  }
+
+  const handleCloseCommunityDialog = () => {
+    setCommunityDialogOpen(false)
     handleClose()
   }
 
@@ -64,11 +75,18 @@ const Upload = () => {
               <ListItemText primary='Create Dynamic' sx={{ ml: '-20px'}} />
             </ListItemButton>
           </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton onClick={handleCommunityOpen}>
+              <ListItemIcon><IoCreateOutline size={24}/></ListItemIcon>
+              <ListItemText primary='Create Community' sx={{ ml: '-20px'}} />
+            </ListItemButton>
+          </ListItem>
         </Box>
       </Menu>
       
       <UploadVideoDialog open={dialogOpen} handleClose={handleCloseDialog} />
       <CreateDynamicDialog open={dynamicDialogOpen} handleClose={handleCloseDynamicDialog} />
+      <CreateCommunityDialog open={communityDialogOpen} handleClose={handleCloseCommunityDialog} />
     </Box>
   );
 };

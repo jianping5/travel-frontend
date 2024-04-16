@@ -83,11 +83,11 @@ function OriginCommunity() {
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <TabList onTabChange={onTabChange} />
           <Box sx={{ display: 'flex' }}>
-            <Box sx={{ mr: 1}} >
+            <Box sx={{ mr: 1, mt: 1 }} >
               Joined
               <Switch checked={joinedSwitch} onChange={handleSwitchChange} />
             </Box>
-            <Box sx={{ mr: 7}} >
+            <Box sx={{ mr: 7, mt: 1 }} >
               View
               <Switch checked={viewSwitch} onChange={handleViewSwitch} />
             </Box>

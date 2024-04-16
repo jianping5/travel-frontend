@@ -9,10 +9,11 @@ import ThemeContext from '@/context/ThemeContext';
 
 type TabListProps = {
     onTabChange: (searchValue: string) => void;
+    intelligenceTabType: string;
 }
 
-const TabList: React.FC<TabListProps> = ( { onTabChange }) => {
-  const { intelligenceTabType } = useContext(ThemeContext);
+const TabList: React.FC<TabListProps> = ( { onTabChange, intelligenceTabType }) => {
+  // const { intelligenceTabType } = useContext(ThemeContext);
 
   const handleChange = (event: any, newValue: string) => {
     onTabChange(newValue);

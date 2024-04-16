@@ -73,7 +73,7 @@ const AppCard: React.FC<AppCardProps> = ({ props }) => {
                       <Avatar
                         alt="Channel avatar"
                         src={props.userInfo?.avatar}
-                        sx={{ width: 25, height: 25, borderRadius: '50%' }}
+                        sx={{ width: 27, height: 27, borderRadius: '50%' }}
                       />
                     </ListItemAvatar>
                     <Typography variant="body2" sx={{ color: '#606060', fontSize: '0.8rem', lineHeight: '1', marginLeft: '-22px' }}>

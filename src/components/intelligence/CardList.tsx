@@ -8,19 +8,12 @@ const CardList: React.FC<any> = ({ items }) => {
   return (
     <Box sx={{marginRight: ''}}>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 4 }}>
-        {items.length &&
+        {items?.length &&
           items.map((item: any) => {
-            const key = item.etag;
-            const { videoId } = item.id;
-            const { thumbnails, title, channelTitle } = item.snippet; 
+            const key = item.id;
             return (
               <Grid key={key} item xs={12}>
-                <HistoryCard
-                  url={thumbnails.high.url}
-                  title={title}
-                  channelTitle={channelTitle}
-                  videoId={videoId}
-                />
+                <HistoryCard item={item} />
               </Grid>);
           })}
       </Grid>

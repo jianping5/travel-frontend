@@ -77,7 +77,29 @@ export const getStrategyList = async (): Promise<BaseStrategyListResp> => {
       },
     };
 
-    const response = await axios.get<BaseStrategyListResp>(`${BASE_URL}/api/intelligence/strategy/list`, config);
+    const response = await axios.post<BaseStrategyListResp>(`${BASE_URL}/api/intelligence/strategy/list`, null, config);
+
+    if (response.data.code != "200") {
+      throw new Error("状态码错误");
+    }
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.msg);
+  }
+};
+
+// 获取智能攻略详情
+export const getStrategyDetail = async (req: StrategyDeleteReq): Promise<BaseStrategyDetailResp> => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const config: AxiosRequestConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const response = await axios.post<BaseStrategyDetailResp>(`${BASE_URL}/api/intelligence/strategy/detail`, req, config);
 
     if (response.data.code != "200") {
       throw new Error("状态码错误");

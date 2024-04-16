@@ -41,15 +41,16 @@ const AppCard: React.FC<AppCardProps> = ({ props, userId }) => {
   }
 
   const truncatedName = props.name.length > 100 ? `${props.name.substring(0, 100)}...` : props.name;
+  const truncatedDesc = props.description.length > 77 ? `${props.description.substring(0, 77)}...` : props.description;
 
   return (
-    <div>
+    <div style={{ marginBottom: 10 }}>
       <Link href={`/community/detail?id=${props.id}`} underline="none" sx={{ position: 'relative', display: 'inline-block' }}>
-        <Card sx={{ display: 'flex', borderRadius: 0, width: '800px', boxShadow: 'none', border: 'none', position: 'relative' }}>
+        <Card sx={{ display: 'flex', borderRadius: 0, width: '800px', height: '107px', boxShadow: 'none', border: 'none', position: 'relative' }}>
           <CardMedia component="img" sx={{width: 100, height: 100, borderRadius: '50%' }}  image={props.avatar} alt="" />
           <div style={{ flex: '2'}}>
-            <CardContent sx={{ flex: 1, padding: 2}}>
-              <Typography variant="h6" sx={{  color: '#000000', fontWeight: 'medium', fontSize: '1.2rem', lineHeight: '1.2', WebkitLineClamp: 2, overflow: 'hidden', display: '-webkit-box', WebkitBoxOrient: 'vertical', textOverflow: 'ellipsis', wordBreak: 'break-word' }}>
+            <CardContent sx={{ flex: 1, padding: 1}}>
+              <Typography variant="h6" sx={{  color: '#000000', fontWeight: 'medium', fontSize: '1.2rem' }}>
                 {truncatedName}
               </Typography>
 
@@ -58,7 +59,7 @@ const AppCard: React.FC<AppCardProps> = ({ props, userId }) => {
               </Typography>
 
               <Typography variant="body2" sx={{ color: '#606060', marginTop: 1}}>
-                {props.description}
+                {truncatedDesc}
               </Typography>
             </CardContent>
           </div>
@@ -72,12 +73,10 @@ const AppCard: React.FC<AppCardProps> = ({ props, userId }) => {
                 {isJoined ? "Joined" : "Join"} 
               </Button>
             }
-
           </div>
         </Card>
       </Link>
     </div>
-
   );
 };
 

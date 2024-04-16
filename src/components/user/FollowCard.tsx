@@ -34,12 +34,12 @@ const AppCard: React.FC<AppCardProps> = ({ props, userId }) => {
   }
 
   return (
-    <div>
+    <div style={{ marginBottom: 10 }} >
       <Link href={`/user/home?id=${props.id}`} underline="none" sx={{ position: 'relative', display: 'inline-block' }}>
-        <Card sx={{ display: 'flex', mb: '20px', width: '800px', border: 'none', boxShadow: 'none', position: 'relative' }}>
+        <Card sx={{ display: 'flex', width: '800px', height: '107px', border: 'none', boxShadow: 'none', position: 'relative' }}>
           <CardMedia component="img" sx={{width: 100, height: 100, borderRadius: '50%' }}  image={props.avatar} alt="" />
           <div style={{ flex: '2'}}>
-            <CardContent sx={{ flex: 1, padding: 2 }}>
+            <CardContent sx={{ flex: 1, padding: 1 }}>
               <Typography variant="h6" sx={{  color: '#000000', fontWeight: 'medium', fontSize: '1.2rem', lineHeight: '1.2', WebkitLineClamp: 2, overflow: 'hidden', display: '-webkit-box', WebkitBoxOrient: 'vertical', textOverflow: 'ellipsis', wordBreak: 'break-word' }}>
                 {props.account}
               </Typography>

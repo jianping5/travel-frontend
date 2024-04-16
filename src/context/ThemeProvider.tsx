@@ -4,7 +4,7 @@ import ThemeContext from './ThemeContext'
 
 const ThemeProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
   const [search, setSearch] = React.useState('')
-  const [mobileOpen, setMobileOpen] = React.useState(true);
+  const [mobileOpen, setMobileOpen] = React.useState(false);
   const [homeTabType, setHomeTabType] = React.useState(0)
   const [searchTabType, setSearchTabType] = React.useState(0)
   const [userHomeTabType, setUserHomeTabType] = React.useState('home')

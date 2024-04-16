@@ -16,7 +16,8 @@ export default function AlignItemsList() {
   const handleListCommunity = async () => {
     try {
       const req: CommunityListReq = {
-        userId: 0
+        // -1 表示查询所有社区
+        userId: -1
       }
       const response = await listCommunity(req)
       const data = response.data

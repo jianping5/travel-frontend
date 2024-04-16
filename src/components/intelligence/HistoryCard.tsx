@@ -6,36 +6,39 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import React from 'react';
 import Typography from '@mui/material/Typography';
+import { timeAgo } from '@/utils/tool';
 
 type AppCardProps = {
-  url: string,
-  title: string,
-  channelTitle: string,
-  videoId: number,
+  item: StrategyView
 }
 
-const AppCard: React.FC<AppCardProps> = ({ url, title, channelTitle, videoId }) => {
+const AppCard: React.FC<AppCardProps> = ({ item }) => {
+  // 使用正则表达式匹配标题内容
+  const match = item.strategy.match(/^#\s*(.*?)\s*\n\n/);
+
+  // 如果匹配成功，提取标题内容
+  const title = match ? match[1] : "";
 
   return (
-    <Link href={`https://www.youtube.com/watch?v=${videoId}`} underline="none" sx={{ position: 'relative', display: 'inline-block' }}>
-      <Card sx={{ display: 'flex', borderRadius: '7px', width:'1000px', position: 'relative', mt: 2, bgcolor: '#fefefe', border: '1px solid #ccc' }}>
+    <Link href={`/intelligence/history/detail?id=${item.id}`} underline="none" sx={{ position: 'relative', display: 'inline-block' }}>
+      <Card sx={{ ml: 3, display: 'flex', borderRadius: '7px', width:'1000px', position: 'relative', mt: 2, border: '1px solid #ccc' }}>
         <CardContent sx={{ flex: 1, padding: 1, marginLeft: ''}}>
           <List sx={{ display: 'flex', flexDirection: 'column', padding: 0 }}>
             <ListItem sx={{ alignItems: 'center', marginTop: '10px' }}>
               <Typography variant="h3" sx={{  fontSize: '1.3rem'}}>
-                {channelTitle} • two days
+                {title}
               </Typography>
             </ListItem>
 
             <ListItem sx={{ marginTop: '-10px'}}>
-              <Typography variant="subtitle1" sx={{ color: 'gray', fontWeight: 'medium', fontSize: '0.8rem', lineHeight: '1.2' }}>
-                  2024-10-21 10:25
+              <Typography variant="subtitle1" sx={{ color: 'gray', fontWeight: 'medium', fontSize: '0.8rem' }}>
+                  {timeAgo(new Date(item.createTime).getTime())}
               </Typography>
             </ListItem>
 
             <ListItem sx={{ marginTop: '-10px'}}>
-              <Typography variant="h6" sx={{ color: '', fontWeight: 'medium', fontSize: '1rem', lineHeight: '1.2' }}>
-                Low budget  |  couple  |  nature
+              <Typography variant="h6" sx={{ color: '', fontWeight: 'medium', fontSize: '1rem' }}>
+                {item.duration}   |   {item.budget} budget   |   {item.tripGroup}   |   {item.tripMood}
               </Typography>
             </ListItem>
 

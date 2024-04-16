@@ -1,7 +1,7 @@
 // 智能攻略
 interface StrategyCreateReq {
   destination: string;
-  duration: number;
+  duration: string;
   budget: string;
   tripGroup: string;
   tripMood: string;
@@ -13,6 +13,7 @@ interface StrategyDeleteReq {
 }
 
 interface StrategyView {
+  id: number
   destination: string;
   duration: number;
   budget: string;
@@ -20,6 +21,20 @@ interface StrategyView {
   tripMood: string;
   strategy: string;
   createTime: string;
+}
+
+interface StrategyDetailReq {
+  id: number
+}
+
+interface StrategyDetailResp {
+  strategy: StrategyView
+}
+
+interface BaseStrategyDetailResp {
+  code: string
+  data: StrategyDetailResp
+  msg: string
 }
 
 interface StrategyListResp {

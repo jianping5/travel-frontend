@@ -6,7 +6,6 @@ import { appContentWrapper, appWrapper, flexColumnGrow } from "@/styles/styles";
 import Box from "@mui/material/Box"
 import { useSearchParams } from "next/navigation";
 import { Suspense, useContext, useEffect, useState } from "react";
-import { isDataView } from "util/types";
 
 function OriginSearch() {
   const { setSearch, searchTabType, mobileOpen } = useContext(ThemeContext);

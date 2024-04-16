@@ -4,7 +4,7 @@ import { createContext } from 'react';
 const ThemeContext = createContext({
   search: '',
   setSearch: (val: string) => {},
-  mobileOpen: true,
+  mobileOpen: false,
   setMobileOpen: (val: boolean) => {},
   homeTabType: 0,
   setHomeTabType: (val: number) => {},
