@@ -1,3 +1,4 @@
+'use client'
 import {jwtDecode} from "jwt-decode";
 
 // 时间格式转换

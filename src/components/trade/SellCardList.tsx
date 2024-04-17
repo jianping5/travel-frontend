@@ -1,24 +1,20 @@
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import React from 'react';
+import React, { useContext } from 'react';
 import SellCard from './SellCard';
-const BuyCardList: React.FC<any> = ({ items }) => {
+import ThemeContext from '@/context/ThemeContext';
+
+const SellCardList: React.FC<{items: WorkView[]}> = ({ items }) => {
+  const { mobileOpen } = useContext(ThemeContext);
   return (
     <Box sx={{marginRight: ''}}>
-      <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 4 }}>
+      <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 2 }}>
         {items.length &&
           items.map((item: any) => {
-            const key = item.etag;
-            const { videoId } = item.id;
-            const { thumbnails, title, channelTitle } = item.snippet; 
+            const key = item.id;
             return (
-              <Grid key={key} item xs={12} sm={6} md={4} lg={3}>
-                <SellCard
-                  url={thumbnails.high.url}
-                  title={title}
-                  channelTitle={channelTitle}
-                  videoId={videoId}
-                />
+              <Grid key={key} item xs={12} sm={mobileOpen ? 3 : 4} md={mobileOpen ? 3 : 4} lg={mobileOpen ? 3 : 4}>
+                <SellCard item={item} />
               </Grid>
             );
           })}
@@ -26,4 +22,4 @@ const BuyCardList: React.FC<any> = ({ items }) => {
     </Box>
   );
 };
-export default BuyCardList;
+export default SellCardList;

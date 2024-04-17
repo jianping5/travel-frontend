@@ -20,3 +20,9 @@ export enum SortType {
 	Popular,
 	Oldest,
 }
+
+export enum WorkStatus {
+	Created,
+	OnSale,
+	Sold,
+}

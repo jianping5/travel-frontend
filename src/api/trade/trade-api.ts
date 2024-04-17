@@ -81,6 +81,32 @@ export const getWorkList = async (req: WorkListReq): Promise<BaseWorkListResp> =
   }
 };
 
+// 分页获取指定用户商品列表
+export const getUserWorkList = async (req: UserWorkListReq): Promise<BaseUserWorkListResp> => {
+  try {
+    const token = localStorage.getItem("token")
+
+    // 构造请求配置对象
+    const config: AxiosRequestConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`, // 设置 Authorization 请求头
+      },
+    };
+
+    // 发送登录请求，并等待响应
+    const response = await axios.post<BaseUserWorkListResp>(`${BASE_URL}/api/trade/work/userwork/list`, req, config);
+    // 非 200 报错
+    if (response.data.code != "200") {
+      throw new Error("状态码错误")
+    }
+    // 返回响应数据
+    return response.data;
+  } catch (error: any) {
+    // 捕获请求失败的错误，并抛出异常
+    throw new Error(error.msg);
+  }
+};
+
 // 获取商品详情
 export const getWorkDetail = async (req: WorkDetailReq): Promise<BaseWorkDetailResp> => {
   try {

@@ -13,6 +13,12 @@ interface WorkListReq {
   pageSize: number;
 }
 
+interface UserWorkListReq {
+  userId: number
+  pageNum: number;
+  pageSize: number;
+}
+
 interface WorkDetailReq {
   id: number;
 }
@@ -48,9 +54,20 @@ interface WorkListResp {
   total: number;
 }
 
+interface UserWorkListResp {
+  list: WorkView[];
+  total: number;
+}
+
 interface BaseWorkListResp {
   code: string;
   data: WorkListResp;
+  msg: string;
+}
+
+interface BaseUserWorkListResp {
+  code: string;
+  data: UserWorkListResp;
   msg: string;
 }
 
@@ -69,6 +86,7 @@ interface RecordView {
   oldUserInfo: UserInfoView;
   newUserId: number;
   newUserInfo: UserInfoView;
+  price: string;
   createTime: string;
 }
 

@@ -24,6 +24,7 @@ import ThemeContext from '@/context/ThemeContext';
 import Link from "next/link";
 import { Button } from "@mui/material";
 import AuthDialog from "./AuthDialog";
+import CustomeConnectButton from "./CustomeConnectButton";
 
 const NavMenu = () => {
   const { mobileOpen, setMobileOpen } = useContext(ThemeContext);
@@ -69,6 +70,7 @@ const NavMenu = () => {
           <Box sx={hideOnMobile}>
             {loginStatus == "true" ? 
               <>
+                <CustomeConnectButton/>
                 <Upload />
                 <NotificationsList />
                 <UserProfile onLogout={() => setLoginStatus("false")} />

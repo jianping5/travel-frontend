@@ -1,28 +1,55 @@
 'use client'
+import { getUserWorkList } from "@/api/trade/trade-api";
+import LoadingScreen from "@/components/common/loading";
 import SellCardList from "@/components/trade/SellCardList";
 import TabList from "@/components/trade/TabList";
-import ThemeContext from "@/context/ThemeContext";
-import { youtubeResponse } from "@/data/app.data";
 import { useRouter } from "next/navigation"
-import { useContext } from "react";
+import { useEffect, useState } from "react";
 
-function Home() {
+function Work() {
   const history = useRouter()
-  // const {tradeTabType, setTradeTabType} = useContext(ThemeContext)
+  const [userWorkListResp, setUserWorkListResp] = useState<UserWorkListResp>()
+  const [loading, setLoading] = useState(true)
+
+  // 获取指定用户的商品列表
+  const handleGetUserWorkList = async () => {
+    try {
+      const req: UserWorkListReq = {
+        userId: 0, // 获取当前登录用户
+        pageNum: 1,
+        pageSize: 10
+      }
+      const res = await getUserWorkList(req)
+      const data = res.data
+      setUserWorkListResp(data)
+      setLoading(false)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    handleGetUserWorkList()
+  }, [])
 
   const onTabChange = (tabValue: string) => {
     history.push(`/trade/${tabValue}`)
-    // setTradeTabType(tabValue);
   };
 
-  const items = youtubeResponse
 
   return (
-    <div>
-      <TabList onTabChange={onTabChange} tradeTabType="work"/>
-      <SellCardList items={items} />
-    </div>
+    <>
+      {loading ? (
+        <LoadingScreen/>
+      ) : (
+        <div style={{ marginRight: 17}}>
+          <TabList onTabChange={onTabChange} tradeTabType="work"/>
+          <SellCardList items={userWorkListResp?.list || []} />
+        </div>
+      )
+      }
+    </>
   )
 }
 
-export default Home;
+export default Work;

@@ -1,11 +1,9 @@
 'use client'
 import { tradeTabItems } from '../../data/app.data';
 import Box from '@mui/material/Box';
-import React, { useContext } from 'react';
+import React from 'react';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import ThemeContext from '@/context/ThemeContext';
-import { Button } from '@mui/material';
 import CreateDialog from './CreateDialog';
 
 type TabListProps = {
