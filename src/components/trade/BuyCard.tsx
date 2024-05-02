@@ -1,4 +1,6 @@
 'use client'
+import { WorkUpdateType } from "@/api/enum";
+import { updateWork } from "@/api/trade/trade-api";
 import { getLoginUserId } from "@/utils/tool";
 import { Avatar, Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Link, Typography } from "@mui/material";
 import { useState } from "react";
@@ -7,33 +9,60 @@ import { MdRemoveShoppingCart } from "react-icons/md";
 
 
 type AppCardProps = {
-  item: WorkView
+  item: WorkView;
+  onItemRemove: (id: number) => void;
 }
 
-const BuyCard: React.FC<AppCardProps> = ({ item }) => {
+const BuyCard: React.FC<AppCardProps> = ({ item, onItemRemove }) => {
   const loginUserId = getLoginUserId()
   const truncatedTitle = item.title.length > 30 ? `${item.title.substring(0, 30)}...` : item.title;
   const [isHovered, setIsHovered] = useState(false);
 
-  const handleClick = (event: any) => {
-    // Buy
-    if (item.id != loginUserId) {
-
-    } else {
-      // Remove
-
+  // 下架商品
+  const handleRemoveWork = async (id: number) => {
+    try {
+      const req: WorkUpdateReq = {
+        id: id,
+        type: WorkUpdateType.Remove,
+      }
+      await updateWork(req)
+      onItemRemove(item.id)
+    } catch (err) {
+      console.log(err)
     }
+  }
 
+  // 购买商品
+  const handleBuyWork = async (id: number) => {
+    try {
+      const req: WorkUpdateReq = {
+        id: id,
+        type: WorkUpdateType.Buy,
+      }
+      await updateWork(req)
+      onItemRemove(item.id)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const handleClick = async (event: any, id: number) => {
     event.preventDefault()
     event.stopPropagation()
-    console.log(123)
+    // Buy
+    if (item.userId != loginUserId) {
+      await handleBuyWork(id)
+    } else {
+      // Remove
+      await handleRemoveWork(id)
+    }
   }
 
   return (
     <Card
       sx={{
         height: 285,
-        mt: 2,
+        mb: 3,
         position: 'relative', // 添加 position: 'relative'，让按钮的位置相对于卡片定位
         overflow: 'hidden', // 隐藏溢出内容
         borderRadius: '10px'
@@ -41,7 +70,7 @@ const BuyCard: React.FC<AppCardProps> = ({ item }) => {
       onMouseEnter={() => setIsHovered(true)} // 当鼠标进入卡片时设置悬停状态为 true
       onMouseLeave={() => setIsHovered(false)} // 当鼠标离开卡片时设置悬停状态为 false
     >
-      <Link href={`/copyright/detail?id=${item.copyrightId}`} underline="none">
+      <Link href={`/trade/work/detail?id=${item.id}`} underline="none">
         <CardMedia
           component="img"
           image={item.coverUrl}
@@ -68,7 +97,7 @@ const BuyCard: React.FC<AppCardProps> = ({ item }) => {
       >
         <Button
           variant="contained"
-          onClick={handleClick}
+          onClick={(e) => handleClick(e, item.id)}
           sx={{
             backgroundColor: loginUserId == item.userId ? "#e57373 !important" : '#1e88e7 !important',
             width: '100%',

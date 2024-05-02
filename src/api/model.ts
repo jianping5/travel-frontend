@@ -23,13 +23,16 @@ interface CopyrightView {
   itemType: number;
   itemId: number;
   metadata: string;
-  tradeHash: string;
-  address: string;
+  ipfsHash: string;
+  tokenId: number;
+  accountAddress: string;
   status: number;
   createTime: string;
   title: string;
   coverUrl: string;
   account: string;
   avatar: string;
+  content: string;
+  description: string;
 }
 

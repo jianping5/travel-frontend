@@ -15,7 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { ItemType } from '@/api/enum';
 import { createComment, deleteComment, getCommentList, like } from '@/api/social/social-api';
 import { timeAgo } from '@/utils/tool';
-import { Box, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, Popover } from '@mui/material';
+import { Box, IconButton, Link, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, Popover } from '@mui/material';
 import { IoMdMore } from "react-icons/io";
 import { error } from 'console';
 
@@ -190,7 +190,9 @@ const Comment: React.FC<CommentProps> = ({ id, itemType }) => {
           <div style={{ display: 'flex', alignItems: 'flex-start' }}
             onMouseEnter={() => {setIsHovered({[item.topComment.id]: true})}}
             onMouseLeave={() => {setIsHovered({[item.topComment.id]: false})}}>
-            <Avatar src={item.topComment.userInfo.avatar} sx={{ width: 35, height: 35 }}/>
+            <Link href={`/user/home?id=${item.topComment.userInfo.id}`}>
+              <Avatar src={item.topComment.userInfo.avatar} sx={{ width: 35, height: 35 }}/>
+            </Link>
             <div style={{ marginLeft: '1rem', width: '100%', marginBottom:'1rem', display: 'flex', flexDirection: 'column' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <div>
@@ -265,7 +267,9 @@ const Comment: React.FC<CommentProps> = ({ id, itemType }) => {
                   onMouseEnter={() => {setIsHovered({[reply.id]: true})}}
                   onMouseLeave={() => {setIsHovered({[reply.id]: false})}}>
                   <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-                    <Avatar src={reply.userInfo.avatar} sx={{ width: 25, height: 25, marginRight: '0.5rem' }} />
+                    <Link href={`/user/home?id=${reply.userInfo.id}`}>
+                      <Avatar src={reply.userInfo.avatar} sx={{ width: 25, height: 25, marginRight: '0.5rem' }} />
+                    </Link>
                     <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <div>

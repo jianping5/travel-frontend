@@ -5,6 +5,7 @@ import React from 'react';
 import FavorCard from './FavorCard';
 import FollowCard from './FollowCard';
 import CommunityCard from './CommunityCard';
+import CopyrightCard from './CopyrightCard';
 
 
 const CardList: React.FC<any> = ({ items, contentType, userId }) => {
@@ -17,10 +18,15 @@ const CardList: React.FC<any> = ({ items, contentType, userId }) => {
             switch(contentType) {
               case 'home':
               case 'videos':
-              case 'copyrights':
                 return (
                   <Grid key={key} item xs={12} sm={6} md={4} lg={3} sx={{ marginTop: '5px' }} >
                     <VideoCard props={item}/>
+                  </Grid>
+                );
+              case 'copyrights':
+                return (
+                  <Grid key={key} item xs={12} sm={6} md={4} lg={3} sx={{ marginTop: '5px' }} >
+                    <CopyrightCard props={item}/>
                   </Grid>
                 );
               case 'favors':

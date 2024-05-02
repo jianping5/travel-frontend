@@ -6,6 +6,8 @@ interface WorkCreateReq {
 interface WorkUpdateReq {
   id: number;
   type: number;
+  oldAccountAddress: string;
+  accountAddress: string;
 }
 
 interface WorkListReq {
@@ -30,11 +32,14 @@ interface WorkView {
   price: string;
   status: number;
   createTime: string;
+  accountAddress: string;
   account: string;
   avatar: string;
   itemType: number;
   title: string;
   coverUrl: string;
+  content: string;
+  description: string;
 }
 
 interface WorkDetailResp {
@@ -82,8 +87,12 @@ interface RecordListReq {
 
 interface RecordView {
   id: number;
+  workId: number;
+  copyrightId: number;
   oldUserId: number;
   oldUserInfo: UserInfoView;
+  oldAccountAddress: string;
+  newAccountAddress: string;
   newUserId: number;
   newUserInfo: UserInfoView;
   price: string;

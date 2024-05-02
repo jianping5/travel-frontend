@@ -907,7 +907,7 @@ export const getMessageList = async (): Promise<BaseMessageListResp> => {
     };
     
     // 发送登录请求，并等待响应
-    const response = await axios.post<BaseMessageListResp>(`${BASE_URL}/api/social/message/list`, config);
+    const response = await axios.post<BaseMessageListResp>(`${BASE_URL}/api/social/message/list`, null, config);
     // 非 200 报错
     if (response.data.code != "200") {
       throw new Error("状态码错误")
@@ -1028,7 +1028,7 @@ export const like = async (req: LikeReq): Promise<BaseResp> => {
 
 
 // 创建版权
-export const createCopyright = async (req: CopyrightCreateReq): Promise<BaseResp> => {
+export const createCopyright = async (req: CopyrightCreateReq): Promise<BaseCopyrightCreateResp> => {
   try {
     const token = localStorage.getItem("token")
 
@@ -1040,7 +1040,7 @@ export const createCopyright = async (req: CopyrightCreateReq): Promise<BaseResp
     };
 
     // 发送登录请求，并等待响应
-    const response = await axios.post<BaseResp>(`${BASE_URL}/api/social/copyright/create`, req, config);
+    const response = await axios.post<BaseCopyrightCreateResp>(`${BASE_URL}/api/social/copyright/create`, req, config);
     // 非 200 报错
     if (response.data.code != "200") {
       throw new Error("状态码错误")
@@ -1052,6 +1052,33 @@ export const createCopyright = async (req: CopyrightCreateReq): Promise<BaseResp
     throw new Error(error.msg);
   }
 };
+
+// mint 版权 NFT
+export const mintCopyright = async (req: CopyrightMintReq): Promise<BaseResp> => {
+  try {
+    const token = localStorage.getItem("token")
+
+    // 构造请求配置对象
+    const config: AxiosRequestConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`, // 设置 Authorization 请求头
+      },
+    };
+
+    // 发送登录请求，并等待响应
+    const response = await axios.post<BaseResp>(`${BASE_URL}/api/social/copyright/mint`, req, config);
+    // 非 200 报错
+    if (response.data.code != "200") {
+      throw new Error("状态码错误")
+    }
+    // 返回响应数据
+    return response.data;
+  } catch (error: any) {
+    // 捕获请求失败的错误，并抛出异常
+    throw new Error(error.msg);
+  }
+};
+
 
 // 查看版权详情
 export const getCopyrightDetail = async (req: CopyrightDetailReq): Promise<BaseCopyrightDetailResp> => {

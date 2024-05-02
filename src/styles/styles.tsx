@@ -67,8 +67,10 @@ export const appWrapper = {
    ************************/
   export const notificationWrapper = {
     width: '100%',
-    maxWidth: 360,
-    pb: 0,
+    minWidth: 375,
+    maxWidth: 375,
+    maxHeight: 360,
+    marginBottom: 8
   };
   
   /***********************

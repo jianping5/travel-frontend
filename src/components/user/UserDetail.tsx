@@ -34,9 +34,9 @@ const UserDetail: React.FC<any> = ({ id, userHomeTabType, userInfo, children }) 
   };
   
   return (
-    <div style={{ marginLeft: '10%', marginRight: '10%' }}>
+    <div style={{ marginLeft: '5%', marginRight: '10%' }}>
       <img src="https://styles.redditmedia.com/t5_2zf9m/styles/bannerBackgroundImage_h8gepdvfwqb61.png" alt="Cover Image" 
-      style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '10px' }} />
+      style={{ width: '100%', height: '190px', objectFit: 'cover', borderRadius: '12px' }} />
 
       <div style={{ display: 'flex', alignItems: 'center', marginTop: '16px', marginBottom: '16px' }}>
         <Avatar src={userInfo?.avatar} alt="Community Avatar" 

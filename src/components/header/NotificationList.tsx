@@ -10,16 +10,38 @@ import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Menu from '@mui/material/Menu';
-import React from 'react';
+import React, { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import useToggle from '../../hooks/useToggle';
 import { notificationWrapper, inlineText } from '../../styles/styles';
+import { getMessageList } from '@/api/social/social-api';
+import { timeAgo } from '@/utils/tool';
+import { CardMedia } from '@mui/material';
 
 const NotificationsList = () => {
+  const [messageResp, setMessageResp] = useState<MessageListResp>()
   const { el, open, handleClick, handleClose } = useToggle();
+
+  // 获取消息列表
+  const handleGetMessageList = async () => {
+    try {
+      const res = await getMessageList()
+      const data = res.data
+      setMessageResp(data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const handleMessageClick = (e: any) => {
+    handleClick(e)
+     handleGetMessageList()
+  }
+
+
   return (
     <Box sx={{ px: 1 }}>
-      <Button id="basic-button" onClick={handleClick}>
+      <Button id="basic-button" onClick={(e) => handleMessageClick(e)}>
         <BsBellFill size={24} />
       </Button>
       <Menu
@@ -32,29 +54,26 @@ const NotificationsList = () => {
         }}
       >
         <List sx={notificationWrapper}>
-          {notificationData.map((item) => {
+          {messageResp?.list?.map((message) => {
             return (
-              <Link href={item.url} key={item.id} underline="none">
-                <ListItem sx={{ pt: 0, pb: 1, mt: 1 }} alignItems="flex-start">
-                  <ListItemAvatar>
-                    <Avatar alt={item.alt} src={item.avatar} />
+              <Link href={`/video?id=${message.itemId}`} key={message.id} underline="none">
+                <Box sx={{ display: 'flex', ml: 1, mb: 2 }}>
+                  <ListItemAvatar sx={{ mr: 1 }}>
+                    <CardMedia component="img" sx={{width: '100px', height: '70px', objectFit: 'cover', borderRadius: '5px'}}  image={message.coverUrl} alt='' />
                   </ListItemAvatar>
                   <ListItemText
-                    primary={item.text}
+                    primary={message.title}
                     secondary={
                       <React.Fragment>
-                        <Box component="span" sx={{ mt: 2 }}>
+                        <Box component="span">
                           <Typography sx={inlineText} component="span">
-                            {item.time}
+                          {message.account} • {timeAgo(new Date(message.createTime).getTime())}
                           </Typography>
                         </Box>
                       </React.Fragment>
                     }
                   />
-                </ListItem>
-                {notificationData.length !== item.id && (
-                  <Divider variant="inset" component="li" />
-                )}
+                </Box>
               </Link>
             );
           })}

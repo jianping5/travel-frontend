@@ -3,9 +3,8 @@ import { getUserInfo } from "@/api/user/user-api";
 import LoadingScreen from "@/components/common/loading";
 import UserDetail from "@/components/user/UserDetail";
 import UserCopyrightContent from "@/components/user/userContent/UserCopyrightContent";
-import ThemeContext from "@/context/ThemeContext";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useContext, useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 function OriginUserCopyrights() {
   const [loading, setLoading] = useState(true)
@@ -38,7 +37,8 @@ function OriginUserCopyrights() {
       {loading ? (
         <LoadingScreen/>
       ) : (
-        <UserDetail id={parseInt(id)} userInfo={userInfo} userHomeTabType='copyrights' children={<UserCopyrightContent params={{ contentType: 'favors', id: parseInt(id) }} />}/>
+        <UserDetail id={parseInt(id)} userInfo={userInfo} userHomeTabType='copyrights' 
+        children={<UserCopyrightContent params={{ contentType: 'copyrights', id: parseInt(id), userInfo: userInfo}} />}/>
       )}
     </>
   );

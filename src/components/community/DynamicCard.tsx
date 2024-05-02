@@ -70,14 +70,19 @@ const AppCard: React.FC<AppCardProps> = ({ props }) => {
                 <List sx={{ display: 'flex', flexDirection: 'column' }}>
                   <ListItem sx={{ alignItems: 'center', marginTop: '-35px' }}>
                     <ListItemAvatar>
-                      <Avatar
-                        alt="Channel avatar"
-                        src={props.userInfo?.avatar}
-                        sx={{ width: 27, height: 27, borderRadius: '50%' }}
-                      />
+                      <Link href={`/user/home?id=${props.userInfo.id}`}>
+                        <Avatar
+                          alt="Channel avatar"
+                          src={props.userInfo?.avatar}
+                          sx={{ width: 27, height: 27, borderRadius: '50%' }}
+                        />
+                      </Link>
                     </ListItemAvatar>
-                    <Typography variant="body2" sx={{ color: '#606060', fontSize: '0.8rem', lineHeight: '1', marginLeft: '-22px' }}>
-                      {props.userInfo?.account} • {timeAgo(new Date(props.createTime).getTime())}
+                    <Typography variant="body2" sx={{ fontSize: '0.9rem', marginLeft: '-22px' }}>
+                      {props.userInfo?.account}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.85rem', marginLeft: '5px' }}>
+                      • {timeAgo(new Date(props.createTime).getTime())}
                     </Typography>
                   </ListItem>
 

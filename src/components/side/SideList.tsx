@@ -34,13 +34,13 @@ const SideList = () => {
             //   </>
             // ) : 
             item.divider ? (
-              <Divider />
+              <Divider sx={{ width: '210px'}}/>
             ) : (
               <nav aria-label="Side list items">
                 <List sx={{ p: 0 }}>
                   <ListItem disablePadding>
                     <Link href={item.path ? item.path: '/'} passHref>
-                      <ListItemButton sx={{ width: '250px', display: 'flex' }}>
+                      <ListItemButton sx={{ width: '210px', display: 'flex' }}>
                         <ListItemIcon>{item.icon}</ListItemIcon>
                         <ListItemText primary={item.text} />
                       </ListItemButton>

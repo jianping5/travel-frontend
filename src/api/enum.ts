@@ -26,3 +26,9 @@ export enum WorkStatus {
 	OnSale,
 	Sold,
 }
+
+export enum WorkUpdateType {
+	Remove,
+	Sell,
+	Buy,
+}

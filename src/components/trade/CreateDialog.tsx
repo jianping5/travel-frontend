@@ -1,17 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import WorkCard from './WorkCard';
+import { getCopyrightDetail } from '@/api/social/social-api';
+import { createWork } from '@/api/trade/trade-api';
 
 function CreateWorkDialog() {
-  const [work, setWork] = useState('');
+  const [workUrl, setWorkUrl] = useState('');
   const [price, setPrice] = useState('');
   const [open, setOpen] = useState(false)
-  const [validUrl, setValidUrl] = useState(false); // 用于存储 URL 是否有效的状态
+  const [isValid, setIsValid] = useState(false); // 用于存储 URL 是否有效的状态
+  const [copyrightDetail, setCopyrightDetail] = useState<CopyrightDetailResp>()
 
-  const handleCreate = () => {
+  // 创建商品
+  const handleCreateWork = async () => {
+    try {
+      const req: WorkCreateReq = {
+        copyrightId: copyrightDetail?.copyright.id || 0,
+        price: price,
+      }
+      await createWork(req)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const handleCreate = async () => {
     // 处理创建商品逻辑
-    console.log('Selected Work:', work);
-    console.log('Price:', price);
+    await handleCreateWork()
 
     // 关闭弹窗
     handleClose();
@@ -21,7 +36,7 @@ function CreateWorkDialog() {
     // 关闭弹窗
     setOpen(false);
     setPrice('')
-    setWork('')
+    setWorkUrl('')
     handleClose();
   };
 
@@ -36,12 +51,35 @@ function CreateWorkDialog() {
 
   useEffect(() => {
     // 使用正则表达式检查 URL 是否有效
-    const urlRegex = /^https:\/\/travel\/\d+$/;
-    setValidUrl(urlRegex.test(work));
-  }, [work]);
+    const urlRegex = /^http:\/\/travel\/copyright\/\d+$/;
+    setIsValid(urlRegex.test(workUrl));
+  }, [workUrl]);
+
+  // 获取版权详情
+  const handleGetCopyrightDetail = async (id: number) => {
+    try {
+      const req: CopyrightDetailReq = {
+        id: id
+      }
+      const res = await getCopyrightDetail(req)
+      const data = res.data
+      setCopyrightDetail(data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    if (isValid) {
+      // 获取版权 id
+      const parts = workUrl.split("/");
+      const id = parts[parts.length - 1];
+      handleGetCopyrightDetail(parseInt(id))
+    }
+  }, [isValid])
 
   return (
-    <div>
+    <div style={{ marginRight: 20 }}>
       <Button
         variant="text"
         onClick={handleButtonClick}
@@ -64,9 +102,9 @@ function CreateWorkDialog() {
             id="work"
             label="Work URL"
             fullWidth
-            value={work}
-            onChange={(e) => setWork(e.target.value)}
-            placeholder='e.g. https://travel/123'
+            value={workUrl}
+            onChange={(e) => setWorkUrl(e.target.value)}
+            placeholder='e.g. http://travel/copyright/123'
           />
           <TextField
             margin="normal"
@@ -77,18 +115,14 @@ function CreateWorkDialog() {
             value={price}
             onChange={(e) => setPrice(e.target.value)}
           />
-          {/* 根据 URL 是否有效决定是否显示 WorkCard */}
-          {validUrl && 
-          <WorkCard 
-            url='https://images.unsplash.com/photo-1502657877623-f66bf489d236?auto=format&fit=crop&w=800'
-            title='Ambient Study Music To Concentrate - Music for Studying, Concentration and Memory'
-            channelTitle=''
-            videoId={123}/>} 
+          {/* 根据 URL 是否有效以及 copyrightDetail 是否已存在决定是否显示 WorkCard */}
+          {isValid && copyrightDetail && 
+          <WorkCard item={copyrightDetail} />} 
 
         </DialogContent>
       <DialogActions>
         <Button onClick={handleCancel}>Cancel</Button>
-        <Button onClick={handleCreate}>Create</Button>
+        <Button onClick={() => handleCreate()}>Create</Button>
       </DialogActions>
       </Dialog>
     </div>

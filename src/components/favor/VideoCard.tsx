@@ -34,8 +34,8 @@ const AppCard: React.FC<AppCardProps> = ({ item }) => {
                 </ListItem>
                 
                 <ListItem sx={{ alignItems: 'center', marginTop: '-5px' }}>
-                  <Typography variant="body2" sx={{ color: '#606060', fontSize: '0.85rem', fontWeight: 'medium', marginLeft: '' }}>
-                    {item.account} · {formatNumber(item.likeCount)} likes · {timeAgo(new Date(item.createTime).getTime())}
+                  <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.77rem' }}>
+                    {item.account} • {timeAgo(new Date(item.createTime).getTime())}
                   </Typography>
                 </ListItem>
               </List>

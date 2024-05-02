@@ -1,16 +1,10 @@
 'use client'
-import { Avatar, Box, Button, Card, CardMedia, Divider, Typography } from "@mui/material"
-import { useContext, useEffect, useMemo, useState } from "react";
-import { getCopyrightList, getFavorList, getFavoriteList, getUserHomeContentList, getUserHomeDynamicList, getUserHomeList, listCommunity } from "@/api/social/social-api";
-import { FileType, ItemType } from "@/api/enum";
-import { timeAgo } from "@/utils/tool";
-import { getFollowList } from "@/api/user/user-api";
-import ThemeContext from "@/context/ThemeContext";
+import { useEffect, useState } from "react";
+import { getCopyrightList } from "@/api/social/social-api";
 import HomeCardList from "../HomeCardList";
-import UserHome from "@/app/user/home/page";
 import ApplyDialog from "@/components/copyright/ApplyDialog";
 
-const UserFavorContent = ({params} : {params: {contentType: string, id: any }}) => {
+const UserFavorContent = ({params} : {params: {contentType: string, id: any, userInfo?: UserInfoResp }}) => {
   const [userCopyrightListResp, setUserCopyrightListResp] = useState<CopyrightListResp>()
 
   // 获取用户版权列表
@@ -33,11 +27,11 @@ const UserFavorContent = ({params} : {params: {contentType: string, id: any }}) 
 
   return (
     <>
-      <div style={{ marginTop: '10px', marginBottom: '-20px' }}>
+      <div style={{ marginBottom: '-20px' }}>
         {/* <Button variant="outlined" sx={{ borderRadius:'7px'}}>Apply Copyright</Button> */}
-        <ApplyDialog/>
+        <ApplyDialog userInfo={params.userInfo}/>
       </div>
-      <div style={{ marginTop: '20px' }}>
+      <div style={{ marginTop: '15px' }}>
         <HomeCardList items={userCopyrightListResp?.list} contentType={params.contentType}/>
       </div>
     </>

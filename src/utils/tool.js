@@ -71,15 +71,21 @@ export function formatNumber(num) {
     return num;
 }
 
-
+// 获取当前登录用户
 export function getLoginUserId() {
-  // 从本地存储中获取 JWT
-  const token = localStorage.getItem("token");
+  if (typeof window !== 'undefined' && window.localStorage) {
+    // 在浏览器环境中使用 localStorage
+    // 从本地存储中获取 JWT
+    const token = window.localStorage.getItem("token");
 
-  // 解码 JWT
-  const decoded = jwtDecode(token || "");
+    // 解码 JWT
+    const decoded = jwtDecode(token || "");
 
-  // 从解码后的对象中获取用户 ID
-  const userId = decoded.jwtUserId;
-  return parseInt(userId || '0')
+    // 从解码后的对象中获取用户 ID
+    const userId = decoded.jwtUserId;
+    return parseInt(userId || '0')
+  } else {
+    // 在 Node.js 环境中返回默认值或者抛出错误
+    return null;
+  }
 }

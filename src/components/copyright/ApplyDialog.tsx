@@ -1,13 +1,17 @@
-import { useState } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Switch, TextField } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Switch, TextField } from '@mui/material';
+import { ItemType } from '@/api/enum';
+import { createCopyright, mintCopyright } from '@/api/social/social-api';
+import { getAccount } from '@/utils/contract';
+// import { upload2IPFS } from "@/utils/ipfs";
 
-function ApplicationDialog() {
+const ApplicationDialog: React.FC<{userInfo: UserInfoResp | undefined}> = ({userInfo}) => {
   const [open, setOpen] = useState(false);
-  const [type, setType] = useState('');
+  const [type, setType] = useState(0);
   const [url, setUrl] = useState('');
-  const [applicant, setApplicant] = useState('123');
-  const [contact, setContact] = useState('123');
-  const [upload, setUpload] = useState(false);
+  const [applicant, setApplicant] = useState(userInfo?.account);
+  const [contact, setContact] = useState(userInfo?.email);
+  const [upload, setUpload] = useState(true);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -15,26 +19,62 @@ function ApplicationDialog() {
 
   const handleClose = () => {
     setOpen(false);
-    setType("")
+    setType(0)
     setUrl("")
-    setApplicant("123")
-    setContact("123")
     setUpload(false)
   };
 
-  const handleApply = () => {
-    // 处理申请逻辑
-    console.log('Type:', type);
-    console.log('URL:', url);
-    console.log('Applicant:', applicant);
-    console.log('Contact:', contact);
-    console.log('Upload:', upload);
+  // 申请版权（待测试）
+  const handleCreateCopyright = async () => {
+    try {
+      const searchParams = new URLSearchParams(url.split('?')[1]);
+      const id = searchParams.get('id') || '0';
+      const req: CopyrightCreateReq = {
+        itemType: type,
+        itemId: parseInt(id),
+        uploadSwitch: upload,
+      }
+      const res = await createCopyright(req)
+      const data = res.data
+      return data.ipfsHash
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
-    // 提交申请后的其他操作
+  // mint 版权
+  const handleMintCopyright = async (tokenId: number, accountAddress: string) => {
+    try {
+      const searchParams = new URLSearchParams(url.split('?')[1]);
+      const id = searchParams.get('id') || '0';
+      const req: CopyrightMintReq = {
+        itemType: type,
+        itemId: parseInt(id),
+        tokenId: tokenId,
+        accountAddress: accountAddress,
+      }
+      await mintCopyright(req)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const handleApply = async () => {
+    // 创建版权，获取 ipfsHash
+    // const ipfsHash = await handleCreateCopyright()
+    // const ipfsPath = "ipfs://" + ipfsHash
+
+    // mint NFT（调用智能合约）
+    const signer = await getAccount()
+    const accountAddress = signer.address
+    console.log(accountAddress)
+
 
     // 关闭弹窗
     setOpen(false);
   };
+
+
 
   return (
     <div>
@@ -43,20 +83,18 @@ function ApplicationDialog() {
         <DialogTitle>Apply Copyright</DialogTitle>
         <DialogContent>
         <FormControl fullWidth sx={{ marginTop: 1 }}>
-          <InputLabel>类型</InputLabel>
+          <InputLabel>Type</InputLabel>
           <Select
             labelId="type-label"
             id="type"
             value={type}
-            onChange={(e) => setType(e.target.value)}
+            onChange={(e) => setType(typeof e.target.value === 'string' ? parseInt(e.target.value) : e.target.value)}
             label="Type"
           >
-            <MenuItem value="类型1">类型1</MenuItem>
-            <MenuItem value="类型2">类型2</MenuItem>
-            <MenuItem value="类型3">类型3</MenuItem>
+            <MenuItem value={ItemType.VIDEO}>Video</MenuItem>
+            <MenuItem value={ItemType.ARTICLE}>Article</MenuItem>
           </Select>
         </FormControl>
-
           <TextField
             autoFocus
             margin="dense"
@@ -64,6 +102,7 @@ function ApplicationDialog() {
             label="URL"
             type="url"
             fullWidth
+            placeholder='e.g. http://travel/video?id=1'
             value={url}
             onChange={(e) => setUrl(e.target.value)}
           />
@@ -94,7 +133,7 @@ function ApplicationDialog() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancle</Button>
-          <Button onClick={handleApply}>Apply</Button>
+          <Button onClick={() => handleApply()}>Apply</Button>
         </DialogActions>
       </Dialog>
     </div>
@@ -102,3 +141,4 @@ function ApplicationDialog() {
 }
 
 export default ApplicationDialog;
+

@@ -2,7 +2,6 @@
 import { deleteHistory, listHistory } from "@/api/social/social-api";
 import LoadingScreen from "@/components/common/loading";
 import CardList from "@/components/history/CardList";
-import { youtubeResponse } from "@/data/app.data";
 import { Button, Card, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -35,7 +34,7 @@ function History() {
         id: 0
       }
       await deleteHistory(req)
-      handleListHistory()
+      await handleListHistory()
     } catch (err) {
       console.log(err)
     }

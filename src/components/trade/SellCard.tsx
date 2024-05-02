@@ -1,5 +1,6 @@
 'use client'
-import { WorkStatus } from "@/api/enum";
+import { WorkStatus, WorkUpdateType } from "@/api/enum";
+import { updateWork } from "@/api/trade/trade-api";
 import { Avatar, Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Link, Typography } from "@mui/material";
 import { useState } from "react";
 import { HiOutlineShoppingCart } from "react-icons/hi";
@@ -11,25 +12,58 @@ type AppCardProps = {
 }
 
 const SellCard: React.FC<AppCardProps> = ({ item }) => {
-  const truncatedTitle = item.title.length > 30 ? `${item.title.substring(0, 30)}...` : item.title;
+  const [workItem, setWorkItem] = useState<WorkView>(item)
+  const truncatedTitle = workItem.title.length > 30 ? `${workItem.title.substring(0, 30)}...` : workItem.title;
   const [isHovered, setIsHovered] = useState(false);
 
-  const handleClick = (event: any) => {
+  // 售卖商品
+  const handleSellWork = async (id: number) => {
+    try {
+      const req: WorkUpdateReq = {
+        id: id,
+        type: WorkUpdateType.Sell,
+      }
+      await updateWork(req)
+      workItem.status = WorkStatus.OnSale
+      setIsHovered(!isHovered)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  // 下架商品
+  const handleRemoveWork = async (id: number) => {
+    try {
+      const req: WorkUpdateReq = {
+        id: id,
+        type: WorkUpdateType.Remove,
+      }
+      await updateWork(req)
+      workItem.status = WorkStatus.Created
+      setIsHovered(!isHovered)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const handleClick = async (event: any, id: number) => {
+    event.preventDefault()
+    event.stopPropagation()
     // Sell
     if (item.status == WorkStatus.Created) {
       // 处理 Sell
-      event.preventDefault()
-      event.stopPropagation()
+      await handleSellWork(id)
+    } else if (item.status == WorkStatus.OnSale) {
+      // 处理 Remove（下架）
+      await handleRemoveWork(id)
     }
-
-    console.log(123)
   }
 
   return (
     <Card
       sx={{
         height: 285,
-        mt: 2,
+        mb: 3,
         position: 'relative', // 添加 position: 'relative'，让按钮的位置相对于卡片定位
         overflow: 'hidden', // 隐藏溢出内容
         borderRadius: '10px'
@@ -37,10 +71,10 @@ const SellCard: React.FC<AppCardProps> = ({ item }) => {
       onMouseEnter={() => setIsHovered(true)} // 当鼠标进入卡片时设置悬停状态为 true
       onMouseLeave={() => setIsHovered(false)} // 当鼠标离开卡片时设置悬停状态为 false
     >
-      <Link href={`/copyright/detail?id=${item.copyrightId}`} underline="none">
+      <Link href={`/trade/work/detail?id=${workItem.id}`} underline="none">
         <CardMedia
           component="img"
-          image={item.coverUrl}
+          image={workItem.coverUrl}
           alt=""
           sx={{ width: '750px', height: '200px', objectFit: 'cover' }}
         />
@@ -48,7 +82,7 @@ const SellCard: React.FC<AppCardProps> = ({ item }) => {
           <Typography gutterBottom variant="h6" sx={{ fontSize: '1.1rem', mt: '-10px', color: 'black' }} component="div">
             {truncatedTitle}
           </Typography>
-          <Typography variant="h6" sx={{ color: 'black', fontSize: '1rem' }}>{item.price} GO</Typography>
+          <Typography variant="h6" sx={{ color: 'black', fontSize: '1rem' }}>{workItem.price} GO</Typography>
         </CardContent>
       </Link>
         {/* 通过 isHovered 状态来控制按钮的位置 */}
@@ -64,24 +98,22 @@ const SellCard: React.FC<AppCardProps> = ({ item }) => {
       >
         <Button
           variant="contained"
-          onClick={handleClick}
+          onClick={(e) => handleClick(e, workItem.id)}
           sx={{
-            backgroundColor: item.status == WorkStatus.Created ? '#1e88e7 !important' : item.status == WorkStatus.OnSale ? '#e57373 !important': 'gray !important' ,
+            backgroundColor: workItem.status == WorkStatus.Created ? '#1e88e7 !important' : workItem.status == WorkStatus.OnSale ? '#e57373 !important': 'gray !important' ,
             width: '100%',
             height: '45px',
             textTransform: 'none',
             fontWeight: 'bold',
             fontSize: '1rem'
           }}
-          endIcon={item.status == WorkStatus.Created ? <HiOutlineShoppingCart /> : item.status == WorkStatus.OnSale ? <MdRemoveShoppingCart/> : ''}
+          endIcon={workItem.status == WorkStatus.Created ? <HiOutlineShoppingCart /> : workItem.status == WorkStatus.OnSale ? <MdRemoveShoppingCart/> : ''}
         >
-          {item.status == WorkStatus.Created ? "Sell now" : 
-          item.status == WorkStatus.OnSale ? "Remove now": "Sold"}
+          {workItem.status == WorkStatus.Created ? "Sell now" : 
+          workItem.status == WorkStatus.OnSale ? "Remove now": "Sold"}
         </Button>
       </Box>
     </Card>
-    
-
   )
 }
 

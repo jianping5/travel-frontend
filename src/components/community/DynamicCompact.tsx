@@ -1,5 +1,5 @@
 'use client'
-import { Avatar, Box, Button, Card, CardMedia, Divider, IconButton, Typography } from "@mui/material"
+import { Avatar, Box, Button, Card, CardMedia, Divider, IconButton, Link, Typography } from "@mui/material"
 import { FileType, ItemType } from "@/api/enum";
 import { formatNumber, timeAgo } from "@/utils/tool";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
@@ -42,9 +42,11 @@ const DynamicCompact: React.FC<{dynamic:CommunityDynamicView}> = ({dynamic}) => 
           <div style={{ marginBottom: '10px' }}>
             <div>
               <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <Avatar src={dynamic?.userInfo.avatar} sx={{ width: 27, height: 27, borderRadius: '50%' }} />
+                <Link href={`/user/home?id=${dynamic?.userInfo.id}`}>
+                  <Avatar src={dynamic?.userInfo.avatar} sx={{ width: 27, height: 27, borderRadius: '50%' }} />
+                </Link>
                 <Typography variant="body1" sx={{ marginLeft: '10px', fontSize: '0.9rem' }}>{dynamic?.userInfo.account} </Typography>
-                <Typography variant="body1" sx={{ marginLeft: '7px', color: '#606060', fontSize: '0.85rem' }}>• { dynamic?.createTime && timeAgo(new Date(dynamic?.createTime).getTime())}</Typography>
+                <Typography variant="body1" sx={{ marginLeft: '7px', color: 'text.secondary', fontSize: '0.85rem' }}>• { dynamic?.createTime && timeAgo(new Date(dynamic?.createTime).getTime())}</Typography>
               </Box>
               <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: '0.95rem', mt:'3px' }}>
                 {dynamic?.title}

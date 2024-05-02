@@ -7,7 +7,7 @@ import ThemeContext from '@/context/ThemeContext';
 const SellCardList: React.FC<{items: WorkView[]}> = ({ items }) => {
   const { mobileOpen } = useContext(ThemeContext);
   return (
-    <Box sx={{marginRight: ''}}>
+    <Box sx={{ mr: 3, mt: 2 }}>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 2 }}>
         {items.length &&
           items.map((item: any) => {

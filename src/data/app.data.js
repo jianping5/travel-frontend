@@ -1,28 +1,22 @@
 import { GoHome } from "react-icons/go";
-import { MdOutlineExplore } from 'react-icons/md';
-import { AiOutlinePlaySquare } from 'react-icons/ai';
-import { MdSubscriptions } from 'react-icons/md';
-import { BiLibrary } from 'react-icons/bi';
-import { MdHistory } from 'react-icons/md';
 import { BiVideo } from 'react-icons/bi';
-import { BsStopwatch } from 'react-icons/bs';
-import { MdLocalMovies } from 'react-icons/md';
-import { SiFacebookgaming } from 'react-icons/si';
-import { SiLivechat } from 'react-icons/si';
-import { GiLargeDress } from 'react-icons/gi';
-import { AiFillYoutube } from 'react-icons/ai';
-import { SiYoutubestudio } from 'react-icons/si';
-import { TbBrandYoutube } from 'react-icons/tb';
-import { CgYoutube } from 'react-icons/cg';
-import { FiSettings } from 'react-icons/fi';
-import { FaHistory } from 'react-icons/fa';
 import { FiHelpCircle } from 'react-icons/fi';
-import { MdFeedback } from 'react-icons/md';
 import { GrChannel } from 'react-icons/gr';
 import { MdCardMembership } from 'react-icons/md';
 import { SiReasonstudios } from 'react-icons/si';
 import { AiOutlineDatabase } from 'react-icons/ai';
+import { IoShareSocialOutline } from "react-icons/io5";
+import { RiRobot2Line } from "react-icons/ri";
+import { AiOutlineTrademark } from "react-icons/ai";
+import { MdOutlineManageHistory } from "react-icons/md";
+import { RiHistoryLine } from "react-icons/ri";
+import { AiOutlineSetting } from "react-icons/ai";
+import { MdOutlineWatchLater } from "react-icons/md";
+import { RiFeedbackLine } from "react-icons/ri";
 import { FiPlay } from 'react-icons/fi';
+import { getLoginUserId } from "@/utils/tool";
+
+const loginUserId = getLoginUserId()
 
 export const notificationData = [
   {
@@ -61,19 +55,19 @@ export const notificationData = [
 
 export const sideListItems = [
   { id: 1, text: 'Home', icon: <GoHome size={24} />, path: '/' },
-  { id: 2, text: 'Community', icon: <MdOutlineExplore size={24} />, path: '/community' },
-  { id: 3, text: 'Intelligence', icon: <AiOutlinePlaySquare size={24} />, path: '/intelligence/chat' },
-  { id: 4, text: 'Trade', icon: <MdSubscriptions size={24} />, path: '/trade/home'},
-  { id: 5, text: 'Copyright', icon: <BiLibrary size={24} /> },
+  { id: 2, text: 'Community', icon: <IoShareSocialOutline size={24} />, path: '/community' },
+  { id: 3, text: 'Intelligence', icon: <RiRobot2Line size={24} />, path: '/intelligence/chat' },
+  { id: 4, text: 'Trade', icon: <AiOutlineTrademark size={24} />, path: '/trade/home'},
+  // { id: 5, text: 'Copyright', icon: <BiLibrary size={24} /> },
   { id: 6, divider: true },
-  { id: 7, text: 'History', icon: <MdHistory size={24} />, path: '/history' },
-  { id: 8, text: 'Your Videos', icon: <BiVideo size={24} /> },
-  { id: 9, text: 'Watch Later', icon: <BsStopwatch size={24} /> },
+  { id: 7, text: 'History', icon: <RiHistoryLine size={24} />, path: '/history' },
+  { id: 8, text: 'Your Videos', icon: <BiVideo size={24} />, path: `/user/home?id=${loginUserId}` },
+  { id: 9, text: 'Watch Later', icon: <MdOutlineWatchLater size={24} /> },
   { id: 10, divider: true },
-  { id: 11, text: 'Settings', icon: <FiSettings size={24} /> },
-  { id: 12, text: 'Report History', icon: <FaHistory size={24} /> },
+  { id: 11, text: 'Settings', icon: <AiOutlineSetting size={24} /> },
+  { id: 12, text: 'Report History', icon: <MdOutlineManageHistory size={24} /> },
   { id: 13, text: 'Help', icon: <FiHelpCircle size={24} /> },
-  { id: 14, text: 'Send Feedback', icon: <MdFeedback size={24} /> },
+  { id: 14, text: 'Send Feedback', icon: <RiFeedbackLine size={24} /> },
 ];
 
 export const tabItems = [

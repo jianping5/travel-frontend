@@ -423,6 +423,7 @@ interface MessageView {
   itemId: number;
   coverUrl: string;
   title: string;
+  createTime: string;
   messageType: number;
   messageStatus: boolean;
   content: string;
@@ -505,7 +506,6 @@ interface LikeReq {
 interface CopyrightCreateReq {
   itemType: number;
   itemId: number;
-  contentUrl: string;
   uploadSwitch: boolean;
 }
 
@@ -515,6 +515,23 @@ interface CopyrightDetailReq {
 
 interface CopyrightListReq {
   userId: number;
+}
+
+interface CopyrightCreateResp {
+  ipfsHash: string;
+}
+
+interface CopyrightMintReq {
+  itemType: number;
+  itemId: number;
+  tokenId: number;
+  accountAddress: string;
+}
+
+interface BaseCopyrightCreateResp {
+  code: string
+  data: CopyrightCreateResp
+  msg: string
 }
 
 interface CopyrightDetailResp {

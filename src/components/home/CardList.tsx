@@ -7,7 +7,7 @@ import ThemeContext from '@/context/ThemeContext';
 const CardList: React.FC<any> = ({ items }) => {
   const { mobileOpen } = useContext(ThemeContext);
   return (
-    <Box>
+    <Box sx={{ mr: 3, mt: 2 }}>
       <Grid container rowSpacing={{}} columnSpacing={{ xs: 2, sm: 2 }}>
         {items.length &&
           items.map((item: any) => {
