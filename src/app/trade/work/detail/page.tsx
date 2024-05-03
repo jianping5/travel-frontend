@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { getLoginUserId, timeAgo } from "@/utils/tool";
 import { WorkStatus, WorkUpdateType } from "@/api/enum";
 import { MdRemoveShoppingCart } from "react-icons/md";
+import { approve, getAccount, list, purchase, revoke } from "@/utils/contract";
 
 function WorkDetail() {
   const [workDetail, setWorkDetail] = useState<WorkDetailResp>()
@@ -72,12 +73,36 @@ function WorkDetail() {
     }
   }
 
-  // 更改商品状态
+  // 更改商品状态（待测试）
   const handleUpdateWork = async (id: number, type: number) => {
     try {
+      const tokenId = workDetail?.work.tokenId || 0
+      const price = workDetail?.work.price || '0'
+      switch(type) {
+        case WorkUpdateType.Buy: 
+          // 购买 NFT
+          await purchase(tokenId)
+          break;
+        case WorkUpdateType.Remove:
+          // 下架 NFT
+          await revoke(tokenId)
+          break;
+        case WorkUpdateType.Sell:
+          // 上架 NFT（先授权）
+          await approve(tokenId)
+          await list(tokenId, parseInt(price))
+          break;
+      }
+
+      // 获取当前活动账户地址
+      const signer = await getAccount()
+      const accountAddress = signer.address
+
       const req: WorkUpdateReq = {
         id: id,
         type: type,
+        oldAccountAddress: workDetail?.copyright.accountAddress || '',
+        accountAddress: accountAddress,
       }
       await updateWork(req)
     } catch (err) {

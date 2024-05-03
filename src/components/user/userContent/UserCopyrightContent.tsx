@@ -7,6 +7,11 @@ import ApplyDialog from "@/components/copyright/ApplyDialog";
 const UserFavorContent = ({params} : {params: {contentType: string, id: any, userInfo?: UserInfoResp }}) => {
   const [userCopyrightListResp, setUserCopyrightListResp] = useState<CopyrightListResp>()
 
+  // 申请成功，则刷新页面，获取最新版权
+  const onApply = () => {
+    handleGetCopyrightList()
+  }
+
   // 获取用户版权列表
   const handleGetCopyrightList = async () => {
     try {
@@ -29,7 +34,7 @@ const UserFavorContent = ({params} : {params: {contentType: string, id: any, use
     <>
       <div style={{ marginBottom: '-20px' }}>
         {/* <Button variant="outlined" sx={{ borderRadius:'7px'}}>Apply Copyright</Button> */}
-        <ApplyDialog userInfo={params.userInfo}/>
+        <ApplyDialog userInfo={params.userInfo} onApply={onApply}/>
       </div>
       <div style={{ marginTop: '15px' }}>
         <HomeCardList items={userCopyrightListResp?.list} contentType={params.contentType}/>

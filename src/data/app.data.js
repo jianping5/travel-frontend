@@ -1,3 +1,4 @@
+'use client'
 import { GoHome } from "react-icons/go";
 import { BiVideo } from 'react-icons/bi';
 import { FiHelpCircle } from 'react-icons/fi';
@@ -14,9 +15,6 @@ import { AiOutlineSetting } from "react-icons/ai";
 import { MdOutlineWatchLater } from "react-icons/md";
 import { RiFeedbackLine } from "react-icons/ri";
 import { FiPlay } from 'react-icons/fi';
-import { getLoginUserId } from "@/utils/tool";
-
-const loginUserId = getLoginUserId()
 
 export const notificationData = [
   {
@@ -61,7 +59,7 @@ export const sideListItems = [
   // { id: 5, text: 'Copyright', icon: <BiLibrary size={24} /> },
   { id: 6, divider: true },
   { id: 7, text: 'History', icon: <RiHistoryLine size={24} />, path: '/history' },
-  { id: 8, text: 'Your Videos', icon: <BiVideo size={24} />, path: `/user/home?id=${loginUserId}` },
+  { id: 8, text: 'Your Videos', icon: <BiVideo size={24} /> },
   { id: 9, text: 'Watch Later', icon: <MdOutlineWatchLater size={24} /> },
   { id: 10, divider: true },
   { id: 11, text: 'Settings', icon: <AiOutlineSetting size={24} /> },

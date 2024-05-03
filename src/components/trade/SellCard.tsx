@@ -1,6 +1,7 @@
 'use client'
 import { WorkStatus, WorkUpdateType } from "@/api/enum";
 import { updateWork } from "@/api/trade/trade-api";
+import { approve, list, revoke } from "@/utils/contract";
 import { Avatar, Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Link, Typography } from "@mui/material";
 import { useState } from "react";
 import { HiOutlineShoppingCart } from "react-icons/hi";
@@ -16,12 +17,19 @@ const SellCard: React.FC<AppCardProps> = ({ item }) => {
   const truncatedTitle = workItem.title.length > 30 ? `${workItem.title.substring(0, 30)}...` : workItem.title;
   const [isHovered, setIsHovered] = useState(false);
 
-  // 售卖商品
+  // 售卖商品（待测试）
   const handleSellWork = async (id: number) => {
     try {
+      // 上架 NFT（先授权）
+      const tokenId = item.tokenId
+      await approve(tokenId)
+      await list(tokenId, parseInt(item.price))
+
       const req: WorkUpdateReq = {
         id: id,
         type: WorkUpdateType.Sell,
+        oldAccountAddress: '',
+        accountAddress: '',
       }
       await updateWork(req)
       workItem.status = WorkStatus.OnSale
@@ -31,12 +39,17 @@ const SellCard: React.FC<AppCardProps> = ({ item }) => {
     }
   }
 
-  // 下架商品
+  // 下架商品（待测试）
   const handleRemoveWork = async (id: number) => {
     try {
+      // 下架 NFT
+      await revoke(item.tokenId)
+
       const req: WorkUpdateReq = {
         id: id,
         type: WorkUpdateType.Remove,
+        oldAccountAddress: '',
+        accountAddress: '',
       }
       await updateWork(req)
       workItem.status = WorkStatus.Created

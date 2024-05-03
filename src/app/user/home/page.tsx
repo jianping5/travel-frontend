@@ -11,7 +11,7 @@ function OriginUserHome() {
   const [userInfo, setUserInfo] = useState<UserInfoResp>();
   const searchParams = useSearchParams();
 
-  const id = searchParams.get("id") || "0"
+  let id = searchParams.get("id") || "0"
 
   // 获取指定用户信息
   const handleGetUserInfo = async () => {

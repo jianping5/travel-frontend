@@ -70,13 +70,14 @@ const AppCard: React.FC<AppCardProps> = ({ props }) => {
                 <List sx={{ display: 'flex', flexDirection: 'column' }}>
                   <ListItem sx={{ alignItems: 'center', marginTop: '-35px' }}>
                     <ListItemAvatar>
-                      <Link href={`/user/home?id=${props.userInfo.id}`}>
+                      {/* <Link href={`/user/home?id=${props.userInfo.id}`}> */}
                         <Avatar
                           alt="Channel avatar"
                           src={props.userInfo?.avatar}
                           sx={{ width: 27, height: 27, borderRadius: '50%' }}
+                          onClick={(e) => {e.preventDefault(); history.push(`/user/home?id=${props.userInfo.id}`); }} // 添加点击事件处理函数
                         />
-                      </Link>
+                      {/* </Link> */}
                     </ListItemAvatar>
                     <Typography variant="body2" sx={{ fontSize: '0.9rem', marginLeft: '-22px' }}>
                       {props.userInfo?.account}

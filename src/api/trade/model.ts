@@ -33,6 +33,7 @@ interface WorkView {
   status: number;
   createTime: string;
   accountAddress: string;
+  tokenId: number;
   account: string;
   avatar: string;
   itemType: number;

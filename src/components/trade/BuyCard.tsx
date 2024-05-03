@@ -1,12 +1,12 @@
 'use client'
 import { WorkUpdateType } from "@/api/enum";
 import { updateWork } from "@/api/trade/trade-api";
+import { getAccount, purchase, revoke } from "@/utils/contract";
 import { getLoginUserId } from "@/utils/tool";
 import { Avatar, Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Link, Typography } from "@mui/material";
 import { useState } from "react";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import { MdRemoveShoppingCart } from "react-icons/md";
-
 
 type AppCardProps = {
   item: WorkView;
@@ -18,12 +18,17 @@ const BuyCard: React.FC<AppCardProps> = ({ item, onItemRemove }) => {
   const truncatedTitle = item.title.length > 30 ? `${item.title.substring(0, 30)}...` : item.title;
   const [isHovered, setIsHovered] = useState(false);
 
-  // 下架商品
+  // 下架商品（待测试）
   const handleRemoveWork = async (id: number) => {
     try {
+      // 下架 NFT
+      await revoke(item.tokenId)
+
       const req: WorkUpdateReq = {
         id: id,
         type: WorkUpdateType.Remove,
+        oldAccountAddress: '',
+        accountAddress: '',
       }
       await updateWork(req)
       onItemRemove(item.id)
@@ -32,12 +37,21 @@ const BuyCard: React.FC<AppCardProps> = ({ item, onItemRemove }) => {
     }
   }
 
-  // 购买商品
+  // 购买商品（待测试）
   const handleBuyWork = async (id: number) => {
     try {
+      // 购买 NFT
+      await purchase(item.tokenId)
+      
+      // 获取当前活动账户地址
+      const signer = await getAccount()
+      const accountAddress = signer.address
+
       const req: WorkUpdateReq = {
         id: id,
         type: WorkUpdateType.Buy,
+        oldAccountAddress: item.accountAddress,
+        accountAddress: accountAddress,
       }
       await updateWork(req)
       onItemRemove(item.id)

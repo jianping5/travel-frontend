@@ -6,6 +6,7 @@ import React, { useContext } from 'react';
 import Typography from '@mui/material/Typography';
 import { formatNumber, timeAgo } from '../../utils/tool'
 import ThemeContext from '@/context/ThemeContext';
+import { useRouter } from 'next/navigation'
 
 interface AppCardProps {
   props: ContentView
@@ -14,6 +15,7 @@ interface AppCardProps {
 const AppCard: React.FC<AppCardProps> = ({props}) => {
   const truncatedTitle = props.title.length > 100 ? `${props.title.substring(0, 100)}...` : props.title;
   const { mobileOpen } = useContext(ThemeContext);
+  const history = useRouter()
 
   return (
     <Box sx={{ mb: 5 }}>
@@ -24,13 +26,14 @@ const AppCard: React.FC<AppCardProps> = ({props}) => {
         <Box sx={{ mt: 2}}>
           <Box sx={{ display: 'flex' }}>
             <Box sx={{ flex: 1}}>
-              <Link href={`/user/home?id=${props.userId}`}>
+              {/* <Link href={`/user/home?id=${props.userId}`}> */}
                 <Avatar
                   alt="Channel avatar"
                   src={props.userInfo.avatar}
                   sx={{ width: 37, height: 37, borderRadius: '50%' }}
+                  onClick={(e) => {e.preventDefault(); history.push(`/user/home?id=${props.userId}`); }} // 添加点击事件处理函数
                 />
-              </Link>
+              {/* </Link> */}
             </Box>
             <Box sx={{ flex: 7 }}>
               <Typography variant="h6" sx={{ color: 'black', fontWeight: 'medium', marginBottom: '5px', fontSize: '1rem' }}>

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
 import WorkCard from './WorkCard';
 import { getCopyrightDetail } from '@/api/social/social-api';
 import { createWork } from '@/api/trade/trade-api';
+import { approve, list } from '@/utils/contract';
 
 function CreateWorkDialog() {
   const [workUrl, setWorkUrl] = useState('');
@@ -96,7 +97,7 @@ function CreateWorkDialog() {
       </Button>
       <Dialog open={open} onClose={handleCancel}>
         <DialogTitle>Create Work</DialogTitle>
-        <DialogContent sx={{ width:'500px', height: '300px'}}>
+        <DialogContent sx={{ width:'500px', height: '290px'}}>
           <TextField
             margin="normal"
             id="work"

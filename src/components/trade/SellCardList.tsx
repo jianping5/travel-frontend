@@ -11,9 +11,8 @@ const SellCardList: React.FC<{items: WorkView[]}> = ({ items }) => {
       <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 2 }}>
         {items.length &&
           items.map((item: any) => {
-            const key = item.id;
             return (
-              <Grid key={key} item xs={12} sm={mobileOpen ? 3 : 4} md={mobileOpen ? 3 : 4} lg={mobileOpen ? 3 : 4}>
+              <Grid key={item.id} item xs={12} sm={mobileOpen ? 3 : 4} md={mobileOpen ? 3 : 4} lg={mobileOpen ? 3 : 4}>
                 <SellCard item={item} />
               </Grid>
             );

@@ -1,13 +1,8 @@
 'use client'
-import { Avatar, Box, Button, Card, CardMedia, Divider, Typography } from "@mui/material"
-import { useContext, useEffect, useMemo, useState } from "react";
-import { getCopyrightList, getFavorList, getFavoriteList, getUserHomeContentList, getUserHomeDynamicList, getUserHomeList, listCommunity } from "@/api/social/social-api";
-import { FileType, ItemType } from "@/api/enum";
-import { timeAgo } from "@/utils/tool";
-import { getFollowList } from "@/api/user/user-api";
-import ThemeContext from "@/context/ThemeContext";
+import { Typography } from "@mui/material"
+import { useEffect, useState } from "react";
+import { getUserHomeList } from "@/api/social/social-api";
 import HomeCardList from "../HomeCardList";
-import UserHome from "@/app/user/home/page";
 
 const UserHomeContent = ({params} : {params: {contentType: string, id: any }}) => {
   const [userHomeList, setUserHomeList] = useState<UserHomeListResp>()

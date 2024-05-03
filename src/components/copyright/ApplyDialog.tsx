@@ -2,10 +2,15 @@ import { useEffect, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Switch, TextField } from '@mui/material';
 import { ItemType } from '@/api/enum';
 import { createCopyright, mintCopyright } from '@/api/social/social-api';
-import { getAccount } from '@/utils/contract';
+import { getAccount, mint } from '@/utils/contract';
 // import { upload2IPFS } from "@/utils/ipfs";
 
-const ApplicationDialog: React.FC<{userInfo: UserInfoResp | undefined}> = ({userInfo}) => {
+type ApplicationDialogProps = {
+  userInfo?: UserInfoResp;
+  onApply: () => void;
+}
+
+const ApplicationDialog: React.FC<ApplicationDialogProps> = ({userInfo, onApply}) => {
   const [open, setOpen] = useState(false);
   const [type, setType] = useState(0);
   const [url, setUrl] = useState('');
@@ -21,11 +26,11 @@ const ApplicationDialog: React.FC<{userInfo: UserInfoResp | undefined}> = ({user
     setOpen(false);
     setType(0)
     setUrl("")
-    setUpload(false)
+    setUpload(true)
   };
 
   // 申请版权（待测试）
-  const handleCreateCopyright = async () => {
+  const handleCreateCopyright = async (): Promise<any> => {
     try {
       const searchParams = new URLSearchParams(url.split('?')[1]);
       const id = searchParams.get('id') || '0';
@@ -61,20 +66,28 @@ const ApplicationDialog: React.FC<{userInfo: UserInfoResp | undefined}> = ({user
 
   const handleApply = async () => {
     // 创建版权，获取 ipfsHash
-    // const ipfsHash = await handleCreateCopyright()
-    // const ipfsPath = "ipfs://" + ipfsHash
+    const ipfsHash = await handleCreateCopyright()
+    const ipfsPath = "ipfs://" + ipfsHash
+    console.log(ipfsPath)
+    // const ipfsPath = "ipfs://QmeSjSinHpPnmXmspMjwiXyN6zS4E9zccariGR3jxcaWtq"
 
     // mint NFT（调用智能合约）
     const signer = await getAccount()
     const accountAddress = signer.address
-    console.log(accountAddress)
+    // console.log('accountAddress', accountAddress)
+    const tokenIdn = await mint(accountAddress, ipfsPath)
+    // console.log('tokenId', parseInt(tokenId))
+    const tokenId = parseInt(tokenIdn)
 
+    // mint NFT（更新数据库）
+    await handleMintCopyright(tokenId, accountAddress)
+
+    // 获取最新版权列表
+    onApply()
 
     // 关闭弹窗
-    setOpen(false);
+    handleClose()
   };
-
-
 
   return (
     <div>

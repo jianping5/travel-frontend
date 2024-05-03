@@ -22,8 +22,8 @@ const BuyCardList: React.FC<{items: WorkView[]}> = ({ items }) => {
         {workItems.length &&
           workItems.map((item: any) => {
             return (
-              <Grid item xs={12} sm={mobileOpen ? 3 : 4} md={mobileOpen ? 3 : 4} lg={mobileOpen ? 3 : 4}>
-                <BuyCard key={item.id} item={item} onItemRemove={handleItemRemove} />
+              <Grid key={item.id} item xs={12} sm={mobileOpen ? 3 : 4} md={mobileOpen ? 3 : 4} lg={mobileOpen ? 3 : 4}>
+                <BuyCard item={item} onItemRemove={handleItemRemove} />
               </Grid>
             );
           })}
