@@ -11,6 +11,11 @@ function Work() {
   const [userWorkListResp, setUserWorkListResp] = useState<UserWorkListResp>()
   const [loading, setLoading] = useState(true)
 
+  // 创建商品后，刷新页面
+  const onWorkCreate = () => {
+    handleGetUserWorkList()
+  }
+
   // 获取指定用户的商品列表
   const handleGetUserWorkList = async () => {
     try {
@@ -43,7 +48,7 @@ function Work() {
         <LoadingScreen/>
       ) : (
         <div style={{ marginRight: 17}}>
-          <TabList onTabChange={onTabChange} tradeTabType="work"/>
+          <TabList onTabChange={onTabChange} tradeTabType="work" onWorkCreate={onWorkCreate}/>
           <SellCardList items={userWorkListResp?.list || []} />
         </div>
       )

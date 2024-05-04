@@ -3,7 +3,7 @@ import { getFavorList, getFavoriteDetail } from "@/api/social/social-api";
 import LoadingScreen from "@/components/common/loading";
 import CardList from "@/components/favor/CardList";
 import { youtubeResponse } from "@/data/app.data";
-import { Card, CardContent, Typography } from "@mui/material";
+import { Box, Card, CardContent, Typography } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 
@@ -60,7 +60,7 @@ function OriginFavor() {
       ) : (
         <div style={{ display: 'flex' }}>
           <div style={{ flex: '1', position: 'sticky', top: '20px', maxHeight: '500px'}}>
-            <Card sx={{ mt: '20px', height:'85vh', borderRadius:'17px', width:'370px', marginLeft:'70px', bgcolor: {bgcolor} }}>
+            <Card sx={{ mt: '20px', height:'85vh', borderRadius:'17px', width:'370px', marginLeft:'70px', backgroundColor: 'white' }}>
               <CardContent sx={{ margin: '10px' }}>
                 <img src={favoriteDetail?.coverUrl}
                 style={{ width:'400px', height: '180px', borderRadius: '15px'}}>

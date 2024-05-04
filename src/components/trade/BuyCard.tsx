@@ -18,7 +18,7 @@ const BuyCard: React.FC<AppCardProps> = ({ item, onItemRemove }) => {
   const truncatedTitle = item.title.length > 30 ? `${item.title.substring(0, 30)}...` : item.title;
   const [isHovered, setIsHovered] = useState(false);
 
-  // 下架商品（待测试）
+  // 下架商品
   const handleRemoveWork = async (id: number) => {
     try {
       // 下架 NFT
@@ -41,7 +41,7 @@ const BuyCard: React.FC<AppCardProps> = ({ item, onItemRemove }) => {
   const handleBuyWork = async (id: number) => {
     try {
       // 购买 NFT
-      await purchase(item.tokenId)
+      await purchase(item.tokenId, parseInt(item.price))
       
       // 获取当前活动账户地址
       const signer = await getAccount()

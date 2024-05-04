@@ -1,3 +1,4 @@
+'use client'
 import { BsBellFill } from 'react-icons/bs';
 import { notificationData } from '../../data/app.data';
 import Avatar from '@mui/material/Avatar';
@@ -17,10 +18,12 @@ import { notificationWrapper, inlineText } from '../../styles/styles';
 import { getMessageList } from '@/api/social/social-api';
 import { timeAgo } from '@/utils/tool';
 import { CardMedia } from '@mui/material';
+import NotificationCard from './NotificationCard';
 
 const NotificationsList = () => {
   const [messageResp, setMessageResp] = useState<MessageListResp>()
   const { el, open, handleClick, handleClose } = useToggle();
+  const [isHovered, setIsHovered] = useState(false); // 添加状态用于控制鼠标悬停事件
 
   // 获取消息列表
   const handleGetMessageList = async () => {
@@ -37,7 +40,6 @@ const NotificationsList = () => {
     handleClick(e)
      handleGetMessageList()
   }
-
 
   return (
     <Box sx={{ px: 1 }}>
@@ -56,25 +58,7 @@ const NotificationsList = () => {
         <List sx={notificationWrapper}>
           {messageResp?.list?.map((message) => {
             return (
-              <Link href={`/video?id=${message.itemId}`} key={message.id} underline="none">
-                <Box sx={{ display: 'flex', ml: 1, mb: 2 }}>
-                  <ListItemAvatar sx={{ mr: 1 }}>
-                    <CardMedia component="img" sx={{width: '100px', height: '70px', objectFit: 'cover', borderRadius: '5px'}}  image={message.coverUrl} alt='' />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={message.title}
-                    secondary={
-                      <React.Fragment>
-                        <Box component="span">
-                          <Typography sx={inlineText} component="span">
-                          {message.account} • {timeAgo(new Date(message.createTime).getTime())}
-                          </Typography>
-                        </Box>
-                      </React.Fragment>
-                    }
-                  />
-                </Box>
-              </Link>
+              <NotificationCard key={message.id} message={message}/>
             );
           })}
         </List>

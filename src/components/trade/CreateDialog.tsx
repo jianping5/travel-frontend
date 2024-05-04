@@ -3,9 +3,12 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, T
 import WorkCard from './WorkCard';
 import { getCopyrightDetail } from '@/api/social/social-api';
 import { createWork } from '@/api/trade/trade-api';
-import { approve, list } from '@/utils/contract';
 
-function CreateWorkDialog() {
+type CreateWorkDialogProps = {
+  onWorkCreate: () => void;
+}
+
+const CreateWorkDialog: React.FC<CreateWorkDialogProps> = ({ onWorkCreate }) => {
   const [workUrl, setWorkUrl] = useState('');
   const [price, setPrice] = useState('');
   const [open, setOpen] = useState(false)
@@ -28,6 +31,8 @@ function CreateWorkDialog() {
   const handleCreate = async () => {
     // 处理创建商品逻辑
     await handleCreateWork()
+
+    onWorkCreate()
 
     // 关闭弹窗
     handleClose();
@@ -77,7 +82,7 @@ function CreateWorkDialog() {
       const id = parts[parts.length - 1];
       handleGetCopyrightDetail(parseInt(id))
     }
-  }, [isValid])
+  }, [workUrl])
 
   return (
     <div style={{ marginRight: 20 }}>

@@ -66,6 +66,7 @@ type FavorView = {
   id: number
   itemType: number
   itemId: number
+  content: string
   coverUrl: string
   userId: number
   account: string
@@ -102,6 +103,7 @@ type HistoryView = {
   id: number
   itemType: number
   itemId: number
+  content: string
   coverUrl: string
   userId: number
   account: string

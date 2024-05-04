@@ -9,9 +9,10 @@ import CreateDialog from './CreateDialog';
 type TabListProps = {
     onTabChange: (searchValue: string) => void;
     tradeTabType: string;
+    onWorkCreate: () => void;
 }
 
-const TabList: React.FC<TabListProps> = ( { onTabChange, tradeTabType }) => {
+const TabList: React.FC<TabListProps> = ( { onTabChange, tradeTabType, onWorkCreate }) => {
   // const { tradeTabType } = useContext(ThemeContext);
 
   const handleChange = (event: any, newValue: string) => {
@@ -33,7 +34,7 @@ const TabList: React.FC<TabListProps> = ( { onTabChange, tradeTabType }) => {
         ))}
       </Tabs>
       {/* 右侧按钮 */}
-      <CreateDialog/>
+      <CreateDialog onWorkCreate={onWorkCreate}/>
     </Box>
   );
 };

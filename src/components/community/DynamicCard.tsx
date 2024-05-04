@@ -28,6 +28,7 @@ const AppCard: React.FC<AppCardProps> = ({ props }) => {
   const [likeCount, setLikeCount] = useState(props.likeCount)
 
   const history = useRouter()
+  const [isHovered, setIsHovered] = useState(false); // 添加状态用于控制鼠标悬停事件
 
   // 点赞
   const handleLike = async (itemId: number = 0, likedStatus: boolean = false) => {
@@ -58,10 +59,45 @@ const AppCard: React.FC<AppCardProps> = ({ props }) => {
             <CardActionArea sx={{ display: 'flex', width: '100%', borderRadius: '7px', pl: '10px'}}>
               <div style={{ marginTop: '-17px'}}>
                 {props.fileType == FileType.Video ?
+                  // <video style={{width: 170, height: 120, objectFit: 'cover', borderRadius: '5px'}}>
+                  //   <source src={props.content} type="video/mp4" />
+                  //   Your browser does not support the video tag.
+                  // </video>
+                  <Box
+                  sx={{
+                    position: 'relative',
+                    height: 120,
+                    width: 170,
+                    borderRadius: '11px',
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                  }}
+                  onMouseEnter={() => setIsHovered(true)} // 鼠标进入时设置状态为 true
+                  onMouseLeave={() => setIsHovered(false)} // 鼠标离开时设置状态为 false
+                >
+                  {/* 封面图片 */}
                   <video style={{width: 170, height: 120, objectFit: 'cover', borderRadius: '5px'}}>
                     <source src={props.content} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
+                  {/* 视频预览 */}
+                  {isHovered && (
+                    <video
+                      src={props.content} // 视频地址
+                      autoPlay
+                      loop
+                      muted
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                      }}
+                    />
+                  )}
+                </Box>
                   :
                   <CardMedia component="img" sx={{width: 170, objectFit: 'cover', borderRadius: '5px'}}  image={props.fileType == FileType.Picture ? props.content : "https://cdn.pixabay.com/photo/2015/03/03/05/54/cherry-blossoms-656965_640.jpg"} alt="Dynamic CoverUrl" />
                 }
@@ -94,7 +130,7 @@ const AppCard: React.FC<AppCardProps> = ({ props }) => {
                   </ListItem>
 
                   <ListItem sx={{ marginTop: '-10px'}}>
-                    <Typography variant="body2" sx={{ color: '#606060', fontSize: '0.9rem', lineHeight: '1', mariginTop: '' }}>
+                    <Typography variant="body2" sx={{ color: '#606060', fontSize: '0.9rem', lineHeight: '1' }}>
                       {props.description}
                     </Typography>
                   </ListItem>

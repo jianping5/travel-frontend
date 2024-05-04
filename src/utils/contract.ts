@@ -21,6 +21,16 @@ let nftSwapAbi = [
 let nftContractAddress = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
 let nftSwapContractAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
 
+// 简写地址
+export function shortenAddress(address: any) {
+  if (address.length <= 10) return address; // 如果地址长度小于等于 10，则不需要简写，直接返回原始地址
+  return address.slice(0, 6) + "..." + address.slice(-4); // 取地址的前 6 位和后 4 位，中间用省略号连接
+}
+
+export function getNftContractAddress() {
+  return nftContractAddress
+}
+
 // 获取当前账户
 export async function getAccount() {
   if (window.ethereum == null) {
@@ -64,6 +74,9 @@ export async function interactContract() {
 
 // 铸造版权 NFT
 export async function mint(owner: string, _tokenURI: string) {
+  // 初始化 provider 和 signer
+  await getAccount()
+
   let nftContract = new Contract(nftContractAddress, nftAbi, provider)
   const nftSigner = nftContract.connect(signer);
 
@@ -91,6 +104,9 @@ export async function mint(owner: string, _tokenURI: string) {
 
 // 授权 NFT
 export async function approve(tokenId: number) {
+  // 初始化 provider 和 signer
+  await getAccount()
+
   let nftContract = new Contract(nftContractAddress, nftAbi, provider)
   const nftSigner = nftContract.connect(signer);
 
@@ -100,6 +116,9 @@ export async function approve(tokenId: number) {
 
 // 上架 NFT
 export async function list(tokenId: number, price: number) {
+  // 初始化 provider 和 signer
+  await getAccount()
+
   let nftSwapContract = new Contract(nftSwapContractAddress, nftSwapAbi, provider)
   const nftSwapSigner = nftSwapContract.connect(signer);
 
@@ -108,16 +127,22 @@ export async function list(tokenId: number, price: number) {
 }
 
 // 购买 NFT
-export async function purchase(tokenId: number) {
+export async function purchase(tokenId: number, valueWei: number) {
+  // 初始化 provider 和 signer
+  await getAccount()
+
   let nftSwapContract = new Contract(nftSwapContractAddress, nftSwapAbi, provider)
   const nftSwapSigner = nftSwapContract.connect(signer);
 
-  const tx = await nftSwapSigner.purchase(nftContractAddress, tokenId);
+  const tx = await nftSwapSigner.purchase(nftContractAddress, tokenId, { value: valueWei });
   await tx.wait(); // 等待交易确认
 }
 
 // 下架 NFT
 export async function revoke(tokenId: number) {
+  // 初始化 provider 和 signer
+  await getAccount()
+
   let nftSwapContract = new Contract(nftSwapContractAddress, nftSwapAbi, provider)
   const nftSwapSigner = nftSwapContract.connect(signer);
 
@@ -127,6 +152,9 @@ export async function revoke(tokenId: number) {
 
 // 更新价格
 export async function update(tokenId: number, newPrice: number) {
+  // 初始化 provider 和 signer
+  await getAccount()
+
   let nftSwapContract = new Contract(nftSwapContractAddress, nftSwapAbi, provider)
   const nftSwapSigner = nftSwapContract.connect(signer);
 

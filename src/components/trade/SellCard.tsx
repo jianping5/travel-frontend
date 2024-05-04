@@ -17,7 +17,7 @@ const SellCard: React.FC<AppCardProps> = ({ item }) => {
   const truncatedTitle = workItem.title.length > 30 ? `${workItem.title.substring(0, 30)}...` : workItem.title;
   const [isHovered, setIsHovered] = useState(false);
 
-  // 售卖商品（待测试）
+  // 售卖商品
   const handleSellWork = async (id: number) => {
     try {
       // 上架 NFT（先授权）
@@ -39,7 +39,7 @@ const SellCard: React.FC<AppCardProps> = ({ item }) => {
     }
   }
 
-  // 下架商品（待测试）
+  // 下架商品
   const handleRemoveWork = async (id: number) => {
     try {
       // 下架 NFT
