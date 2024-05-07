@@ -142,14 +142,14 @@ function OriginVideoDetail() {
           >
             <div style={{ display: 'flex' }}>
               <div style={{ flex: 2 }}>
-                <div style={{ marginBottom: '20px', boxShadow: 'none', border: 'none' }}>
+                <div style={{ marginTop: '10px', marginBottom: '20px', boxShadow: 'none', border: 'none' }}>
                   {/* 视频 */}
                   <video
                     src={contentDetail?.content}
                     controls
                     width="100%"
                     height="auto"
-                    style={{ borderRadius: '12px'}}
+                    style={{ borderRadius: '11px'}}
                   />
                   {/* 视频相关信息 */}
                   <div style={{ marginTop: '10px'}}>
@@ -196,7 +196,7 @@ function OriginVideoDetail() {
                 </div>
               </div>
               {/* 相关推荐 */}
-              <div style={{ flex: 1, marginLeft: '30px' }}>
+              <div style={{ marginTop: '10px', flex: 1, marginLeft: '30px' }}>
                 <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: '10px' }}>Related Videos</Typography>
                 <CardList items={contentSimilarList} contentType='Videos' />
               </div>

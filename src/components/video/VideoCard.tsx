@@ -1,3 +1,4 @@
+'use client'
 import { AiFillCheckCircle } from 'react-icons/ai';
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
@@ -7,9 +8,10 @@ import Link from '@mui/material/Link';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import React from 'react';
+import React, { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { timeAgo } from '@/utils/tool';
+import { Box } from '@mui/material';
 
 type AppCardProps = {
   props: ContentView
@@ -17,12 +19,53 @@ type AppCardProps = {
 
 const AppCard: React.FC<AppCardProps> = ({ props }) => {
   const truncatedTitle = props.title.length > 100 ? `${props.title.substring(0, 100)}...` : props.title;
+  const [isHovered, setIsHovered] = useState(false); // 添加状态用于控制鼠标悬停事件
 
   return (
     <Link href={`/video?id=${props.id}`} underline="none" sx={{ position: 'relative', display: 'inline-block' }}>
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'transparent', zIndex: 1 }}></div>
       <Card sx={{ display: 'flex', borderRadius: 0, boxShadow: 'none', border: 'none', position: 'relative', zIndex: 2 }}>
-        <CardMedia component="img" sx={{width: 150, height: 100, objectFit: 'cover', borderRadius: '5px'}}  image={props.coverUrl} alt={props.title} />
+        {/* <CardMedia component="img" sx={{width: 150, height: 100, objectFit: 'cover', borderRadius: '5px'}}  image={props.coverUrl} alt={props.title} /> */}
+        <Box
+          sx={{
+            position: 'relative',
+            height: 100,
+            width: 150,
+            borderRadius: '7px',
+            overflow: 'hidden',
+            cursor: 'pointer',
+          }}
+          onMouseEnter={() => setIsHovered(true)} // 鼠标进入时设置状态为 true
+          onMouseLeave={() => setIsHovered(false)} // 鼠标离开时设置状态为 false
+        >
+          {/* 封面图片 */}
+          <img
+            src={props.coverUrl}
+            alt=""
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
+          />
+          {/* 视频预览 */}
+          {isHovered && (
+            <video
+              src={props.content} // 视频地址
+              autoPlay
+              loop
+              muted
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+              }}
+            />
+          )}
+        </Box>
         
         <CardContent sx={{ flex: 1, padding: 1, marginLeft: '-15px'}}>
           <List sx={{ display: 'flex', flexDirection: 'column', padding: 0 }}>

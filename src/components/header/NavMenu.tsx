@@ -44,7 +44,7 @@ const NavMenu = () => {
   }, [loginStatus])
 
   return (
-    <AppBar component="nav" sx={appBar}>
+    <AppBar component="nav" sx={appBar} elevation={0}>
       <Toolbar>
         <Box sx={toolbarWrapper}>
           <Box sx={flexAlignCenter}>

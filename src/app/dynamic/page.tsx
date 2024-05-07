@@ -93,7 +93,7 @@ function OriginDynamic() {
           <video
           src={dynamicDetail.content}
           controls
-          style={{ maxWidth: '1000px', maxHeight: '500px', width: '100%', height: 'auto', borderRadius: '12px', objectFit: 'cover' }}
+          style={{ maxWidth: '1000px', maxHeight: '500px', width: '100%', height: 'auto', borderRadius: '11px', objectFit: 'cover' }}
           />
         </>
       break;

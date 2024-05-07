@@ -1,7 +1,8 @@
 'use client'
 import axios, { AxiosRequestConfig } from 'axios'
 
-const BASE_URL = 'http://localhost:1005'
+// const BASE_URL = 'http://localhost:1005'
+const BASE_URL = 'http://localhost:31005'
 
 // 创建行为记录
 export const createBehavior = async (req: BehaviorCreateReq): Promise<BaseResp> => {

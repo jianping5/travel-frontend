@@ -1,7 +1,10 @@
 'use client'
 import axios, { AxiosRequestConfig } from 'axios'
 
-const BASE_URL = 'http://localhost:1001'
+// const BASE_URL = 'http://localhost:1001'
+// const BASE_URL = 'http://192.168.249.100:1001'
+const BASE_URL = 'http://localhost:31001'
+
 
 // 注册
 export const register = async (req: RegisterReq): Promise<BaseRegisterResp> => {

@@ -1,7 +1,9 @@
 'use client'
 import axios, { AxiosRequestConfig } from 'axios'
 
-const BASE_URL = 'http://localhost:1002'
+// const BASE_URL = 'http://localhost:1002'
+// const BASE_URL = 'http://192.168.249.100:1002'
+const BASE_URL = 'http://localhost:31002'
 
 // 获取收藏夹列表
 export const getFavoriteList = async (req: FavoriteListReq): Promise<BaseFavoriteListResp> => {

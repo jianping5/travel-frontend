@@ -1,7 +1,8 @@
 'use client'
 import axios, { AxiosRequestConfig } from 'axios'
 
-const BASE_URL = 'http://localhost:1003'
+// const BASE_URL = 'http://localhost:1003'
+const BASE_URL = 'http://localhost:31003'
 
 // 创建智能攻略
 export const createStrategy = async (req: StrategyCreateReq): Promise<BaseResp> => {

@@ -1,7 +1,8 @@
 'use client'
 import axios, { AxiosRequestConfig } from 'axios'
 
-const BASE_URL = 'http://localhost:1004'
+// const BASE_URL = 'http://localhost:1004'
+const BASE_URL = 'http://localhost:31004'
 
 // 创建商品
 export const createWork = async (req: WorkCreateReq): Promise<BaseResp> => {
