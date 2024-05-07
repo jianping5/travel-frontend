@@ -118,7 +118,7 @@ function OriginCopyrightDetail() {
               <Typography variant="body1" sx={{ mb: 2, fontSize: '1rem', m: 1, color: '#777' }}> Current price </Typography>
               <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 3, fontSize: '1.7rem', m: 1 }}> {workDetail?.work.price} GO </Typography>
             </Card> */}
-            <Card sx={{ mt: 3, mr: 3, p: 1, height:'425px', borderRadius: '9px', border:'1px solid #ccc', backgroundColor: '#fefefe' }}>
+            <Card sx={{ mt: 2, mr: 3, p: 1, height:'425px', borderRadius: '9px', border:'1px solid #ccc', backgroundColor: '#fefefe' }}>
               <Typography variant="body1" sx={{ mb: 3, fontSize: '1.2rem', m: 1, fontWeight: 'bold'}}> Description </Typography>
               <Divider/>
               <Typography variant="body1" sx={{ fontSize: '1.1rem', m: 1, maxHeight: '320px', overflow: 'auto'}}> {copyrightDetail?.copyright.description} </Typography>
