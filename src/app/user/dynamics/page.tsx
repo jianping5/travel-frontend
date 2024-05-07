@@ -38,7 +38,9 @@ function OriginUserDynamics() {
       {loading ? (
         <LoadingScreen/>
       ) : (
-        <UserDetail id={parseInt(id)} userInfo={userInfo} userHomeTabType='dynamics' children={<UserDynamicContent params={{ contentType: 'dynamics', id: parseInt(id) }} />} />
+        <UserDetail id={parseInt(id)} userInfo={userInfo} userHomeTabType='dynamics'>
+          <UserDynamicContent params={{ contentType: 'dynamics', id: parseInt(id) }} />
+        </UserDetail>
       )}
     </>
   );

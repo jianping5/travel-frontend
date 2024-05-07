@@ -3,13 +3,13 @@ import { Box, Button, Card, CardMedia, Divider, Grid, Link, Table, TableBody, Ta
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import { useSearchParams } from "next/navigation";
 import { getRecordList, getWorkDetail, updateWork } from "@/api/trade/trade-api";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { getLoginUserId, timeAgo } from "@/utils/tool";
 import { WorkStatus, WorkUpdateType } from "@/api/enum";
 import { MdRemoveShoppingCart } from "react-icons/md";
 import { approve, getAccount, getNftContractAddress, list, purchase, revoke, shortenAddress } from "@/utils/contract";
 
-function WorkDetail() {
+function OriginWorkDetail() {
   const [workDetail, setWorkDetail] = useState<WorkDetailResp>()
   const [recordListResp, setRecordListResp] = useState<RecordListResp>()
   const searchParams = useSearchParams()
@@ -331,6 +331,14 @@ function WorkDetail() {
       </div>
     </div>
 
+  )
+}
+
+function WorkDetail() {
+  return (
+    <Suspense>
+      <OriginWorkDetail/>
+    </Suspense>
   )
 }
 

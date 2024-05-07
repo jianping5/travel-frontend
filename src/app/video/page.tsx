@@ -5,7 +5,7 @@ import { appContentWrapper, appWrapper, flexColumnGrow } from "@/styles/styles";
 import Box from "@mui/material/Box"
 import { useSearchParams } from "next/navigation";
 import { Suspense, useContext, useEffect, useState } from "react";
-import { Avatar, Button, Card, CardContent, Divider, IconButton, Typography } from "@mui/material";
+import { Avatar, Button, Card, CardContent, Divider, Drawer, IconButton, Typography } from "@mui/material";
 import CardList from "@/components/video/CardList";
 import Comment from "@/components/comment/Comment";
 import { createHistory, favor, getCommentList, getContentDetail, getSimilarContentList, like } from "@/api/social/social-api";
@@ -20,7 +20,7 @@ import { follow } from "@/api/user/user-api";
 function OriginVideoDetail() {
   const [contentDetail, setContentDetail] = useState<ContentView>();
   const [contentSimilarList, setContentSimilarList] = useState<ContentView[]>([]);
-  const { setSearch, searchTabType, setSearchTabType, mobileOpen } = useContext(ThemeContext);
+  const { setSearch, searchTabType, setSearchTabType, mobileOpen, setMobileOpen } = useContext(ThemeContext);
   const searchParams = useSearchParams();
   const [open, setOpen] = useState(false);
 
@@ -114,21 +114,16 @@ function OriginVideoDetail() {
 
   }, [searchParams, searchTabType, open]);
   
-  const sideBarWidth = mobileOpen ? '70px' : '250px';
   return (
-    <Box sx={appWrapper}>
+    <Box sx={{ display: 'flex', height: '100vh', overflow: 'hidden', ml: '70px' }}>
       <Box component="main" sx={appContentWrapper}>
-        <Box
-          component="div"
-          sx={{
-            flexBasis: sideBarWidth,
-            flexGrow: 0,
-            flexShrink: 0,
-            overflowY: 'auto',
-          }}
+        <Drawer
+          anchor="left"
+          open={mobileOpen}
+          onClose={() => setMobileOpen(!mobileOpen)}
         >
           <SideList />
-        </Box>
+        </Drawer>
         <Box component="div" sx={flexColumnGrow}>
           <Box
             component="div"
@@ -137,7 +132,6 @@ function OriginVideoDetail() {
               p: 1,
               overflowY: 'auto',
               overflowX: 'hidden',
-              width: `calc(100vw - ${sideBarWidth})`,
             }}
           >
             <div style={{ display: 'flex' }}>
@@ -216,9 +210,5 @@ function VideoDetail() {
   )
 }
 
-
 export default VideoDetail;
-function setContentSimilarList(arg0: any) {
-  throw new Error("Function not implemented.");
-}
 

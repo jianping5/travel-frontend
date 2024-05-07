@@ -37,7 +37,9 @@ function OriginUserHome() {
       {loading ? (
         <LoadingScreen/>
       ) : (
-        <UserDetail id={parseInt(id)} userInfo={userInfo} userHomeTabType='home' children={<UserHomeContent params={{ contentType: 'home', id: parseInt(id) }} />}/>
+        <UserDetail id={parseInt(id)} userInfo={userInfo} userHomeTabType='home'>
+          <UserHomeContent params={{ contentType: 'home', id: parseInt(id) }} />
+        </UserDetail>
       )}
     </>
   );

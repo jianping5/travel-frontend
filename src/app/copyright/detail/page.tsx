@@ -3,14 +3,14 @@ import { Box, Button, Card, CardMedia, Divider, Grid, Link, Table, TableBody, Ta
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import { useSearchParams } from "next/navigation";
 import { getRecordList, getWorkDetail, updateWork } from "@/api/trade/trade-api";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { getLoginUserId, timeAgo } from "@/utils/tool";
 import { WorkStatus, WorkUpdateType } from "@/api/enum";
 import { MdRemoveShoppingCart } from "react-icons/md";
 import { getCopyrightDetail } from "@/api/social/social-api";
 import { getNftContractAddress, shortenAddress } from "@/utils/contract";
 
-function CopyrightDetail() {
+function OriginCopyrightDetail() {
   const [workDetail, setWorkDetail] = useState<WorkDetailResp>()
   const [copyrightDetail, setCopyrightDetail] = useState<CopyrightDetailResp>()
   const searchParams = useSearchParams()
@@ -128,6 +128,14 @@ function CopyrightDetail() {
       </div>
     </div>
 
+  )
+}
+
+function CopyrightDetail() {
+  return (
+    <Suspense>
+      <OriginCopyrightDetail/>
+    </Suspense>
   )
 }
 

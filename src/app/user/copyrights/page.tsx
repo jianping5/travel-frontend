@@ -37,8 +37,9 @@ function OriginUserCopyrights() {
       {loading ? (
         <LoadingScreen/>
       ) : (
-        <UserDetail id={parseInt(id)} userInfo={userInfo} userHomeTabType='copyrights' 
-        children={<UserCopyrightContent params={{ contentType: 'copyrights', id: parseInt(id), userInfo: userInfo}} />}/>
+        <UserDetail id={parseInt(id)} userInfo={userInfo} userHomeTabType='copyrights'>
+          <UserCopyrightContent params={{ contentType: 'copyrights', id: parseInt(id), userInfo: userInfo}} />
+        </UserDetail>
       )}
     </>
   );

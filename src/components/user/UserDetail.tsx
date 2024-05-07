@@ -1,7 +1,6 @@
 import React, { Children, useContext, useEffect, useState } from 'react';
 import { Avatar, Box, Button, Typography } from '@mui/material';
 import TabList from './TabList';
-import UserContent from './UserContent';
 import { useRouter } from 'next/navigation'
 import { follow } from '@/api/user/user-api';
 import { getLoginUserId } from '@/utils/tool';

@@ -38,7 +38,9 @@ function OriginUserFavors() {
       {loading ? (
         <LoadingScreen/>
       ) : (
-        <UserDetail id={parseInt(id)} userInfo={userInfo} userHomeTabType='favors' children={<UserFavorContent params={{ contentType: 'favors', id: parseInt(id) }} />}/>
+        <UserDetail id={parseInt(id)} userInfo={userInfo} userHomeTabType='favors'>
+          <UserFavorContent params={{ contentType: 'favors', id: parseInt(id) }} />
+        </UserDetail>
       )}
     </>
   );

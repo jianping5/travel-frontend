@@ -38,7 +38,9 @@ function OriginUserFollows() {
       {loading ? (
         <LoadingScreen/>
       ) : (
-        <UserDetail id={parseInt(id)} userInfo={userInfo} userHomeTabType='follows' children={<UserFollowContent params={{ contentType: 'follows', id: parseInt(id) }} />}/>
+        <UserDetail id={parseInt(id)} userInfo={userInfo} userHomeTabType='follows'>
+          <UserFollowContent params={{ contentType: 'follows', id: parseInt(id) }} />
+        </UserDetail>
       )}
     </>
   );

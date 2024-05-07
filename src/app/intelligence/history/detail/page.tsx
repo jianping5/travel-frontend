@@ -4,10 +4,10 @@ import LoadingScreen from "@/components/common/loading";
 import { timeAgo } from "@/utils/tool";
 import { Box, Divider, Typography } from "@mui/material";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 
-function HistoryDetail() {
+function OriginHistoryDetail() {
   const [strategyDetail, setStrategyDetail] = useState<StrategyView>()
   const [loading, setLoading] = useState(true)
   const searchParams = useSearchParams()
@@ -51,6 +51,14 @@ function HistoryDetail() {
     )
     }
     </>
+  )
+}
+
+function HistoryDetail() {
+  return (
+    <Suspense>
+      <OriginHistoryDetail/>
+    </Suspense>
   )
 }
 

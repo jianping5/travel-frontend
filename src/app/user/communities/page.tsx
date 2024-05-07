@@ -38,7 +38,9 @@ function OriginUserCommunities() {
       {loading ? (
         <LoadingScreen/>
       ) : (
-        <UserDetail id={parseInt(id)} userInfo={userInfo} userHomeTabType='communities' children={<UserCommunityContent params={{ contentType: 'communities', id: parseInt(id) }} />} />
+        <UserDetail id={parseInt(id)} userInfo={userInfo} userHomeTabType='communities'>
+          <UserCommunityContent params={{ contentType: 'communities', id: parseInt(id) }} />
+        </UserDetail>
       )}
     </>
   );

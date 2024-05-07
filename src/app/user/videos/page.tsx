@@ -39,7 +39,9 @@ function OriginUserVideos() {
       {loading ? (
         <LoadingScreen/>
       ) : (
-        <UserDetail id={parseInt(id)} userInfo={userInfo} userHomeTabType='videos' children={<UserVideoContent params={{ contentType: 'videos', id: parseInt(id) }} />}/>
+        <UserDetail id={parseInt(id)} userInfo={userInfo} userHomeTabType='videos'>
+          <UserVideoContent params={{ contentType: 'videos', id: parseInt(id) }} />
+        </UserDetail>
       )}
     </>
   );
