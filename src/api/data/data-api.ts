@@ -2,7 +2,8 @@
 import axios, { AxiosRequestConfig } from 'axios'
 
 // const BASE_URL = 'http://localhost:1005'
-const BASE_URL = 'http://localhost:31005'
+// const BASE_URL = 'http://localhost:31005'
+const BASE_URL = 'http://192.168.249.100:8081'
 
 // 创建行为记录
 export const createBehavior = async (req: BehaviorCreateReq): Promise<BaseResp> => {
