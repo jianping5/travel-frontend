@@ -47,14 +47,14 @@ function OriginCopyrightDetail() {
             sx={{ objectFit: 'contain', width: '100%', height:'100%' }}
             />
           </Card> */}
-          <Card sx={{ width: '600px', height: '500px', borderRadius: '10px', mt: 5, border:'0px solid #ccc' }}>
+          <Card sx={{ width: '600px', height: '500px', borderRadius: '10px', mt: 2, border:'0px solid #ccc' }}>
             <video
             src={copyrightDetail?.copyright.content}
             controls
             style={{  width: '100%', height: 'auto', objectFit: 'contain' }}
             />
           </Card>
-          <Card sx={{ width: '600px', mt: 3, mr: 2, p: 1, height:'200px', borderRadius: '9px', border:'1px solid #ccc', backgroundColor: '#fefefe' }}>
+          <Card sx={{ width: '600px', mt: 3, mr: 2, p: 1, height:'250px', borderRadius: '9px', border:'1px solid #ccc', backgroundColor: '#fefefe' }}>
               <Typography variant="body1" sx={{ mb: 3, fontSize: '1.2rem', m: 1, fontWeight: 'bold'}}> Detail </Typography>
               <Divider/>
               <Grid container spacing={2}>
@@ -63,6 +63,7 @@ function OriginCopyrightDetail() {
                   <Typography variant="subtitle1" sx={{ mb: 3, fontSize: '1rem', m: 1}}> Token ID </Typography>
                   <Typography variant="subtitle1" sx={{ mb: 3, fontSize: '1rem', m: 1}}> Token Standard </Typography>
                   <Typography variant="subtitle1" sx={{ mb: 3, fontSize: '1rem', m: 1}}> Chain </Typography>
+                  <Typography variant="subtitle1" sx={{ mb: 3, fontSize: '1rem', m: 1}}> IPFS Address </Typography>
                 </Grid>
                 <Grid item xs={6}>
                   {/* 这里放右侧内容 */}
@@ -85,14 +86,34 @@ function OriginCopyrightDetail() {
                   <Typography variant="subtitle1" sx={{ mb: 3, fontSize: '1rem', m: 1, textAlign: 'right' }}> {copyrightDetail?.copyright.tokenId} </Typography>
                   <Typography variant="subtitle1" sx={{ mb: 3, fontSize: '1rem', m: 1, textAlign: 'right' }}> ERC-721 </Typography>
                   <Typography variant="subtitle1" sx={{ mb: 3, fontSize: '1rem', m: 1, textAlign: 'right' }}> Ethereum </Typography>
+                  <Typography variant="subtitle1" sx={{ mb: 3, fontSize: '1rem', m: 1, textAlign: 'right' }}>
+                    <Link href={"https://ipfs.io/ipfs/" + copyrightDetail?.copyright.ipfsHash } target="_blank" underline="none">
+                      <Tooltip title={"ipfs://" + copyrightDetail?.copyright.ipfsHash} slotProps={{
+                        popper: {
+                          modifiers: [
+                            {
+                              name: 'offset',
+                              options: {
+                                offset: [0, -7],
+                              },
+                            },
+                          ],
+                        },
+                      }}>
+                        <span> ipfs://{shortenAddress(copyrightDetail?.copyright.ipfsHash || "")} </span>
+                      </Tooltip>
+                    </Link>
+                  </Typography>
                 </Grid>
               </Grid>
           </Card>
         </div>
 
         <div style={{ flex: '1' }}>
-          <Box sx={{ ml: '10px', mt: 5}}>
-            <Typography variant="h5" >{copyrightDetail?.copyright.title}</Typography>
+          <Box sx={{ ml: '10px', mt: 2}}>
+            <Typography variant="h5" >
+              {copyrightDetail?.copyright.title}
+            </Typography>
             <Typography variant="subtitle1" sx={{ fontWeight: 'medium', fontSize: '1rem', color: '#242424'}}>
               Owned by
               <Link href={`/user/home?id=${copyrightDetail?.copyright.userId}`} underline="none">

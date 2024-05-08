@@ -43,7 +43,7 @@ const DynamicCompact: React.FC<{dynamic:CommunityDynamicView}> = ({dynamic}) => 
             <div>
               <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
                 <Link href={`/user/home?id=${dynamic?.userInfo.id}`}>
-                  <Avatar src={dynamic?.userInfo.avatar} sx={{ width: 27, height: 27, borderRadius: '50%' }} />
+                  <Avatar src={dynamic?.userInfo.avatar} sx={{ width: 30, height: 30 }} />
                 </Link>
                 <Typography variant="body1" sx={{ marginLeft: '10px', fontSize: '0.9rem' }}>{dynamic?.userInfo.account} </Typography>
                 <Typography variant="body1" sx={{ marginLeft: '7px', color: 'text.secondary', fontSize: '0.85rem' }}>• { dynamic?.createTime && timeAgo(new Date(dynamic?.createTime).getTime())}</Typography>

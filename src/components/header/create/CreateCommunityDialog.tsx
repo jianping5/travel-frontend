@@ -50,7 +50,7 @@ const CreateCommunityDialog: React.FC<CreateCommunityDialogProps> = ({ open, han
 
   return (
     <Dialog open={open} onClose={handleClose} fullScreen maxWidth='md' sx={{ maxWidth: '100%', margin: 'auto'}} >
-      <DialogTitle>Create Dynamic</DialogTitle>
+      <DialogTitle>Create Community</DialogTitle>
       <DialogContent sx={{ height: '100vh', pl: '300px', pr: '300px' }}>
         <TextField
           autoFocus

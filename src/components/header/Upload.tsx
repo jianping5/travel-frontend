@@ -13,6 +13,7 @@ import { FiPlay } from 'react-icons/fi';
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import CreateDynamicDialog from './create/CreateDynamicDialog';
 import CreateCommunityDialog from './create/CreateCommunityDialog';
+import { GrAdd } from "react-icons/gr";
 
 const Upload = () => {
   const { el, open, handleClick, handleClose } = useToggle();
@@ -77,7 +78,7 @@ const Upload = () => {
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton onClick={handleCommunityOpen}>
-              <ListItemIcon><IoCreateOutline size={24}/></ListItemIcon>
+              <ListItemIcon><GrAdd size={23}/></ListItemIcon>
               <ListItemText primary='Create Community' sx={{ ml: '-20px'}} />
             </ListItemButton>
           </ListItem>

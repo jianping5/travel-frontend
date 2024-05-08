@@ -85,7 +85,7 @@ const UserProfile: React.FC<Props> = ({ onLogout }) => {
               <React.Fragment>
                 <Typography sx={inlineText} component="span">
                   <Link href="#" underline="none">
-                    Manage Your Google Account
+                    Manage Your Account
                   </Link>
                 </Typography>
               </React.Fragment>

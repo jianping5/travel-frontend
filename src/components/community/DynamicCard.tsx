@@ -110,7 +110,7 @@ const AppCard: React.FC<AppCardProps> = ({ props }) => {
                         <Avatar
                           alt="Channel avatar"
                           src={props.userInfo?.avatar}
-                          sx={{ width: 27, height: 27, borderRadius: '50%' }}
+                          sx={{ width: 27, height: 27 }}
                           onClick={(e) => {e.preventDefault(); history.push(`/user/home?id=${props.userInfo.id}`); }} // 添加点击事件处理函数
                         />
                       {/* </Link> */}

@@ -179,14 +179,14 @@ function OriginWorkDetail() {
             sx={{ objectFit: 'contain', width: '100%', height:'100%' }}
             />
           </Card> */}
-          <Card sx={{ width: '600px', height: '500px', borderRadius: '10px', mt: 5, border:'0px solid #ccc' }}>
+          <Card sx={{ width: '600px', height: '500px', borderRadius: '10px', mt: 2, border:'0px solid #ccc' }}>
             <video
             src={workDetail?.work.content}
             controls
             style={{  width: '100%', height: 'auto', objectFit: 'contain' }}
             />
           </Card>
-          <Card sx={{ width: '600px', mt: 3, mr: 2, p: 1, height:'200px', borderRadius: '9px', border:'1px solid #ccc', backgroundColor: '#fefefe' }}>
+          <Card sx={{ width: '600px', mt: 3, mr: 2, p: 1, height:'250px', borderRadius: '9px', border:'1px solid #ccc', backgroundColor: '#fefefe' }}>
               <Typography variant="body1" sx={{ mb: 3, fontSize: '1.2rem', m: 1, fontWeight: 'bold'}}> Detail </Typography>
               <Divider/>
               <Grid container spacing={2}>
@@ -195,6 +195,7 @@ function OriginWorkDetail() {
                   <Typography variant="subtitle1" sx={{ mb: 3, fontSize: '1rem', m: 1}}> Token ID </Typography>
                   <Typography variant="subtitle1" sx={{ mb: 3, fontSize: '1rem', m: 1}}> Token Standard </Typography>
                   <Typography variant="subtitle1" sx={{ mb: 3, fontSize: '1rem', m: 1}}> Chain </Typography>
+                  <Typography variant="subtitle1" sx={{ mb: 3, fontSize: '1rem', m: 1}}> IPFS Address </Typography>
                 </Grid>
                 <Grid item xs={6}>
                   {/* 这里放右侧内容 */}
@@ -217,13 +218,31 @@ function OriginWorkDetail() {
                   <Typography variant="subtitle1" sx={{ mb: 3, fontSize: '1rem', m: 1, textAlign: 'right' }}> {workDetail?.copyright.tokenId} </Typography>
                   <Typography variant="subtitle1" sx={{ mb: 3, fontSize: '1rem', m: 1, textAlign: 'right' }}> ERC-721 </Typography>
                   <Typography variant="subtitle1" sx={{ mb: 3, fontSize: '1rem', m: 1, textAlign: 'right' }}> Ethereum </Typography>
+                  <Typography variant="subtitle1" sx={{ mb: 3, fontSize: '1rem', m: 1, textAlign: 'right' }}>
+                    <Link href={"https://ipfs.io/ipfs/" + workDetail?.copyright.ipfsHash } target="_blank" underline="none">
+                      <Tooltip title={"ipfs://" + workDetail?.copyright.ipfsHash} slotProps={{
+                        popper: {
+                          modifiers: [
+                            {
+                              name: 'offset',
+                              options: {
+                                offset: [0, -7],
+                              },
+                            },
+                          ],
+                        },
+                      }}>
+                        <span> ipfs://{shortenAddress(workDetail?.copyright.ipfsHash || "")} </span>
+                      </Tooltip>
+                    </Link>
+                  </Typography>
                 </Grid>
               </Grid>
           </Card>
         </div>
 
         <div style={{ flex: '1' }}>
-          <Box sx={{ ml: '10px', mt: 5}}>
+          <Box sx={{ ml: '10px', mt: 2}}>
             <Typography variant="h5" >{workDetail?.work.title}</Typography>
             {/* <Typography variant="subtitle1" sx={{ fontWeight: 'medium', fontSize: '1rem', color: '#242424'}}></Typography> */}
             <Typography variant="subtitle1" sx={{ fontWeight: 'medium', fontSize: '1rem', color: '#242424'}}>
@@ -257,10 +276,10 @@ function OriginWorkDetail() {
                 {content}
               </Button>
             </Card>
-            <Card sx={{ mt: 3, mr: 3, p: 1, height:'425px', borderRadius: '9px', border:'1px solid #ccc', backgroundColor: '#fefefe' }}>
+            <Card sx={{ mt: 3, mr: 3, p: 1, height:'475px', borderRadius: '9px', border:'1px solid #ccc', backgroundColor: '#fefefe' }}>
               <Typography variant="body1" sx={{ mb: 3, fontSize: '1.2rem', m: 1, fontWeight: 'bold'}}> Description </Typography>
               <Divider/>
-              <Typography variant="body1" sx={{ fontSize: '1rem', m: 1, maxHeight: '320px', overflow: 'auto'}}> {workDetail?.work.description} </Typography>
+              <Typography variant="body1" sx={{ fontSize: '1rem', m: 1, maxHeight: '350px', overflow: 'auto'}}> {workDetail?.work.description} </Typography>
             </Card>
           </Box>
         </div>
